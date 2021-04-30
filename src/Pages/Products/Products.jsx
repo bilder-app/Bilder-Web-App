@@ -4,7 +4,7 @@ import {
   Fab,
   Typography,
   useScrollTrigger,
-  Paper
+  Paper,
 } from "@material-ui/core";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
 import { Link } from "react-router-dom";
@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     background: "transparent",
     marginRight: 5,
-    marginTop: 6
+    marginTop: 6,
   },
   addMoreIcon: {
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   titleBar: {
     display: "flex",
@@ -29,22 +29,22 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     width: "100%",
     height: 50,
-    borderRadius: 0
+    borderRadius: 0,
   },
   cards: {
     padding: 15,
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     listStyle: "none",
-    gap: 15
-  }
+    gap: 15,
+  },
 }));
 
 function Products() {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13
+    threshold: 13,
   });
   return (
     <div>
@@ -60,7 +60,7 @@ function Products() {
         </Link>
       </Paper>
 
-      <div style={{ paddingTop: 50 }} />
+      <div style={{ paddingTop: 30 }} />
 
       <ul className={classes.cards}>
         {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
