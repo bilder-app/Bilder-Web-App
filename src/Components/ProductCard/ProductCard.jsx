@@ -88,7 +88,12 @@ function ProductCard({
       >
         <CardMedia className={classes.media} image={imageUrl} />
         <CardContent
-          style={{ display: "flex", flexGrow: 1, flexDirection: "column" }}
+          style={{
+            display: "flex",
+            flexGrow: 1,
+            flexDirection: "column",
+            width: "100%"
+          }}
         >
           <div style={{ marginBottom: "auto" }}>
             <Typography
