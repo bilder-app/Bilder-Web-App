@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     width: "100%",
     borderRadius: 16,
-    minWidth: 150
+    minWidth: 150,
+    height: "100%"
   },
   cardHorizontal: {
     display: "flex",
@@ -23,7 +24,9 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   media: {
-    height: 151
+    height: 151,
+    width: "100%",
+    marginBottom: "auto"
   }
 }));
 
@@ -80,25 +83,31 @@ function ProductCard({
 
   return (
     <Card variant="outlined" className={classes.card}>
-      <CardActionArea>
+      <CardActionArea
+        style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      >
         <CardMedia className={classes.media} image={imageUrl} />
-        <CardContent>
-          <Typography
-            gutterBottom
-            color="primary"
-            style={{ fontWeight: 700 }}
-            variant="h6"
-            component="h2"
-          >
-            ${price}
-          </Typography>
-          <Typography
-            variant="body2"
-            style={{ fontWeight: 700 }}
-            component="h3"
-          >
-            {description}
-          </Typography>
+        <CardContent
+          style={{ display: "flex", flexGrow: 1, flexDirection: "column" }}
+        >
+          <div style={{ marginBottom: "auto" }}>
+            <Typography
+              gutterBottom
+              color="primary"
+              style={{ fontWeight: 700 }}
+              variant="h6"
+              component="h2"
+            >
+              ${price}
+            </Typography>
+            <Typography
+              variant="body2"
+              style={{ fontWeight: 700 }}
+              component="h3"
+            >
+              {description}
+            </Typography>
+          </div>
           <Typography style={{ marginTop: 15 }}>Stock: {stock}</Typography>
         </CardContent>
       </CardActionArea>

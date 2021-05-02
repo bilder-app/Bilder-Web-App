@@ -6,7 +6,7 @@ import Login from "./Pages/Login";
 
 import Products from "./Pages/Products/Products";
 import NewProduct from "./Pages/Products/NewProduct";
-import MostSoldProducts from "./Pages/Products/MostSoldProducts";
+import MostSoldProducts from "./Pages/Orders/MostSoldProducts";
 import OrdersSearch from "./Pages/Orders/Search";
 import OrdersSearchResults from "./Pages/Orders/Results";
 import ProductsSearch from "./Pages/Products/Search";
