@@ -71,17 +71,17 @@ function Products() {
         {productsData &&
           productsData.map(({ id, ...productData }) => (
             <li key={id}>
-              {/* <Link
+              <Link
                 to={`/products/productDetails/${id}`}
                 style={{
                   textDecoration: "none"
                 }}
-              > */}
-              <ProductCard
-                {...productData}
-                imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
-              />
-              {/* </Link> */}
+              >
+                <ProductCard
+                  {...productData}
+                  imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
+                />
+              </Link>
             </li>
           ))}
       </ul>
