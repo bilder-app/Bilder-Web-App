@@ -311,7 +311,7 @@ function SalesTab() {
           style={{ textDecoration: "none", color: "inherit" }}
           to={"/products/mostsoldproducts"}
         >
-          <Typography variant="h7">Ver más</Typography>
+          <Typography variant="h6">Ver más</Typography>
         </Link>
       </ButtonBase>
       <ul className={classes.verticalCardsList}>

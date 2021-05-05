@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { useGetAllProducts } from "../../Components/hooks/queries";
 
 const useStyles = makeStyles((theme) => ({
   addMoreIconContainer: {
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     listStyle: "none",
     gap: 15,
+    alignItems: "stretch",
   },
 }));
 
@@ -46,6 +48,9 @@ function Products() {
     disableHysteresis: true,
     threshold: 13,
   });
+
+  const { data: productsData } = useGetAllProducts();
+
   return (
     <div>
       <Paper elevation={isScrolling ? 4 : 0} className={classes.titleBar}>
@@ -63,21 +68,22 @@ function Products() {
       <div style={{ paddingTop: 30 }} />
 
       <ul className={classes.cards}>
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-          <li key={num}>
-            <Link
-              to={`/products/productDetails/${num}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard
-                price={1250 * num}
-                description="Latex Interior Albalatex Ultra Lavable Blanco "
-                imageUrl={`https://source.unsplash.com/500x500/?tool,${num}`}
-                stock={15 * num}
-              />
-            </Link>
-          </li>
-        ))}
+        {productsData &&
+          productsData.map(({ id, ...productData }) => (
+            <li key={id}>
+              <Link
+                to={`/products/productDetails/${id}`}
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <ProductCard
+                  {...productData}
+                  imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
+                />
+              </Link>
+            </li>
+          ))}
       </ul>
 
       <Fab
