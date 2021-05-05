@@ -1,4 +1,5 @@
-import { Switch, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
 import BottomNavigation from "./Components/BottomNavigation/BottomNavigation";
 import Orders from "./Pages/Orders/Orders";
 import OrderDetails from "./Pages/OrderDetails";
@@ -19,7 +20,14 @@ import Profile from "./Pages/Profile";
 import EditProduct from "./Pages/EditProduct";
 import Sales from "./Pages/Orders/SalesTab";
 
+import { isLoggedIn } from "./api";
+
 function App() {
+  const history = useHistory();
+  useEffect(() => {
+    isLoggedIn(isLoggedIn).catch(() => history.replace("/"));
+  }, []);
+
   return (
     <div>
       <Switch>

@@ -1,6 +1,8 @@
 import { makeStyles, Button, TextField, Typography } from "@material-ui/core";
 import logoImg from "../assets/logo.png";
 import { useHistory } from "react-router-dom";
+import { logIn } from "../api";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -43,10 +45,11 @@ const useStyles = makeStyles((theme) => ({
 function Login() {
   const classes = useStyles();
   const history = useHistory();
+  const { register, getValues } = useForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.replace("/orders");
+    logIn(getValues()).then(() => history.replace("/orders"));
   };
 
   return (
@@ -64,6 +67,7 @@ function Login() {
         <Typography component="label" className={classes.label}>
           Correo electronico
           <TextField
+            {...register("email")}
             required
             InputProps={{
               classes: { root: classes.input },
@@ -74,6 +78,7 @@ function Login() {
         <Typography component="label" className={classes.label}>
           Contraseña
           <TextField
+            {...register("password")}
             required
             InputProps={{
               classes: { root: classes.input },
