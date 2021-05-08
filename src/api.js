@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const axiosInst = axios.create({
-  baseURL: "http://localhost:7000",
+  baseURL: "http://localhost:3001",
   withCredentials: true
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
 
 export function getAllProducts() {
-  return axiosInst.get("/product").then((resp) => resp.data);
+  return axiosInst.get("/products").then((resp) => resp.data);
 }
 
 export function logIn({ email, password }) {

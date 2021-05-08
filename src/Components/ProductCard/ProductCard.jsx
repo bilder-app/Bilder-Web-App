@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductCard({
   price,
+  name,
   description,
   imageUrl,
   stock,
@@ -107,10 +108,17 @@ function ProductCard({
             </Typography>
             <Typography
               variant="body2"
-              style={{ fontWeight: 700 }}
+              style={{ fontWeight: 700, marginTop: "-5px" }}
+              component="h2"
+            >
+              {name}
+            </Typography>
+            <Typography
+              variant="body2"
+              style={{ fontWeight: 700, color: "#666" }}
               component="h3"
             >
-              {description}
+              {description.slice(0, 20)}
             </Typography>
           </div>
           <Typography style={{ marginTop: 15 }}>Stock: {stock}</Typography>

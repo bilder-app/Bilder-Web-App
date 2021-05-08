@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import {
   makeStyles,
@@ -7,8 +8,8 @@ import {
   Paper
 } from "@material-ui/core";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
+import { getAllProducts } from "../../api.js";
 import { Link } from "react-router-dom";
-import { useGetAllProducts } from "../../Components/hooks/queries";
 
 const useStyles = makeStyles((theme) => ({
   addMoreIconContainer: {
@@ -48,8 +49,15 @@ function Products() {
     disableHysteresis: true,
     threshold: 13
   });
+  const [products, setProducts] = useState([]);
 
-  const { data: productsData } = useGetAllProducts();
+  useEffect( () => {
+    async function getProductsAsync() {
+      const refresh = await getAllProducts();
+      setProducts(refresh);
+    }
+    getProductsAsync()
+  }, [])
 
   return (
     <div>
@@ -68,22 +76,24 @@ function Products() {
       <div style={{ paddingTop: 50 }} />
 
       <ul className={classes.cards}>
-        {productsData &&
-          productsData.map(({ id, ...productData }) => (
-            <li key={id}>
-              <Link
-                to={`/products/productDetails/${id}`}
-                style={{
-                  textDecoration: "none"
-                }}
-              >
-                <ProductCard
-                  {...productData}
-                  imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
-                />
-              </Link>
-            </li>
-          ))}
+        {products.length > 0 &&
+          products.map(({ id, ...props }) => {
+            return (
+              <li key={id}>
+                <Link
+                  to={`/products/productDetails/${id}`}
+                  style={{
+                    textDecoration: "none"
+                  }}
+                >
+                  <ProductCard
+                    {...props}
+                    imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
+                  />
+                </Link>
+              </li>
+            )
+          })}
       </ul>
 
       <Fab
