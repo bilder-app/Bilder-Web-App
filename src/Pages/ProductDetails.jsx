@@ -1,10 +1,11 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Card } from "@material-ui/core";
 import { ChevronLeft as Backicon } from "@material-ui/icons";
 import { CardMedia, Modal, Paper, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
+import { getProductById } from "../api.js"
 
 const useStyles = makeStyles((theme) => ({
   confirmModalButton: {
@@ -20,6 +21,16 @@ const useStyles = makeStyles((theme) => ({
 function ProductDetails({ match: { params }, history }) {
   const classes = useStyles();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState();
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    async function handlerAsync() {
+      const data = await getProductById(params.id);
+      setProduct(data);
+      console.log(data);
+    }
+    handlerAsync()
+  }, [])
 
   return (
     <div>
@@ -55,15 +66,12 @@ function ProductDetails({ match: { params }, history }) {
             image={`https://source.unsplash.com/500x500/?tool,${params.id}`}
           />
         </Card>
-        <Typography variant="h5">$1000</Typography>
+        <Typography variant="h5">${product.price}</Typography>
         <Typography variant="h6">
-          Latex Interior Albalatex Ultra Lavable Blanco
+          {product.name}
         </Typography>
         <Typography>
-          Látex para Interiores mate de alto desempeño y durabilidad. Gracias a
-          su innovadora TECNOLOGÍA ULTRA RESIST, es 3 veces más resistente al
-          lavado (*), antimanchas, repele líquidos y no deja aureola. Fácil de
-          limpiar
+          {product.description}
         </Typography>
         <Typography variant="h6">Especificaciones</Typography>
         <Typography>Marca: Alba</Typography>

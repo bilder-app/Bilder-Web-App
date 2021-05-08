@@ -52,11 +52,11 @@ function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect( () => {
-    async function getProductsAsync() {
+    async function handlerAsync() {
       const refresh = await getAllProducts();
       setProducts(refresh);
     }
-    getProductsAsync()
+    handlerAsync()
   }, [])
 
   return (

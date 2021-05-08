@@ -7,7 +7,11 @@ const axiosInst = axios.create({
 // axios.defaults.baseUrl = "http://localhost:6000";
 
 export function getAllProducts() {
-  return axiosInst.get("/products").then((resp) => resp.data);
+  return axiosInst.get("/products").then((res) => res.data);
+}
+
+export function getProductById(id) {
+  return axiosInst.get(`/products/${id}`).then((res) => res.data);
 }
 
 export function logIn({ email, password }) {
