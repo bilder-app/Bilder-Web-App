@@ -5,7 +5,6 @@ import { CardMedia, Modal, Paper, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-import { getProductById } from "../api.js";
 import { useGetProductById } from "../Components/hooks/queries.js";
 
 const useStyles = makeStyles((theme) => ({
