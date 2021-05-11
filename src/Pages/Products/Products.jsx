@@ -76,8 +76,8 @@ function Products() {
       <div style={{ paddingTop: 30 }} />
 
       <ul className={classes.cards}>
-        {productsData &&
-          productsData.map(({ id, ...productData }) => (
+        {products &&
+          products.map(({ id, ...productData }) => (
             <li key={id}>
               <Link
                 to={`/products/productDetails/${id}`}
