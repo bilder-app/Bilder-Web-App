@@ -11,13 +11,12 @@ export function getAllProducts() {
 }
 
 export function getProductById(id) {
-  return axiosInst.get(`/products/${id}`).then((res) => res.data);
+  return axiosInst.get(`business/products/${id}`).then((res) => res.data);
 }
 
 export function getMyProducts() {
   return axiosInst.get("/business/products").then((res) => res.data);
 }
-
 
 export function logIn({ email, password }) {
   return axiosInst.post("/auth/login", { email, password });
