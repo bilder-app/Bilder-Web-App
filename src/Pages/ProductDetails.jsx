@@ -111,7 +111,7 @@ function ProductDetails({ match: { params }, history }) {
         >
           <Button
             component={Link}
-            to={`/products/edit/${1}`}
+            to={`/products/edit/${params.id}`}
             variant="contained"
             style={{
               backgroundColor: "#40E364",
