@@ -14,6 +14,10 @@ export function getProductById(id) {
   return axiosInst.get(`business/products/${id}`).then((res) => res.data);
 }
 
+export function editProduct(id, data) {
+  return axiosInst.put(`business/products/${id}`, data).then((res) => res.data);
+}
+
 export function getMyProducts() {
   return axiosInst.get("/business/products").then((res) => res.data);
 }
