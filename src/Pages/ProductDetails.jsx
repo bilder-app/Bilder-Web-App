@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import { useGetProductById } from "../Components/hooks/queries.js";
+import { deleteProduct } from "../api";
 
 const useStyles = makeStyles((theme) => ({
   confirmModalButton: {
@@ -151,6 +152,11 @@ function ProductDetails({ match: { params }, history }) {
                 className={classes.confirmModalButton}
                 style={{ width: "30%", marginRight: 16 }}
                 variant="contained"
+                onClick={() =>
+                  deleteProduct(params.id).then(() =>
+                    history.replace("/products")
+                  )
+                }
               >
                 Si
               </Button>
