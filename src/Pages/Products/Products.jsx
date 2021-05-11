@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import {
   makeStyles,
@@ -8,7 +8,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
-import { getMyProducts } from "../../api.js";
+import { useGetAllProducts } from "../../Components/hooks/queries";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,16 +48,10 @@ function Products() {
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
     threshold: 13,
-  });
-  const [products, setProducts] = useState([]);
+  }); 
+  
+  const { data: productsData } = useGetAllProducts();
 
-  useEffect( () => {
-    async function handlerAsync() {
-      const refresh = await getMyProducts();
-      setProducts(refresh);
-    }
-    handlerAsync()
-  }, [])
 
   return (
     <div>
