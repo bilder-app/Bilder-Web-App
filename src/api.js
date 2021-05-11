@@ -18,6 +18,10 @@ export function editProduct(id, data) {
   return axiosInst.put(`business/products/${id}`, data).then((res) => res.data);
 }
 
+export function deleteProduct(id) {
+  return axiosInst.delete(`business/products/${id}`);
+}
+
 export function getMyProducts() {
   return axiosInst.get("/business/products").then((res) => res.data);
 }
