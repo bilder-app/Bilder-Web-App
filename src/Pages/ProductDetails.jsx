@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Typography, Card } from "@material-ui/core";
 import { ChevronLeft as Backicon } from "@material-ui/icons";
 import { CardMedia, Modal, Paper, makeStyles } from "@material-ui/core";
@@ -22,9 +22,9 @@ function ProductDetails({ match: { params }, history }) {
   const classes = useStyles();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState();
 
-  const { data: productData, isFetching } = useGetProductById(params.id);
+  const { data: productData, isLoading } = useGetProductById(params.id);
 
-  if (isFetching) return null;
+  if (isLoading) return null;
 
   return (
     <div>
