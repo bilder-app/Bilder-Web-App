@@ -5,7 +5,8 @@ import { CardMedia, Modal, Paper, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-import { getProductById } from "../api.js"
+import { getProductById } from "../api.js";
+import { useGetProductById } from "../Components/hooks/queries.js";
 
 const useStyles = makeStyles((theme) => ({
   confirmModalButton: {
@@ -21,16 +22,10 @@ const useStyles = makeStyles((theme) => ({
 function ProductDetails({ match: { params }, history }) {
   const classes = useStyles();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState();
-  const [product, setProduct] = useState({});
 
-  useEffect(() => {
-    async function handlerAsync() {
-      const data = await getProductById(params.id);
-      setProduct(data);
-      console.log(data);
-    }
-    handlerAsync()
-  }, [])
+  const { data: productData, isFetching } = useGetProductById(params.id);
+
+  if (isFetching) return null;
 
   return (
     <div>
@@ -61,18 +56,11 @@ function ProductDetails({ match: { params }, history }) {
       </div>
       <div style={{ padding: 10, marginTop: 25 }}>
         <Card style={{ maxWidth: "100%" }}>
-          <CardMedia
-            style={{ height: 400 }}
-            image={`https://source.unsplash.com/500x500/?tool,${params.id}`}
-          />
+          <CardMedia style={{ height: 400 }} image={productData.images[0]} />
         </Card>
-        <Typography variant="h5">${product.price}</Typography>
-        <Typography variant="h6">
-          {product.name}
-        </Typography>
-        <Typography>
-          {product.description}
-        </Typography>
+        <Typography variant="h5">${productData.price}</Typography>
+        <Typography variant="h6">{productData.name}</Typography>
+        <Typography>{productData.description}</Typography>
         <Typography variant="h6">Especificaciones</Typography>
         <Typography>Marca: Alba</Typography>
         <Typography>Tipo: Latex</Typography>
