@@ -26,3 +26,7 @@ export function logIn({ email, password }) {
 export function isLoggedIn() {
   return axiosInst.get("/auth/is-logged-in");
 }
+
+export function addProduct(data) {
+  return axiosInst.post("/business/products", data);
+}

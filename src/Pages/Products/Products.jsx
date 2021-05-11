@@ -5,7 +5,7 @@ import {
   Fab,
   Typography,
   useScrollTrigger,
-  Paper
+  Paper,
 } from "@material-ui/core";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
 import { getMyProducts } from "../../api.js";
@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     background: "transparent",
     marginRight: 5,
-    marginTop: 6
+    marginTop: 6,
   },
   addMoreIcon: {
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   titleBar: {
     display: "flex",
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     width: "100%",
     height: 50,
-    borderRadius: 0
+    borderRadius: 0,
   },
   cards: {
     padding: 15,
@@ -39,15 +39,15 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     listStyle: "none",
     gap: 15,
-    alignItems: "stretch"
-  }
+    alignItems: "stretch",
+  },
 }));
 
 function Products() {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13
+    threshold: 13,
   });
   const [products, setProducts] = useState([]);
 
@@ -73,27 +73,25 @@ function Products() {
         </Link>
       </Paper>
 
-      <div style={{ paddingTop: 50 }} />
+      <div style={{ paddingTop: 30 }} />
 
       <ul className={classes.cards}>
-        {products.length > 0 &&
-          products.map(({ id, ...props }) => {
-            return (
-              <li key={id}>
-                <Link
-                  to={`/products/productDetails/${id}`}
-                  style={{
-                    textDecoration: "none"
-                  }}
-                >
-                  <ProductCard
-                    {...props}
-                    imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
-                  />
-                </Link>
-              </li>
-            )
-          })}
+        {productsData &&
+          productsData.map(({ id, ...productData }) => (
+            <li key={id}>
+              <Link
+                to={`/products/productDetails/${id}`}
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <ProductCard
+                  {...productData}
+                  imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
+                />
+              </Link>
+            </li>
+          ))}
       </ul>
 
       <Fab

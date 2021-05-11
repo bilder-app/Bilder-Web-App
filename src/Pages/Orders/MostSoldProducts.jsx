@@ -69,7 +69,7 @@ export default function MostSoldProducts({ history }) {
         />
         <Typography variant="h6">Productos más Vendidos</Typography>
       </Paper>
-      <div style={{ paddingTop: 50 }} />
+      <div style={{ paddingTop: 30 }} />
 
       <ul className={classes.cards}>
         {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (

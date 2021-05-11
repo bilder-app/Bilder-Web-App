@@ -57,7 +57,7 @@ export default function Offers({ history }) {
       <Paper elevation={isScrolling ? 4 : 0} className={classes.header}>
         <Typography variant="h6">Ofertas</Typography>
       </Paper>
-      <div style={{ paddingTop: 50 }} />
+      <div style={{ paddingTop: 30 }} />
 
       <ul className={classes.cards}>
         {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
