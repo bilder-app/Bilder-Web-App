@@ -27,21 +27,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ["Para entregar", "En preparación", "Para retirar", "Recibido"];
+  return ["En preparación", "Para entregar", "Entregado"];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return `For each ad campaign that you create, you can control how much you want.`;
+      return "Tu pedido está siendo preparado";
     case 1:
-      return "An ad group contains one or more ads which target a shared set of keywords.";
+      return "Ya puedes retirar tu pedido";
     case 2:
-      return `Try out different ad text to see what brings in the most customers.`;
-    case 3:
-      return `If you run into any problems with your ads, find out how to tell.`;
+      return "Tu pedido ha sido entregado, que tengas buen día :)";
     default:
-      return "Unknown step";
+      return "Ha ocurrido un error, en breve nos estaremos comunicando";
   }
 }
 

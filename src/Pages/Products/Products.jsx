@@ -8,7 +8,7 @@ import {
   Paper
 } from "@material-ui/core";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
-import { getAllProducts } from "../../api.js";
+import { getMyProducts } from "../../api.js";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,7 @@ function Products() {
 
   useEffect( () => {
     async function handlerAsync() {
-      const refresh = await getAllProducts();
+      const refresh = await getMyProducts();
       setProducts(refresh);
     }
     handlerAsync()
