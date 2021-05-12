@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import {
   makeStyles,
   Fab,
   Typography,
   useScrollTrigger,
-  Paper
+  Paper,
 } from "@material-ui/core";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
-import { useGetAllProducts } from "../../Components/hooks/queries";
+import { getMyProducts } from "../../api.js";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     background: "transparent",
     marginRight: 5,
-    marginTop: 6
+    marginTop: 6,
   },
   addMoreIcon: {
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   titleBar: {
     display: "flex",
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     width: "100%",
     height: 50,
-    borderRadius: 0
+    borderRadius: 0,
   },
   cards: {
     padding: 15,
@@ -39,18 +39,25 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     listStyle: "none",
     gap: 15,
-    alignItems: "stretch"
-  }
+    alignItems: "stretch",
+  },
 }));
 
 function Products() {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13
+    threshold: 13,
   });
+  const [products, setProducts] = useState([]);
 
-  const { data: productsData } = useGetAllProducts();
+  useEffect(() => {
+    async function handlerAsync() {
+      const refresh = await getMyProducts();
+      setProducts(refresh);
+    }
+    handlerAsync();
+  }, []);
 
   return (
     <div>
@@ -75,12 +82,12 @@ function Products() {
               <Link
                 to={`/products/productDetails/${id}`}
                 style={{
-                  textDecoration: "none"
+                  textDecoration: "none",
                 }}
               >
                 <ProductCard
                   {...productData}
-                  imageUrl={productData.images[0]}
+                  imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
                 />
               </Link>
             </li>
