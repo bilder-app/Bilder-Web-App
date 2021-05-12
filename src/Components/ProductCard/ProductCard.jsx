@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 16,
     minWidth: 150,
     height: "100%",
+    border: `thin solid #F6f6f6`,
   },
   cardHorizontal: {
     display: "flex",
@@ -43,7 +44,10 @@ function ProductCard({
 
   if (horizontal)
     return (
-      <Card variant="outlined" style={{ borderRadius: 16 }}>
+      <Card
+        variant="outlined"
+        style={{ borderRadius: 16, border: `thin solid #F6f6f6` }}
+      >
         <CardActionArea className={classes.cardHorizontal}>
           <CardMedia className={classes.media} image={imageUrl} />
           <CardContent style={{ flexGrow: 1 }}>

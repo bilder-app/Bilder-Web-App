@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Typography, Card } from "@material-ui/core";
-import { ChevronLeft as Backicon } from "@material-ui/icons";
+import { ChevronLeft as BackIcon } from "@material-ui/icons";
 import { CardMedia, Modal, Paper, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
@@ -43,15 +43,13 @@ function ProductDetails({ match: { params }, history }) {
           top: 0,
         }}
       >
-        <Backicon
+        <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
-            width: 25,
-            height: 25,
+            width: 30,
+            height: 30,
             padding: 0,
-            marginRight: 8,
+            marginRight: 6,
           }}
         />
       </div>

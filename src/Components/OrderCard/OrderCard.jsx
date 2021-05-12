@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    border: `thin solid #c7c7c7`,
+    border: `thin solid #f6f6f6`,
     borderRadius: 16,
     display: "flex",
     justifyContent: "space-between",
@@ -22,10 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
   chipRoot: {
     height: 25,
-  },
-  icon: {
-    border: `2px solid ${theme.palette.text.primary}`,
-    borderRadius: "50%",
   },
 }));
 
@@ -56,7 +52,12 @@ function OrderCard({ number, date, status, id }) {
           />
         </div>
         <div className={classes.button}>
-          <ChevronRightIcon className={classes.icon} />
+          <ChevronRightIcon
+            style={{
+              width: 30,
+              height: 30,
+            }}
+          />
         </div>
       </div>
     </Link>

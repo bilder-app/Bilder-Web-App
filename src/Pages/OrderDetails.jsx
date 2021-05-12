@@ -2,7 +2,7 @@ import { Typography, Card, CardContent } from "@material-ui/core";
 import ProductCard from "../Components/ProductCard/ProductCard";
 import {
   AccountCircle as AccountCircleIcon,
-  ChevronLeft as Backicon,
+  ChevronLeft as BackIcon,
 } from "@material-ui/icons";
 import Stepper from "./Orders/Stepper.jsx";
 import { Link } from "react-router-dom";
@@ -11,15 +11,13 @@ function OrderDetails({ match: { params }, history }) {
   return (
     <div style={{ padding: 20, backgroundColor: "white" }}>
       <div style={{ display: "flex", marginBottom: 10, alignItems: "center" }}>
-        <Backicon
+        <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
-            width: 25,
-            height: 25,
+            width: 30,
+            height: 30,
             padding: 0,
-            marginRight: 8,
+            marginRight: 6,
           }}
         />
         <Typography variant="h6">#000{params.id}</Typography>

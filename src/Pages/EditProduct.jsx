@@ -13,7 +13,7 @@ const styles = {
     flexDirection: "column",
     fontSize: "1.05rem",
     fontWeight: 500,
-    marginTop: 10
+    marginTop: 10,
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -21,8 +21,8 @@ const styles = {
     marginTop: 5,
     padding: 8,
     fontSize: "1.05rem",
-    height: "2.45rem"
-  }
+    height: "2.45rem",
+  },
 };
 
 function EditProduct({ match: { params }, history }) {
@@ -54,16 +54,20 @@ function EditProduct({ match: { params }, history }) {
   const onSubmit = (values) => {
     editProduct(params.productId, {
       ...values,
-      images: [uploadedImageUrl]
+      images: [uploadedImageUrl],
     }).then(() => history.replace("/products"));
   };
 
   useEffect(() => {
-    const { name, description, price, stock } = productData;
+    const { name, description, price, stock, brand, model, content } =
+      productData;
     setValue("name", name);
     setValue("description", description);
     setValue("price", price);
     setValue("stock", stock);
+    setValue("brand", brand);
+    setValue("model", model);
+    setValue("content", content);
   }, [productData]);
 
   return (
@@ -77,7 +81,7 @@ function EditProduct({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 8
+            marginRight: 8,
           }}
         />
         <Typography variant="h6">Editar Producto</Typography>
@@ -87,7 +91,7 @@ function EditProduct({ match: { params }, history }) {
           style={{
             height: 150,
             display: "flex",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <input
@@ -105,7 +109,7 @@ function EditProduct({ match: { params }, history }) {
               padding: 5,
               border: "thin solid #DFDEDE",
               objectFit: "cover",
-              background: "transparent"
+              background: "transparent",
             }}
             onClick={() => imageUploadRef.current.click()}
           >
@@ -120,7 +124,7 @@ function EditProduct({ match: { params }, history }) {
                 style={{
                   height: "75%",
                   width: "75%",
-                  opacity: 0.25
+                  opacity: 0.25,
                 }}
               />
             )}
@@ -171,7 +175,7 @@ function EditProduct({ match: { params }, history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "47.5%"
+              width: "47.5%",
             }}
           >
             <option>Kilos</option>
@@ -191,7 +195,7 @@ function EditProduct({ match: { params }, history }) {
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16
+              borderRadius: 16,
             }}
             rowsMin={5}
           />
@@ -218,7 +222,7 @@ function EditProduct({ match: { params }, history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem"
+          fontSize: "1.1rem",
         }}
       >
         Editar Producto

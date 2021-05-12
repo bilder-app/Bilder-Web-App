@@ -51,7 +51,9 @@ export default function Orders({ history }) {
   return (
     <div style={{ backgroundColor: "white" }}>
       <Paper elevation={isScrolling ? 4 : 0} className={classes.header}>
-        <Typography variant="h6">Mis pedidos</Typography>
+        <Typography style={{ color: "#373737" }} variant="h6">
+          Mis pedidos
+        </Typography>
       </Paper>
       <div style={{ paddingTop: 50 }} />
       <OrdersTab />

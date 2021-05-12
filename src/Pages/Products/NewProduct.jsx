@@ -3,7 +3,7 @@ import {
   TextareaAutosize,
   Typography,
   Button,
-  makeStyles
+  makeStyles,
 } from "@material-ui/core";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   imageContainer: {
     width: "100%",
     height: "100%",
-    position: "relative"
+    position: "relative",
   },
   imageLoadingText: {
     position: "absolute",
@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     background: "rgba(0,0,0,0.75)",
     color: "white",
     display: "grid",
-    placeItems: "center"
-  }
+    placeItems: "center",
+  },
 }));
 
 const styles = {
@@ -34,7 +34,7 @@ const styles = {
     flexDirection: "column",
     fontSize: "1.05rem",
     fontWeight: 500,
-    marginTop: 10
+    marginTop: 10,
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -42,8 +42,8 @@ const styles = {
     marginTop: 5,
     padding: 8,
     fontSize: "1.05rem",
-    height: "2.45rem"
-  }
+    height: "2.45rem",
+  },
 };
 
 function NewProduct({ history }) {
@@ -85,12 +85,10 @@ function NewProduct({ history }) {
         <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 8
+            marginRight: 6,
           }}
         />
         <Typography variant="h6">Crear Producto</Typography>
@@ -100,7 +98,7 @@ function NewProduct({ history }) {
           style={{
             height: 150,
             display: "flex",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <input
@@ -118,7 +116,7 @@ function NewProduct({ history }) {
               padding: 5,
               border: "thin solid #DFDEDE",
               objectFit: "cover",
-              background: "transparent"
+              background: "transparent",
             }}
             onClick={() => imageUploadRef.current.click()}
           >
@@ -140,7 +138,7 @@ function NewProduct({ history }) {
                 style={{
                   height: "75%",
                   width: "75%",
-                  opacity: 0.25
+                  opacity: 0.25,
                 }}
               />
             )}
@@ -191,7 +189,7 @@ function NewProduct({ history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "47.5%"
+              width: "47.5%",
             }}
           >
             <option>Kilos</option>
@@ -211,7 +209,7 @@ function NewProduct({ history }) {
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16
+              borderRadius: 16,
             }}
             rowsMin={5}
           />
@@ -238,7 +236,7 @@ function NewProduct({ history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem"
+          fontSize: "1.1rem",
         }}
       >
         Crear Producto
