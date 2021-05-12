@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 function OrderDetails({ match: { params }, history }) {
   return (
-    <div style={{ padding: 10 }}>
+    <div style={{ padding: 20, backgroundColor: "white" }}>
       <div style={{ display: "flex", marginBottom: 10, alignItems: "center" }}>
         <Backicon
           onClick={() => history.goBack()}
@@ -22,7 +22,7 @@ function OrderDetails({ match: { params }, history }) {
             marginRight: 8,
           }}
         />
-        <Typography variant="h6">#{params.id}</Typography>
+        <Typography variant="h6">#000{params.id}</Typography>
       </div>
 
       <ul

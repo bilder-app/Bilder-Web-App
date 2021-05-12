@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "0 13px",
+    padding: "0 20px",
     position: "fixed",
     top: 0,
     zIndex: 1,
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
   },
   cards: {
-    padding: 15,
+    padding: 20,
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     listStyle: "none",
@@ -60,7 +60,7 @@ function Products() {
   }, []);
 
   return (
-    <div>
+    <div style={{ backgroundColor: "white" }}>
       <Paper elevation={isScrolling ? 4 : 0} className={classes.titleBar}>
         <Typography variant="h6" style={{ fontWeight: 500 }}>
           Mis Productos
@@ -73,7 +73,7 @@ function Products() {
         </Link>
       </Paper>
 
-      <div style={{ paddingTop: 30 }} />
+      <div style={{ paddingTop: 20 }} />
 
       <ul className={classes.cards}>
         {products &&

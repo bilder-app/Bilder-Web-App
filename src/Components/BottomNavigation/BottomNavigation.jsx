@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: 0,
     height: "4rem",
-    alignItems: "center"
+    alignItems: "center",
   },
   action: {
-    minWidth: "inherit"
-  }
+    minWidth: "inherit",
+  },
 }));
 
 export default function SimpleBottomNavigation() {
@@ -58,12 +58,12 @@ export default function SimpleBottomNavigation() {
         value="products"
         icon={<BiBox size={25} />}
       />
-      <BottomNavigationAction
+      {/* <BottomNavigationAction
         className={classes.action}
         label="Ofertas"
         value="offers"
         icon={<RiMoneyDollarBoxLine size={25} />}
-      />
+      /> */}
       <BottomNavigationAction
         className={classes.action}
         label="Perfil"

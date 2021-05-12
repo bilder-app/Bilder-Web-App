@@ -1,57 +1,60 @@
-import { useState } from "react";
-import { Tabs, Tab, Paper, useScrollTrigger } from "@material-ui/core";
 import OrdersTab from "./OrdersTab";
-import SalesTab from "./SalesTab";
-import { useHistory } from "react-router-dom";
+import {
+  Typography,
+  Fab,
+  makeStyles,
+  Paper,
+  useScrollTrigger,
+} from "@material-ui/core";
 
-function Orders() {
-  const history = useHistory();
-  const [tabState, setTabState] = useState(() =>
-    history.location.hash.split("#").length > 1 ? 1 : 0
-  );
+const useStyles = makeStyles((theme) => ({
+  header: {
+    display: "flex",
+    marginBottom: 10,
+    height: 50,
+    position: "fixed",
+    top: 0,
+    width: "100%",
+    alignItems: "center",
+    zIndex: 1,
+    padding: 13,
+    borderRadius: 0,
+  },
+  icon: {
+    border: "2px solid black",
+    borderRadius: "50%",
+    width: 23,
+    height: 23,
+    margin: "0px 15px",
+  },
+  cards: {
+    padding: 15,
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+    listStyle: "none",
+    gap: 15,
+  },
+  fab: {
+    position: "fixed",
+    bottom: "5rem",
+    right: "2rem",
+  },
+}));
 
-  const handleChange = (event, newValue) => {
-    setTabState(newValue);
-  };
-
+export default function Orders({ history }) {
+  const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13
+    threshold: 13,
   });
 
   return (
-    <div>
-      <Paper
-        elevation={isScrolling ? 4 : 0}
-        style={{
-          position: "fixed",
-          top: 0,
-          width: "100%",
-          zIndex: 1
-        }}
-      >
-        <Tabs
-          style={{ display: "flex" }}
-          value={tabState}
-          onChange={handleChange}
-          indicatorColor="primary"
-        >
-          <Tab
-            onClick={() => history.replace("#")}
-            style={{ flexGrow: 1, maxWidth: "initial" }}
-            label="Ventas"
-          />
-          <Tab
-            onClick={() => history.replace("#all")}
-            style={{ flexGrow: 1, maxWidth: "initial" }}
-            label="Pedidos"
-          />
-        </Tabs>
+    <div style={{ backgroundColor: "white" }}>
+      <Paper elevation={isScrolling ? 4 : 0} className={classes.header}>
+        <Typography variant="h6">Mis pedidos</Typography>
       </Paper>
       <div style={{ paddingTop: 50 }} />
-      <div>{tabState === 0 ? <SalesTab /> : <OrdersTab />}</div>
+      <OrdersTab />
     </div>
   );
 }
-
-export default Orders;

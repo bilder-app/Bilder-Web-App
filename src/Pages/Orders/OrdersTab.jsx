@@ -15,15 +15,15 @@ function OrdersTab() {
           display: "flex",
           flexDirection: "column",
           gap: 15,
-          padding: 13
+          padding: 20,
         }}
       >
         {[1, 2, 3, 4, 5, 6, 7].map((num) => (
           <li>
             <OrderCard
-              number="0003"
-              date="Abril 5, 2020 - 19:32"
-              status="En preparación"
+              number={`000${num}`}
+              date="Abril 5,2020 - 19:32"
+              status="Entregado"
               id={num}
             />
           </li>

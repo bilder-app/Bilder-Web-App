@@ -11,12 +11,12 @@ import { deleteProduct } from "../api";
 const useStyles = makeStyles((theme) => ({
   confirmModalButton: {
     backgroundColor: theme.palette.success.main,
-    color: "white"
+    color: "white",
   },
   errorModalButton: {
     backgroundColor: theme.palette.error.main,
-    color: "white"
-  }
+    color: "white",
+  },
 }));
 
 function ProductDetails({ match: { params }, history }) {
@@ -25,6 +25,7 @@ function ProductDetails({ match: { params }, history }) {
 
   const { data: productData, isLoading } = useGetProductById(params.id);
 
+  console.log(productData);
   if (isLoading) return null;
 
   return (
@@ -39,7 +40,7 @@ function ProductDetails({ match: { params }, history }) {
           backgroundColor: "white",
           width: "100%",
           height: "3rem",
-          top: 0
+          top: 0,
         }}
       >
         <Backicon
@@ -50,7 +51,7 @@ function ProductDetails({ match: { params }, history }) {
             width: 25,
             height: 25,
             padding: 0,
-            marginRight: 8
+            marginRight: 8,
           }}
         />
       </div>
@@ -62,16 +63,16 @@ function ProductDetails({ match: { params }, history }) {
         <Typography variant="h6">{productData.name}</Typography>
         <Typography>{productData.description}</Typography>
         <Typography variant="h6">Especificaciones</Typography>
-        <Typography>Marca: Alba</Typography>
-        <Typography>Tipo: Latex</Typography>
-        <Typography>Contenido: 6 Litros</Typography>{" "}
-        <Typography>Modelo: Albalatex Ultra Lavable</Typography>
+        <Typography> {`Contenido: ${productData.content}`}</Typography>
+        <Typography> {`Marca: ${productData.brand}`}</Typography>
+        <Typography> {`Modelo: ${productData.model}`}</Typography>
+
         <Typography variant="h6">Categorias</Typography>
         <div
           style={{
             display: "flex",
             width: "100%",
-            flexWrap: "wrap"
+            flexWrap: "wrap",
           }}
         >
           {["Martillo", "Pintura"].map((label, index) => {
@@ -85,7 +86,7 @@ function ProductDetails({ match: { params }, history }) {
                   marginTop: 5,
                   height: 25,
                   marginLeft: 10,
-                  padding: "0 20px"
+                  padding: "0 20px",
                 }}
               />
             );
@@ -107,7 +108,7 @@ function ProductDetails({ match: { params }, history }) {
             position: "fixed",
             bottom: 0,
             height: "4rem",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Button
@@ -119,7 +120,7 @@ function ProductDetails({ match: { params }, history }) {
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167
+              width: 167,
             }}
           >
             Editar
@@ -132,7 +133,7 @@ function ProductDetails({ match: { params }, history }) {
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167
+              width: 167,
             }}
           >
             Eliminar
