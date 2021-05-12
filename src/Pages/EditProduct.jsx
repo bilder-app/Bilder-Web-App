@@ -1,8 +1,11 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { TextareaAutosize, Typography, Button } from "@material-ui/core";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import { useGetProductById } from "../Components/hooks/queries";
+import { editProduct } from "../api";
+import axios from "axios";
 
 const styles = {
   label: {
@@ -22,16 +25,46 @@ const styles = {
   }
 };
 
-function EditProduct({ history }) {
-  const { register, handleSubmit } = useForm();
+function EditProduct({ match: { params }, history }) {
+  const { register, handleSubmit, setValue } = useForm();
+  const { data: productData = {} } = useGetProductById(params.productId);
   const imageUploadRef = useRef();
   const [uploadedImage, setUploadedImage] = useState();
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
-  const onSubmit = (values) => console.log(values);
   const handleImageUpload = (e) => {
-    if (e.target.files[0])
+    if (e.target.files[0]) {
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+      formData.append("api_key", 793125359922876);
+      formData.append("upload_preset", "defaultp");
+      axios
+        .post(
+          "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
+          formData
+        )
+        .then((resp) => {
+          setUploadedImageUrl(resp.data.url);
+        });
+
       setUploadedImage(URL.createObjectURL(e.target.files[0]));
+    }
   };
+
+  const onSubmit = (values) => {
+    editProduct(params.productId, {
+      ...values,
+      images: [uploadedImageUrl]
+    }).then(() => history.replace("/products"));
+  };
+
+  useEffect(() => {
+    const { name, description, price, stock } = productData;
+    setValue("name", name);
+    setValue("description", description);
+    setValue("price", price);
+    setValue("stock", stock);
+  }, [productData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ padding: 10 }}>
@@ -47,7 +80,7 @@ function EditProduct({ history }) {
             marginRight: 8
           }}
         />
-        <Typography variant="h6">Crear Producto</Typography>
+        <Typography variant="h6">Editar Producto</Typography>
       </div>
       <div style={{ padding: 10 }}>
         <div
@@ -94,7 +127,7 @@ function EditProduct({ history }) {
           </button>
           <div style={{ width: "48%", marginTop: -10 }}>
             <label style={styles.label}>
-              Stock
+              Stock*
               <input
                 required
                 {...register("stock")}
@@ -103,10 +136,10 @@ function EditProduct({ history }) {
               />
             </label>
             <label style={styles.label}>
-              Precio Unitario
+              Precio Unitario*
               <input
                 required
-                {...register("singlePrice")}
+                {...register("price")}
                 style={styles.input}
                 type="number"
                 step="any"
@@ -116,16 +149,16 @@ function EditProduct({ history }) {
         </div>
 
         <label style={styles.label}>
-          Nombre
+          Nombre*
           <input required {...register("name")} style={styles.input} />
         </label>
         <label style={styles.label}>
           Marca
-          <input required {...register("brand")} style={styles.input} />
+          <input {...register("brand")} style={styles.input} />
         </label>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <label style={{ ...styles.label, width: "47.5%" }}>
-            Contenido
+            Contenido*
             <input
               required
               {...register("content")}
@@ -149,10 +182,10 @@ function EditProduct({ history }) {
         </div>
         <label style={styles.label}>
           Modelo
-          <input required {...register("model")} style={styles.input} />
+          <input {...register("model")} style={styles.input} />
         </label>
         <label style={styles.label}>
-          Descripción
+          Descripción*
           <TextareaAutosize
             {...register("description")}
             style={{
@@ -164,13 +197,13 @@ function EditProduct({ history }) {
           />
         </label>
         <label style={styles.label}>
-          Categorias
+          Categorias*
           <select {...register("categories")} style={styles.input}>
             <option>Pinturas</option>
           </select>
         </label>
         <label style={styles.label}>
-          Subcategorias
+          Subcategorias*
           <select {...register("subcategories")} style={styles.input}>
             <option>Latex</option>
           </select>
