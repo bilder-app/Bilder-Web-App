@@ -17,6 +17,7 @@ import Offers from "./Pages/Offers/";
 import NewOffer from "./Pages/Offers/NewOffer";
 import OfferDetails from "./Pages/OfferDetails";
 import Profile from "./Pages/Profile";
+import MyBusiness from "./Pages/MyBusiness";
 import EditProduct from "./Pages/EditProduct";
 import Sales from "./Pages/Orders/SalesTab";
 
@@ -76,6 +77,7 @@ function App() {
             />
 
             <Route exact path="/me" component={Profile} />
+            <Route exact path="/me/bussiness" component={MyBusiness} />
             <Route exact path="/sales" component={Sales} />
           </Switch>
           <Route exact path="/:url">
