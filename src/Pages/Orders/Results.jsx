@@ -47,11 +47,6 @@ function Results({ history, location }) {
         </button>
       </form>
 
-      <Typography style={{ marginLeft: 13 }} variant="h6">
-        {searchParams.get("name").length} resultados para "
-        {searchParams.get("name")}"
-      </Typography>
-
       <ul
         style={{
           listStyleType: "none",

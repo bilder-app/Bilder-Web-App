@@ -87,23 +87,6 @@ function Search({ history }) {
           <SearchIcon />
         </div>
       </div>
-      <ul
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          margin: 0,
-          padding: 0,
-        }}
-      >
-        {["Martillo", "Clavos", "Cemento"].map((item, i) => (
-          <Recent
-            title={item}
-            key={i}
-            onTextSelect={() => setSearchQuery(item)}
-            onSearch={() => history.push(`/orders/s?name=${item}`)}
-          />
-        ))}
-      </ul>
     </div>
   );
 }

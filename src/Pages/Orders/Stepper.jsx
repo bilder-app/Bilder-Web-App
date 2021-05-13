@@ -7,7 +7,7 @@ import {
   StepContent,
   Button,
   Paper,
-  Typography
+  Typography,
 } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,11 +33,14 @@ function getSteps() {
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return "Tu pedido está siendo preparado";
+      // return "Tu pedido está siendo preparado";
+      return " ";
     case 1:
-      return "Ya puedes retirar tu pedido";
+      // return "Ya puedes retirar tu pedido";
+      return " ";
     case 2:
-      return "Tu pedido ha sido entregado, que tengas buen día :)";
+      // return "Tu pedido ha sido entregado, que tengas buen día :)";
+      return "Haz entregado el pedido";
     default:
       return "Ha ocurrido un error, en breve nos estaremos comunicando";
   }
@@ -83,7 +86,9 @@ export default function VerticalLinearStepper() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? "Confirmar" : "Siguiente"}
+                    {activeStep === steps.length - 1
+                      ? "Confirmar"
+                      : "Siguiente"}
                   </Button>
                 </div>
               </div>
@@ -93,7 +98,7 @@ export default function VerticalLinearStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>Se ha entregado correctamente el pedido</Typography>
           <Button onClick={handleReset} className={classes.button}>
             Cancelar
           </Button>

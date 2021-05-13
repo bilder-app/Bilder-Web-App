@@ -53,19 +53,61 @@ function ProductDetails({ match: { params }, history }) {
           }}
         />
       </div>
-      <div style={{ padding: 10, marginTop: 25 }}>
+      <div style={{ padding: 20, marginTop: 25 }}>
         <Card style={{ maxWidth: "100%" }}>
           <CardMedia style={{ height: 400 }} image={productData.images[0]} />
         </Card>
-        <Typography variant="h5">${productData.price}</Typography>
-        <Typography variant="h6">{productData.name}</Typography>
-        <Typography>{productData.description}</Typography>
-        <Typography variant="h6">Especificaciones</Typography>
-        <Typography> {`Contenido: ${productData.content}`}</Typography>
-        <Typography> {`Marca: ${productData.brand}`}</Typography>
-        <Typography> {`Modelo: ${productData.model}`}</Typography>
-
-        <Typography variant="h6">Categorias</Typography>
+        <div style={{ marginTop: 20 }}>
+          <Typography
+            variant="h4"
+            style={{ color: "#FF8000", fontWeight: 800 }}
+          >
+            ${productData.price}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography
+            variant="h5"
+            style={{ color: "#3F3C3C", fontWeight: 600 }}
+          >
+            {productData.name}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {productData.description}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography
+            variant="h6"
+            style={{ color: "#3F3C3C", fontWeight: 600 }}
+          >
+            Especificaciones
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {" "}
+            {`Contenido: ${productData.content}`}
+          </Typography>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {" "}
+            {`Marca: ${productData.brand}`}
+          </Typography>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {" "}
+            {`Modelo: ${productData.model}`}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography
+            variant="h6"
+            style={{ color: "#3F3C3C", fontWeight: 600 }}
+          >
+            Categorias
+          </Typography>
+        </div>
         <div
           style={{
             display: "flex",

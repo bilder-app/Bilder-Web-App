@@ -76,12 +76,10 @@ function EditProduct({ match: { params }, history }) {
         <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 8,
+            marginRight: 6,
           }}
         />
         <Typography variant="h6">Editar Producto</Typography>

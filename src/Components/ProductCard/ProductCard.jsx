@@ -25,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   media: {
-    height: 151,
-    width: "100%",
+    height: 120,
+    width: "85%",
+    marginTop: 15,
     marginBottom: "auto",
   },
 }));
@@ -112,13 +113,17 @@ function ProductCard({
             </Typography>
             <Typography
               variant="body2"
-              style={{ fontWeight: 700, marginTop: "-5px" }}
+              style={{ fontWeight: 500, color: "#3F3C3C", marginTop: "-5px" }}
               component="h2"
             >
               {name}
             </Typography>
           </div>
-          <Typography style={{ marginTop: 15 }}>Stock: {stock}</Typography>
+          <Typography
+            style={{ marginTop: 15, color: "#707070", fontWeight: 450 }}
+          >
+            Stock: {stock}
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>

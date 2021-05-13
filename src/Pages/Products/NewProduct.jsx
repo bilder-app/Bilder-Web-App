@@ -218,6 +218,13 @@ function NewProduct({ history }) {
           Categorias*
           <select {...register("categories")} style={styles.input}>
             <option>Pinturas</option>
+            <option>Construcción</option>
+            <option>Electricidad</option>
+            <option>Herramientas</option>
+            <option>Ferreteria</option>
+            <option>Maderas</option>
+            <option>Griferia</option>
+            <option>Hierros</option>
           </select>
         </label>
         <label style={styles.label}>
