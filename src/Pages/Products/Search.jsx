@@ -87,7 +87,7 @@ function Search({ history }) {
           <SearchIcon />
         </div>
       </div>
-      <ul
+      {/* <ul
         style={{
           display: "flex",
           flexDirection: "column",
@@ -103,7 +103,7 @@ function Search({ history }) {
             onSearch={() => history.push(`/products/s?name=${item}`)}
           />
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
