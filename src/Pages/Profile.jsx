@@ -14,6 +14,7 @@ import {
 import { Store, Help, PowerSettingsNew } from "@material-ui/icons";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import { makeStyles } from "@material-ui/core/styles";
+import { useMyBusiness } from "../../src/Components/hooks/queries";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -87,6 +88,7 @@ export default function Profile({ history }) {
     disableHysteresis: true,
     threshold: 13,
   });
+  const { data: BusinessData } = useMyBusiness();
 
   const listItems = [
     { Icon: Store, label: "Mi negocio", path: "bussiness" },
@@ -107,7 +109,7 @@ export default function Profile({ history }) {
           className={classes.large}
         />
         <Typography variant="h6" className={classes.userName}>
-          Henry
+          {BusinessData.name}
         </Typography>
         <Typography variant="subtitle1" className={classes.email}>
           henry@bilder.com

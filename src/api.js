@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInst = axios.create({
   baseURL: "http://localhost:7000",
-  withCredentials: true
+  withCredentials: true,
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
 
@@ -34,6 +34,9 @@ export function isLoggedIn() {
   return axiosInst.get("/auth/is-logged-in");
 }
 
+export function getMyBusiness() {
+  return axiosInst.get("/business/me").then((res) => res.data);
+}
 export function addProduct(data) {
   return axiosInst.post("/business/products", data);
 }
