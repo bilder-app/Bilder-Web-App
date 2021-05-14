@@ -67,7 +67,7 @@ function Results({ history, location }) {
       <Typography style={{ marginLeft: 13 }} variant="h6">
         {totalProducts === 0
           ? "No hay resultados para " + searchParams.get("name")
-          : `${totalProducts} resultado${totalProducts > 1 && "s"} para "
+          : `${totalProducts} resultado${totalProducts > 1 ? "s" : ""} para "
         ${searchParams.get("name")}`}
       </Typography>
 
