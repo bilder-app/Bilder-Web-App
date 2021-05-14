@@ -11,14 +11,7 @@ import {
   useScrollTrigger,
   Paper,
 } from "@material-ui/core";
-import {
-  Contacts,
-  Store,
-  CreditCard,
-  CardGiftcard,
-  Help,
-  PowerSettingsNew,
-} from "@material-ui/icons";
+import { Store, Help, PowerSettingsNew } from "@material-ui/icons";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import { makeStyles } from "@material-ui/core/styles";
 

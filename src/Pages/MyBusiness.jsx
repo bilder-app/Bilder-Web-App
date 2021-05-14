@@ -1,24 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import {
-  Typography,
-  Fab,
-  Avatar,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  useScrollTrigger,
-  Paper,
-} from "@material-ui/core";
-import {
-  Contacts,
-  Store,
-  CreditCard,
-  CardGiftcard,
-  Help,
-  PowerSettingsNew,
-} from "@material-ui/icons";
+import { Typography, Avatar } from "@material-ui/core";
+import { Contacts, Store } from "@material-ui/icons";
 import CreateIcon from "@material-ui/icons/Create";
 import { makeStyles } from "@material-ui/core/styles";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
@@ -97,23 +79,35 @@ export default function MyBusiness({ match: { params }, history }) {
       <div
         style={{
           display: "flex",
-          marginBottom: 10,
-          marginTop: 20,
           alignItems: "center",
+
+          height: "3rem",
         }}
       >
-        <BackIcon
-          onClick={() => history.goBack()}
+        <div
           style={{
-            width: 30,
-            height: 30,
-            padding: 0,
-            marginRight: 6,
+            display: "flex",
+            alignItems: "center",
+            padding: 10,
+
+            width: "90%",
+            height: "3rem",
           }}
-        />
-        <Typography variant="h6">Mi negocio</Typography>
+        >
+          <BackIcon
+            onClick={() => history.goBack()}
+            style={{
+              width: 30,
+              height: 30,
+              padding: 0,
+              marginRight: 6,
+            }}
+          />
+          <Typography variant="h6">Mi negocio</Typography>
+        </div>
         <CreateIcon />
       </div>
+
       <div className={classes.info}>
         <Avatar
           alt="Avatar"
@@ -126,8 +120,10 @@ export default function MyBusiness({ match: { params }, history }) {
         <Typography variant="subtitle1" className={classes.email}>
           henry@bilder.com
         </Typography>
-        <div>
-          <div style={{ display: "flex" }}>
+        <div style={{ width: "80%", padding: 20 }}>
+          <div
+            style={{ display: "flex", paddingBottom: 10, alignItems: "center" }}
+          >
             <Contacts />
             <Typography variant="h6">Sobre mi</Typography>
           </div>
@@ -135,7 +131,14 @@ export default function MyBusiness({ match: { params }, history }) {
           <Typography>Billy Bautista</Typography>
           <Typography variant="h6">E-mail</Typography>
           <Typography>billy@bilder.com</Typography>
-          <div style={{ display: "flex" }}>
+          <div
+            style={{
+              display: "flex",
+              paddingBottom: 10,
+              paddingTop: 10,
+              alignItems: "center",
+            }}
+          >
             <Store />
             <Typography variant="h6">Sobre mi negocio</Typography>
           </div>
