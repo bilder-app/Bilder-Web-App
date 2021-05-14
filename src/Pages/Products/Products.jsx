@@ -5,8 +5,9 @@ import {
   Fab,
   Typography,
   useScrollTrigger,
-  Paper,
+  Paper
 } from "@material-ui/core";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
 import { useGetAllProducts } from "../../Components/hooks/queries";
 import { Link } from "react-router-dom";
@@ -16,10 +17,10 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     background: "transparent",
     marginRight: 5,
-    marginTop: 6,
+    marginTop: 6
   },
   addMoreIcon: {
-    color: theme.palette.text.primary,
+    color: theme.palette.text.primary
   },
   titleBar: {
     display: "flex",
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     width: "100%",
     height: 50,
-    borderRadius: 0,
+    borderRadius: 0
   },
   cards: {
     padding: 20,
@@ -39,15 +40,42 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     listStyle: "none",
     gap: 15,
-    alignItems: "stretch",
-  },
+    alignItems: "stretch"
+  }
 }));
+
+const NoProducts = () => (
+  <div
+    style={{
+      position: "fixed",
+      width: "100vw",
+      top: 0,
+      left: 0,
+      height: "100vh"
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: 0.6,
+        height: "100%",
+        width: "100%"
+      }}
+    >
+      <LocalOfferIcon style={{ height: 50, width: 50 }} />
+      <Typography variant="h6">No hay productos, añada uno.</Typography>
+    </div>
+  </div>
+);
 
 function Products() {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13,
+    threshold: 13
   });
 
   const { data: productsData } = useGetAllProducts();
@@ -68,14 +96,14 @@ function Products() {
 
       <div style={{ padding: "13px 10px" }} />
 
-      <ul className={classes.cards}>
-        {productsData &&
-          productsData.map(({ id, ...productData }) => (
+      {productsData && productsData.length ? (
+        <ul className={classes.cards}>
+          {productsData.map(({ id, ...productData }) => (
             <li key={id}>
               <Link
                 to={`/products/productDetails/${id}`}
                 style={{
-                  textDecoration: "none",
+                  textDecoration: "none"
                 }}
               >
                 <ProductCard
@@ -85,7 +113,10 @@ function Products() {
               </Link>
             </li>
           ))}
-      </ul>
+        </ul>
+      ) : (
+        <NoProducts />
+      )}
 
       <Fab
         style={{ position: "fixed", bottom: "5rem", right: "2rem" }}
