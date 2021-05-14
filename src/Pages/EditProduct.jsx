@@ -59,8 +59,17 @@ function EditProduct({ match: { params }, history }) {
   };
 
   useEffect(() => {
-    const { name, description, price, stock, brand, model, content } =
-      productData;
+    const {
+      name,
+      description,
+      price,
+      stock,
+      brand,
+      model,
+      content,
+      contentType,
+      images,
+    } = productData;
     setValue("name", name);
     setValue("description", description);
     setValue("price", price);
@@ -68,6 +77,9 @@ function EditProduct({ match: { params }, history }) {
     setValue("brand", brand);
     setValue("model", model);
     setValue("content", content);
+    setValue("contentType", contentType);
+    setUploadedImageUrl(images[0]);
+    setUploadedImage(images[0]);
   }, [productData]);
 
   return (
@@ -176,10 +188,17 @@ function EditProduct({ match: { params }, history }) {
               width: "47.5%",
             }}
           >
-            <option>Kilos</option>
-            <option>Metros</option>
-            <option>Litros</option>
-            <option>Unidades</option>
+            <option>Kilo (k)</option>
+            <option>Gramo (g)</option>
+            <option>Metro (m)</option>
+            <option>Metro cúbico (m3)</option>
+            <option>Centimetro (cm)</option>
+            <option>Centimetro cúbico (cc)</option>
+            <option>Pulgada ('')</option>
+            <option>Litro (l)</option>
+            <option>Militro (ml)</option>
+            <option>Unidad (u)</option>
+            <option>Watt (w) </option>
           </select>
         </div>
         <label style={styles.label}>

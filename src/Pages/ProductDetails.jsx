@@ -89,7 +89,7 @@ function ProductDetails({ match: { params }, history }) {
         <div style={{ marginTop: 10 }}>
           <Typography style={{ color: "#707070", fontWeight: 450 }}>
             {" "}
-            {`Contenido: ${productData.content}`}
+            {`Contenido: ${productData.content} ${productData.contentType}`}
           </Typography>
           <Typography style={{ color: "#707070", fontWeight: 450 }}>
             {" "}

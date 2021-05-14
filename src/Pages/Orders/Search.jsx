@@ -58,7 +58,7 @@ function Search({ history }) {
         style={{
           display: "flex",
           alignItems: "center",
-          padding: 13,
+          padding: 10,
         }}
       >
         <BackIcon

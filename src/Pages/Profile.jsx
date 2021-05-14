@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     top: 0,
     width: "100%",
-    padding: 13,
+    padding: 20,
     background: theme.palette.background.paper,
     zIndex: 1,
   },

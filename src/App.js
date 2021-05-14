@@ -4,10 +4,8 @@ import BottomNavigation from "./Components/BottomNavigation/BottomNavigation";
 import Orders from "./Pages/Orders/Orders";
 import OrderDetails from "./Pages/OrderDetails";
 import Login from "./Pages/Login";
-
 import Products from "./Pages/Products/Products";
 import NewProduct from "./Pages/Products/NewProduct";
-import MostSoldProducts from "./Pages/Orders/MostSoldProducts";
 import OrdersSearch from "./Pages/Orders/Search";
 import OrdersSearchResults from "./Pages/Orders/Results";
 import ProductsSearch from "./Pages/Products/Search";
@@ -19,8 +17,6 @@ import OfferDetails from "./Pages/OfferDetails";
 import Profile from "./Pages/Profile";
 import MyBusiness from "./Pages/MyBusiness";
 import EditProduct from "./Pages/EditProduct";
-import Sales from "./Pages/Orders/SalesTab";
-
 import { isLoggedIn } from "./api";
 
 function App() {
@@ -54,11 +50,6 @@ function App() {
             <Route exact path="/products/newProduct" component={NewProduct} />
             <Route
               exact
-              path="/products/mostsoldproducts"
-              component={MostSoldProducts}
-            />
-            <Route
-              exact
               path="/products/productDetails/:id"
               component={ProductDetails}
             />
@@ -78,7 +69,6 @@ function App() {
 
             <Route exact path="/me" component={Profile} />
             <Route exact path="/me/bussiness" component={MyBusiness} />
-            <Route exact path="/sales" component={Sales} />
           </Switch>
           <Route exact path="/:url">
             <div style={{ paddingTop: "4.25rem" }}>

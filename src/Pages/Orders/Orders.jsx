@@ -1,7 +1,6 @@
 import OrdersTab from "./OrdersTab";
 import {
   Typography,
-  Fab,
   makeStyles,
   Paper,
   useScrollTrigger,
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
     zIndex: 1,
-    padding: 13,
+    padding: 20,
     borderRadius: 0,
   },
   icon: {

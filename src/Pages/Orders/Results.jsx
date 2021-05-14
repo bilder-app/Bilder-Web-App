@@ -18,7 +18,7 @@ function Results({ history, location }) {
         style={{
           display: "flex",
           alignItems: "center",
-          padding: 13,
+          padding: 10,
         }}
       >
         <BackIcon
@@ -51,7 +51,7 @@ function Results({ history, location }) {
         style={{
           listStyleType: "none",
           margin: 0,
-          padding: 13,
+          padding: 20,
           paddingTop: 10,
           display: "flex",
           flexDirection: "column",

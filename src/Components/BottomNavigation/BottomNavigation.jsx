@@ -2,7 +2,6 @@ import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { RiMoneyDollarBoxLine } from "react-icons/ri";
 import { BiBox } from "react-icons/bi";
 import { FiTruck, FiUser } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
@@ -58,12 +57,6 @@ export default function SimpleBottomNavigation() {
         value="products"
         icon={<BiBox size={25} />}
       />
-      {/* <BottomNavigationAction
-        className={classes.action}
-        label="Ofertas"
-        value="offers"
-        icon={<RiMoneyDollarBoxLine size={25} />}
-      /> */}
       <BottomNavigationAction
         className={classes.action}
         label="Perfil"

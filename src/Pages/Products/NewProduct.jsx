@@ -175,7 +175,7 @@ function NewProduct({ history }) {
           <input {...register("brand")} style={styles.input} />
         </label>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <label style={{ ...styles.label, width: "47.5%" }}>
+          <label style={{ ...styles.label, width: "40%" }}>
             Contenido*
             <input
               required
@@ -189,13 +189,21 @@ function NewProduct({ history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "47.5%",
+              width: "56%",
             }}
           >
-            <option>Kilos</option>
-            <option>Metros</option>
-            <option>Litros</option>
-            <option>Unidades</option>
+            <option>Kilo (k)</option>
+            <option>Gramo (g)</option>
+            <option>Metro (m)</option>
+            <option>Metro cuadrado(m2)</option>
+            <option>Metro cúbico (m3)</option>
+            <option>Centimetro (cm)</option>
+            <option>Centimetro cúbico (cc)</option>
+            <option>Pulgada ('')</option>
+            <option>Litro (l)</option>
+            <option>Militro (ml)</option>
+            <option>Unidad (u)</option>
+            <option>Watt (w) </option>
           </select>
         </div>
         <label style={styles.label}>
