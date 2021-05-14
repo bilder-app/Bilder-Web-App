@@ -39,8 +39,9 @@ function EditProduct({ match: { params }, history }) {
   const onSubmit = async (values) => {
     history.replace("/products");
 
-    const isCreatingKey = enqueueSnackbar("Creando producto", {
+    const isCreatingKey = enqueueSnackbar("Editando producto", {
       variant: "info",
+      autoHideDuration: 5000,
       action: (key) => (
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
@@ -63,8 +64,9 @@ function EditProduct({ match: { params }, history }) {
     }).then(() => {
       closeSnackbar(isCreatingKey);
 
-      enqueueSnackbar("Producto creado exitosamente", {
+      enqueueSnackbar("Producto editado exitosamente", {
         variant: "success",
+        autoHideDuration: 5000,
         action: (key) => (
           <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
             Cerrar

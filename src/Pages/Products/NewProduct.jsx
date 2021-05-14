@@ -61,6 +61,7 @@ function NewProduct({ history }) {
 
     const isCreatingKey = enqueueSnackbar("Creando producto", {
       variant: "info",
+      autoHideDuration: 5000,
       action: (key) => (
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
@@ -81,6 +82,8 @@ function NewProduct({ history }) {
 
       enqueueSnackbar("Producto creado exitosamente", {
         variant: "success",
+        autoHideDuration: 5000,
+
         action: (key) => (
           <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
             Cerrar
