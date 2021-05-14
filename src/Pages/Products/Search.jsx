@@ -4,7 +4,7 @@ import {
   ChevronLeft as BackIcon,
   QueryBuilder as ClockIcon,
   CallMade as SearchRecentIcon,
-  Search as SearchIcon,
+  Search as SearchIcon
 } from "@material-ui/icons";
 import { Typography, ButtonBase } from "@material-ui/core";
 
@@ -13,7 +13,7 @@ const Recent = ({ title, onTextSelect, onSearch }) => {
     <li
       style={{
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-between"
       }}
     >
       <ButtonBase
@@ -24,7 +24,7 @@ const Recent = ({ title, onTextSelect, onSearch }) => {
           padding: 5,
           flexGrow: 2,
           justifyContent: "flex-start",
-          paddingLeft: 10,
+          paddingLeft: 10
         }}
       >
         <ClockIcon />
@@ -34,7 +34,7 @@ const Recent = ({ title, onTextSelect, onSearch }) => {
         style={{
           width: "15%",
           display: "grid",
-          placeItems: "center",
+          placeItems: "center"
         }}
         onClick={onSearch}
       >
@@ -58,7 +58,7 @@ function Search({ history }) {
         style={{
           display: "flex",
           alignItems: "center",
-          padding: 13,
+          padding: 13
         }}
       >
         <BackIcon
@@ -67,7 +67,7 @@ function Search({ history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
         <SearchBar
@@ -76,34 +76,50 @@ function Search({ history }) {
           ref={focusRef}
         />
         <div
-          onClick={() => history.push(`/products/s?name=${searchQuery}`)}
+          onClick={() => {
+            if (searchQuery) {
+              const recentlySearchedTerms = JSON.parse(
+                localStorage.getItem("recent_product_search") || "[]"
+              );
+              if (!recentlySearchedTerms.includes(searchQuery)) {
+                recentlySearchedTerms.push(searchQuery);
+                localStorage.setItem(
+                  "recent_product_search",
+                  JSON.stringify(recentlySearchedTerms)
+                );
+              }
+              history.push(`/products/s?name=${searchQuery}`);
+            }
+          }}
           style={{
             marginLeft: 5,
             padding: 5,
             display: "grid",
-            placeItems: "center",
+            placeItems: "center"
           }}
         >
           <SearchIcon />
         </div>
       </div>
-      {/* <ul
+      <ul
         style={{
           display: "flex",
           flexDirection: "column",
           margin: 0,
-          padding: 0,
+          padding: 0
         }}
       >
-        {["Martillo", "Clavos", "Cemento"].map((item, i) => (
-          <Recent
-            title={item}
-            key={i}
-            onTextSelect={() => setSearchQuery(item)}
-            onSearch={() => history.push(`/products/s?name=${item}`)}
-          />
-        ))}
-      </ul> */}
+        {JSON.parse(localStorage.getItem("recent_product_search") || "[]").map(
+          (item, i) => (
+            <Recent
+              title={item}
+              key={i}
+              onTextSelect={() => setSearchQuery(item)}
+              onSearch={() => history.push(`/products/s?name=${item}`)}
+            />
+          )
+        )}
+      </ul>
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import { useGetProductById } from "../Components/hooks/queries";
 import { editProduct } from "../api";
+import { useSnackbar } from "notistack";
+import { useQueryClient } from "react-query";
 import axios from "axios";
 
 const styles = {
@@ -13,7 +15,7 @@ const styles = {
     flexDirection: "column",
     fontSize: "1.05rem",
     fontWeight: 500,
-    marginTop: 10,
+    marginTop: 10
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -21,41 +23,65 @@ const styles = {
     marginTop: 5,
     padding: 8,
     fontSize: "1.05rem",
-    height: "2.45rem",
-  },
+    height: "2.45rem"
+  }
 };
 
 function EditProduct({ match: { params }, history }) {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, setValue } = useForm();
   const { data: productData = {} } = useGetProductById(params.productId);
   const imageUploadRef = useRef();
   const [uploadedImage, setUploadedImage] = useState();
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const onSubmit = async (values) => {
+    history.replace("/products");
+
+    const isCreatingKey = enqueueSnackbar("Editando producto", {
+      variant: "info",
+      autoHideDuration: 5000,
+      action: (key) => (
+        <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+          Cerrar
+        </Button>
+      )
+    });
+
+    const formData = new FormData();
+    formData.append("file", uploadedImage);
+    formData.append("api_key", 793125359922876);
+    formData.append("upload_preset", "defaultp");
+
+    const imageUrl = await axios
+      .post("https://api.cloudinary.com/v1_1/drolfnia6/image/upload", formData)
+      .then((resp) => resp.data.url);
+
+    editProduct(params.productId, {
+      ...values,
+      images: [imageUrl]
+    }).then(() => {
+      closeSnackbar(isCreatingKey);
+
+      enqueueSnackbar("Producto editado exitosamente", {
+        variant: "success",
+        autoHideDuration: 5000,
+        action: (key) => (
+          <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+            Cerrar
+          </Button>
+        )
+      });
+
+      queryClient.invalidateQueries("products");
+    });
+  };
 
   const handleImageUpload = (e) => {
     if (e.target.files[0]) {
-      const formData = new FormData();
-      formData.append("file", e.target.files[0]);
-      formData.append("api_key", 793125359922876);
-      formData.append("upload_preset", "defaultp");
-      axios
-        .post(
-          "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
-          formData
-        )
-        .then((resp) => {
-          setUploadedImageUrl(resp.data.url);
-        });
-
-      setUploadedImage(URL.createObjectURL(e.target.files[0]));
+      setUploadedImage(e.target.files[0]);
     }
-  };
-
-  const onSubmit = (values) => {
-    editProduct(params.productId, {
-      ...values,
-      images: [uploadedImageUrl],
-    }).then(() => history.replace("/products"));
   };
 
   useEffect(() => {
@@ -68,7 +94,7 @@ function EditProduct({ match: { params }, history }) {
       model,
       content,
       contentType,
-      images,
+      images
     } = productData;
     setValue("name", name);
     setValue("description", description);
@@ -78,7 +104,6 @@ function EditProduct({ match: { params }, history }) {
     setValue("model", model);
     setValue("content", content);
     setValue("contentType", contentType);
-    setUploadedImageUrl(images[0]);
     setUploadedImage(images[0]);
   }, [productData]);
 
@@ -91,7 +116,7 @@ function EditProduct({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
         <Typography variant="h6">Editar Producto</Typography>
@@ -101,7 +126,7 @@ function EditProduct({ match: { params }, history }) {
           style={{
             height: 150,
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "space-between"
           }}
         >
           <input
@@ -119,7 +144,7 @@ function EditProduct({ match: { params }, history }) {
               padding: 5,
               border: "thin solid #DFDEDE",
               objectFit: "cover",
-              background: "transparent",
+              background: "transparent"
             }}
             onClick={() => imageUploadRef.current.click()}
           >
@@ -127,14 +152,18 @@ function EditProduct({ match: { params }, history }) {
               <img
                 alt="imagen de producto"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={uploadedImage}
+                src={
+                  typeof uploadedImage === "string"
+                    ? uploadedImage
+                    : URL.createObjectURL(uploadedImage)
+                }
               />
             ) : (
               <AddAPhotoIcon
                 style={{
                   height: "75%",
                   width: "75%",
-                  opacity: 0.25,
+                  opacity: 0.25
                 }}
               />
             )}
@@ -185,7 +214,7 @@ function EditProduct({ match: { params }, history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "47.5%",
+              width: "47.5%"
             }}
           >
             <option>Kilo (k)</option>
@@ -212,7 +241,7 @@ function EditProduct({ match: { params }, history }) {
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16,
+              borderRadius: 16
             }}
             rowsMin={5}
           />
@@ -239,7 +268,7 @@ function EditProduct({ match: { params }, history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem",
+          fontSize: "1.1rem"
         }}
       >
         Editar Producto

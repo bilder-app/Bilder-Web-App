@@ -3,19 +3,21 @@ import {
   TextareaAutosize,
   Typography,
   Button,
-  makeStyles,
+  makeStyles
 } from "@material-ui/core";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import { addProduct } from "../../api";
 import axios from "axios";
+import { useSnackbar } from "notistack";
+import { useQueryClient } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
     width: "100%",
     height: "100%",
-    position: "relative",
+    position: "relative"
   },
   imageLoadingText: {
     position: "absolute",
@@ -24,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
     background: "rgba(0,0,0,0.75)",
     color: "white",
     display: "grid",
-    placeItems: "center",
-  },
+    placeItems: "center"
+  }
 }));
 
 const styles = {
@@ -34,7 +36,7 @@ const styles = {
     flexDirection: "column",
     fontSize: "1.05rem",
     fontWeight: 500,
-    marginTop: 10,
+    marginTop: 10
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -42,40 +44,60 @@ const styles = {
     marginTop: 5,
     padding: 8,
     fontSize: "1.05rem",
-    height: "2.45rem",
-  },
+    height: "2.45rem"
+  }
 };
 
 function NewProduct({ history }) {
+  const queryClient = useQueryClient();
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const imageUploadRef = useRef();
   const [uploadedImage, setUploadedImage] = useState();
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const onSubmit = (values) =>
-    addProduct({ ...values, images: [uploadedImageUrl] }).then(() =>
-      history.replace("/products")
-    );
+  const onSubmit = async (values) => {
+    history.replace("/products");
+
+    const isCreatingKey = enqueueSnackbar("Creando producto", {
+      variant: "info",
+      autoHideDuration: 5000,
+      action: (key) => (
+        <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+          Cerrar
+        </Button>
+      )
+    });
+
+    const formData = new FormData();
+    formData.append("file", uploadedImage);
+    formData.append("api_key", 793125359922876);
+    formData.append("upload_preset", "defaultp");
+    const imageUrl = await axios
+      .post("https://api.cloudinary.com/v1_1/drolfnia6/image/upload", formData)
+      .then((resp) => resp.data.url);
+
+    addProduct({ ...values, images: [imageUrl] }).then(() => {
+      closeSnackbar(isCreatingKey);
+
+      enqueueSnackbar("Producto creado exitosamente", {
+        variant: "success",
+        autoHideDuration: 5000,
+
+        action: (key) => (
+          <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+            Cerrar
+          </Button>
+        )
+      });
+
+      queryClient.invalidateQueries("products");
+    });
+  };
+
   const handleImageUpload = (e) => {
     if (e.target.files[0]) {
-      const formData = new FormData();
-      formData.append("file", e.target.files[0]);
-      formData.append("api_key", 793125359922876);
-      formData.append("upload_preset", "defaultp");
-      setIsUploadingImage(true);
-      axios
-        .post(
-          "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
-          formData
-        )
-        .then((resp) => {
-          setIsUploadingImage(false);
-          setUploadedImageUrl(resp.data.url);
-        });
-
-      setUploadedImage(URL.createObjectURL(e.target.files[0]));
+      setUploadedImage(e.target.files[0]);
     }
   };
 
@@ -88,7 +110,7 @@ function NewProduct({ history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
         <Typography variant="h6">Crear Producto</Typography>
@@ -98,7 +120,7 @@ function NewProduct({ history }) {
           style={{
             height: 150,
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "space-between"
           }}
         >
           <input
@@ -116,21 +138,16 @@ function NewProduct({ history }) {
               padding: 5,
               border: "thin solid #DFDEDE",
               objectFit: "cover",
-              background: "transparent",
+              background: "transparent"
             }}
             onClick={() => imageUploadRef.current.click()}
           >
             {uploadedImage ? (
               <div className={classes.imageContainer}>
-                {isUploadingImage && (
-                  <div className={classes.imageLoadingText}>
-                    <p>Cargando imagen...</p>
-                  </div>
-                )}
                 <img
                   alt="imagen de producto"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  src={uploadedImage}
+                  src={URL.createObjectURL(uploadedImage)}
                 />
               </div>
             ) : (
@@ -138,7 +155,7 @@ function NewProduct({ history }) {
                 style={{
                   height: "75%",
                   width: "75%",
-                  opacity: 0.25,
+                  opacity: 0.25
                 }}
               />
             )}
@@ -189,7 +206,7 @@ function NewProduct({ history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "56%",
+              width: "56%"
             }}
           >
             <option>Kilo (k)</option>
@@ -217,7 +234,7 @@ function NewProduct({ history }) {
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16,
+              borderRadius: 16
             }}
             rowsMin={5}
           />
@@ -251,7 +268,7 @@ function NewProduct({ history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem",
+          fontSize: "1.1rem"
         }}
       >
         Crear Producto
