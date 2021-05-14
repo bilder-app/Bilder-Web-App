@@ -11,7 +11,7 @@ import {
   useScrollTrigger,
   Paper,
 } from "@material-ui/core";
-import { Store, Help, PowerSettingsNew } from "@material-ui/icons";
+import { Store, Help, PowerSettingsNew, Business } from "@material-ui/icons";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import { makeStyles } from "@material-ui/core/styles";
 import { useMyBusiness } from "../../src/Components/hooks/queries";
@@ -88,14 +88,15 @@ export default function Profile({ history }) {
     disableHysteresis: true,
     threshold: 13,
   });
-  const { data: BusinessData } = useMyBusiness();
+
+  const { data: BusinessData, isLoading } = useMyBusiness();
 
   const listItems = [
     { Icon: Store, label: "Mi negocio", path: "bussiness" },
     { Icon: Help, label: "Preguntas frecuentes", path: "FQA" },
     { Icon: PowerSettingsNew, label: "Cerrar sesión", path: "logout" },
   ];
-
+  if (isLoading) return null;
   return (
     <div style={{ widht: "100%", height: "100%", backgroundColor: "white" }}>
       <Paper elevation={isScrolling ? 4 : 0} className={classes.header}>
