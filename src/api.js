@@ -58,7 +58,7 @@ export function addProduct(data) {
  * @param {number} query - The query to search for
  * @param {number} page - The pagination page
  * @param {number} limit - The maximum limit of products to bring
- * @return {Promise<import("axios").AxiosResponse<{
+ * @return {Promise<{
  *        totalProducts: Number,
  *        next?: {
  *            page: Number,
@@ -69,10 +69,10 @@ export function addProduct(data) {
  *            limit: Number
  *        },
  *        data: Product[]
- * }>>}
+ * }>}
  */
 export function searchProducts(query, page, limit) {
-  return axiosInst.get(
-    `/business/products/search?query=${query}&page=${page}&limit=${limit}`
-  );
+  return axiosInst
+    .get(`/business/products/search?query=${query}&page=${page}&limit=${limit}`)
+    .then((resp) => resp.data);
 }
