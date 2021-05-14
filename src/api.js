@@ -71,7 +71,7 @@ export function addProduct(data) {
  *        data: Product[]
  * }>}
  */
-export function searchProducts(query, page, limit) {
+export function searchProducts(query, page = 1, limit = 25) {
   return axiosInst
     .get(`/business/products/search?query=${query}&page=${page}&limit=${limit}`)
     .then((resp) => resp.data);
