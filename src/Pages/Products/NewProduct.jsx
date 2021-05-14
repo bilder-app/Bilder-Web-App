@@ -54,7 +54,6 @@ function NewProduct({ history }) {
   const { register, handleSubmit } = useForm();
   const imageUploadRef = useRef();
   const [uploadedImage, setUploadedImage] = useState();
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const onSubmit = async (values) => {
@@ -73,7 +72,6 @@ function NewProduct({ history }) {
     formData.append("file", uploadedImage);
     formData.append("api_key", 793125359922876);
     formData.append("upload_preset", "defaultp");
-    setIsUploadingImage(true);
     const imageUrl = await axios
       .post("https://api.cloudinary.com/v1_1/drolfnia6/image/upload", formData)
       .then((resp) => resp.data.url);
@@ -143,11 +141,6 @@ function NewProduct({ history }) {
           >
             {uploadedImage ? (
               <div className={classes.imageContainer}>
-                {isUploadingImage && (
-                  <div className={classes.imageLoadingText}>
-                    <p>Cargando imagen...</p>
-                  </div>
-                )}
                 <img
                   alt="imagen de producto"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
