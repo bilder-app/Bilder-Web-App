@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import {
   makeStyles,
   Fab,
   Typography,
   useScrollTrigger,
-  Paper,
+  Paper
 } from "@material-ui/core";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
-import { getMyProducts } from "../../api.js";
+import { useGetAllProducts } from "../../Components/hooks/queries";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,48 +17,68 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     background: "transparent",
     marginRight: 5,
-    marginTop: 6,
+    marginTop: 6
   },
   addMoreIcon: {
-    color: theme.palette.text.primary,
+    color: theme.palette.text.primary
   },
   titleBar: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "0 13px",
+    padding: "0 20px",
     position: "fixed",
     top: 0,
     zIndex: 1,
     width: "100%",
     height: 50,
-    borderRadius: 0,
+    borderRadius: 0
   },
   cards: {
-    padding: 15,
+    padding: 20,
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     listStyle: "none",
     gap: 15,
-    alignItems: "stretch",
-  },
+    alignItems: "stretch"
+  }
 }));
+
+const NoProducts = () => (
+  <div
+    style={{
+      position: "fixed",
+      width: "100vw",
+      top: 0,
+      left: 0,
+      height: "100vh"
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: 0.6,
+        height: "100%",
+        width: "100%"
+      }}
+    >
+      <LocalOfferIcon style={{ height: 50, width: 50 }} />
+      <Typography variant="h6">No hay productos, añada uno.</Typography>
+    </div>
+  </div>
+);
 
 function Products() {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13,
+    threshold: 13
   });
-  const [products, setProducts] = useState([]);
 
-  useEffect( () => {
-    async function handlerAsync() {
-      const refresh = await getMyProducts();
-      setProducts(refresh);
-    }
-    handlerAsync()
-  }, [])
+  const { data: productsData } = useGetAllProducts();
 
   return (
     <div>
@@ -73,26 +94,29 @@ function Products() {
         </Link>
       </Paper>
 
-      <div style={{ paddingTop: 30 }} />
+      <div style={{ padding: "13px 10px" }} />
 
-      <ul className={classes.cards}>
-        {products &&
-          products.map(({ id, ...productData }) => (
+      {productsData && productsData.length ? (
+        <ul className={classes.cards}>
+          {productsData.map(({ id, ...productData }) => (
             <li key={id}>
               <Link
                 to={`/products/productDetails/${id}`}
                 style={{
-                  textDecoration: "none",
+                  textDecoration: "none"
                 }}
               >
                 <ProductCard
                   {...productData}
-                  imageUrl={`https://source.unsplash.com/500x500/?tool,${id}`}
+                  imageUrl={productData.images[0]}
                 />
               </Link>
             </li>
           ))}
-      </ul>
+        </ul>
+      ) : (
+        <NoProducts />
+      )}
 
       <Fab
         style={{ position: "fixed", bottom: "5rem", right: "2rem" }}

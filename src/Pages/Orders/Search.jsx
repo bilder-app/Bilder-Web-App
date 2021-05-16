@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import {
-  ChevronLeft as Backicon,
+  ChevronLeft as BackIcon,
   QueryBuilder as ClockIcon,
   CallMade as SearchRecentIcon,
-  Search as SearchIcon
+  Search as SearchIcon,
 } from "@material-ui/icons";
 import { Typography, ButtonBase } from "@material-ui/core";
 
@@ -13,7 +13,7 @@ const Recent = ({ title, onTextSelect, onSearch }) => {
     <li
       style={{
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       <ButtonBase
@@ -24,7 +24,7 @@ const Recent = ({ title, onTextSelect, onSearch }) => {
           padding: 5,
           flexGrow: 2,
           justifyContent: "flex-start",
-          paddingLeft: 10
+          paddingLeft: 10,
         }}
       >
         <ClockIcon />
@@ -34,7 +34,7 @@ const Recent = ({ title, onTextSelect, onSearch }) => {
         style={{
           width: "15%",
           display: "grid",
-          placeItems: "center"
+          placeItems: "center",
         }}
         onClick={onSearch}
       >
@@ -58,18 +58,16 @@ function Search({ history }) {
         style={{
           display: "flex",
           alignItems: "center",
-          padding: 13
+          padding: 10,
         }}
       >
-        <Backicon
+        <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
-            width: 25,
-            height: 25,
+            width: 30,
+            height: 30,
             padding: 0,
-            marginRight: 10
+            marginRight: 6,
           }}
         />
         <SearchBar
@@ -83,29 +81,12 @@ function Search({ history }) {
             marginLeft: 5,
             padding: 5,
             display: "grid",
-            placeItems: "center"
+            placeItems: "center",
           }}
         >
           <SearchIcon />
         </div>
       </div>
-      <ul
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          margin: 0,
-          padding: 0
-        }}
-      >
-        {["Martillo", "Clavos", "Cemento"].map((item, i) => (
-          <Recent
-            title={item}
-            key={i}
-            onTextSelect={() => setSearchQuery(item)}
-            onSearch={() => history.push(`/orders/s?name=${item}`)}
-          />
-        ))}
-      </ul>
     </div>
   );
 }

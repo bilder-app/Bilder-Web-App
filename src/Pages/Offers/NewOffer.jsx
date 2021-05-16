@@ -11,20 +11,20 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
     height: 50,
     alignItems: "center",
-    boxShadow: "0px 1px 4px 0 rgba(180, 180, 180, .3)"
+    boxShadow: "0px 1px 4px 0 rgba(180, 180, 180, .3)",
   },
   icon: {
     border: "2px solid black",
     borderRadius: "50%",
     width: 23,
     height: 23,
-    margin: "0px 15px"
+    margin: "0px 15px",
   },
   container: {
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    paddingTop: 10
+    paddingTop: 10,
   },
 
   component: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     height: 75,
     flexDirection: "column",
     // backgroundColor: "#EFEFEF",
-    marginBottom: 32
+    marginBottom: 32,
   },
   customInput: {
     width: "100%",
@@ -41,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 15,
     border: "solid 1px #CCC",
     marginTop: 10,
-    color: "#000"
+    color: "#000",
   },
   customLabel: {
-    fontWeight: "500"
-  }
+    fontWeight: "500",
+  },
 }));
 
 const filterColors = (inputValue) => {
@@ -77,8 +77,8 @@ export default function NewOffer({ history }) {
       borderRadius: 15,
       border: "solid 1px #CCC",
       marginTop: 10,
-      color: "#000"
-    })
+      color: "#000",
+    }),
   };
 
   const classes = useStyles();
@@ -127,7 +127,7 @@ export default function NewOffer({ history }) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            width: "80%"
+            width: "80%",
           }}
         >
           <div className={classes.component} style={{ width: "48%" }}>
@@ -163,7 +163,7 @@ export default function NewOffer({ history }) {
           width: "85%",
           margin: "0 7.5%",
           position: "absolute",
-          bottom: 25
+          bottom: 25,
         }}
       >
         Crear Oferta

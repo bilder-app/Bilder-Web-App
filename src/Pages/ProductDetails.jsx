@@ -1,36 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Typography, Card } from "@material-ui/core";
-import { ChevronLeft as Backicon } from "@material-ui/icons";
+import { ChevronLeft as BackIcon } from "@material-ui/icons";
 import { CardMedia, Modal, Paper, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-import { getProductById } from "../api.js"
+import { useGetProductById } from "../Components/hooks/queries.js";
+import { deleteProduct } from "../api";
 
 const useStyles = makeStyles((theme) => ({
   confirmModalButton: {
     backgroundColor: theme.palette.success.main,
-    color: "white"
+    color: "white",
   },
   errorModalButton: {
     backgroundColor: theme.palette.error.main,
-    color: "white"
-  }
+    color: "white",
+  },
 }));
 
 function ProductDetails({ match: { params }, history }) {
   const classes = useStyles();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState();
-  const [product, setProduct] = useState({});
 
-  useEffect(() => {
-    async function handlerAsync() {
-      const data = await getProductById(params.id);
-      setProduct(data);
-      console.log(data);
-    }
-    handlerAsync()
-  }, [])
+  const { data: productData, isLoading } = useGetProductById(params.id);
+
+  console.log(productData);
+  if (isLoading) return null;
 
   return (
     <div>
@@ -44,46 +40,79 @@ function ProductDetails({ match: { params }, history }) {
           backgroundColor: "white",
           width: "100%",
           height: "3rem",
-          top: 0
+          top: 0,
         }}
       >
-        <Backicon
+        <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
-            width: 25,
-            height: 25,
+            width: 30,
+            height: 30,
             padding: 0,
-            marginRight: 8
+            marginRight: 6,
           }}
         />
       </div>
-      <div style={{ padding: 10, marginTop: 25 }}>
+      <div style={{ padding: 20, marginTop: 25 }}>
         <Card style={{ maxWidth: "100%" }}>
-          <CardMedia
-            style={{ height: 400 }}
-            image={`https://source.unsplash.com/500x500/?tool,${params.id}`}
-          />
+          <CardMedia style={{ height: 400 }} image={productData.images[0]} />
         </Card>
-        <Typography variant="h5">${product.price}</Typography>
-        <Typography variant="h6">
-          {product.name}
-        </Typography>
-        <Typography>
-          {product.description}
-        </Typography>
-        <Typography variant="h6">Especificaciones</Typography>
-        <Typography>Marca: Alba</Typography>
-        <Typography>Tipo: Latex</Typography>
-        <Typography>Contenido: 6 Litros</Typography>{" "}
-        <Typography>Modelo: Albalatex Ultra Lavable</Typography>
-        <Typography variant="h6">Categorias</Typography>
+        <div style={{ marginTop: 20 }}>
+          <Typography
+            variant="h4"
+            style={{ color: "#FF8000", fontWeight: 800 }}
+          >
+            ${productData.price}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography
+            variant="h5"
+            style={{ color: "#3F3C3C", fontWeight: 600 }}
+          >
+            {productData.name}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {productData.description}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography
+            variant="h6"
+            style={{ color: "#3F3C3C", fontWeight: 600 }}
+          >
+            Especificaciones
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {" "}
+            {`Contenido: ${productData.content} ${productData.contentType}`}
+          </Typography>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {" "}
+            {`Marca: ${productData.brand}`}
+          </Typography>
+          <Typography style={{ color: "#707070", fontWeight: 450 }}>
+            {" "}
+            {`Modelo: ${productData.model}`}
+          </Typography>
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <Typography
+            variant="h6"
+            style={{ color: "#3F3C3C", fontWeight: 600 }}
+          >
+            Categorias
+          </Typography>
+        </div>
         <div
           style={{
             display: "flex",
             width: "100%",
-            flexWrap: "wrap"
+            flexWrap: "wrap",
           }}
         >
           {["Martillo", "Pintura"].map((label, index) => {
@@ -97,7 +126,7 @@ function ProductDetails({ match: { params }, history }) {
                   marginTop: 5,
                   height: 25,
                   marginLeft: 10,
-                  padding: "0 20px"
+                  padding: "0 20px",
                 }}
               />
             );
@@ -119,19 +148,19 @@ function ProductDetails({ match: { params }, history }) {
             position: "fixed",
             bottom: 0,
             height: "4rem",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Button
             component={Link}
-            to={`/products/edit/${1}`}
+            to={`/products/edit/${params.id}`}
             variant="contained"
             style={{
               backgroundColor: "#40E364",
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167
+              width: 167,
             }}
           >
             Editar
@@ -144,7 +173,7 @@ function ProductDetails({ match: { params }, history }) {
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167
+              width: 167,
             }}
           >
             Eliminar
@@ -164,6 +193,11 @@ function ProductDetails({ match: { params }, history }) {
                 className={classes.confirmModalButton}
                 style={{ width: "30%", marginRight: 16 }}
                 variant="contained"
+                onClick={() =>
+                  deleteProduct(params.id).then(() =>
+                    history.replace("/products")
+                  )
+                }
               >
                 Si
               </Button>

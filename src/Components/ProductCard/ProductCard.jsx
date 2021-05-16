@@ -4,7 +4,7 @@ import {
   makeStyles,
   CardActionArea,
   CardContent,
-  Typography
+  Typography,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     borderRadius: 16,
     minWidth: 150,
-    height: "100%"
+    height: "100%",
+    border: `thin solid #F6f6f6`,
   },
   cardHorizontal: {
     display: "flex",
@@ -20,14 +21,15 @@ const useStyles = makeStyles((theme) => ({
     "& $media": {
       maxWidth: 115,
       minWidth: 115,
-      objectFit: "cover"
-    }
+      objectFit: "cover",
+    },
   },
   media: {
-    height: 151,
-    width: "100%",
-    marginBottom: "auto"
-  }
+    height: 140,
+    width: "85%",
+    marginTop: 15,
+    marginBottom: "auto",
+  },
 }));
 
 function ProductCard({
@@ -37,13 +39,16 @@ function ProductCard({
   imageUrl,
   stock,
   horizontal = false,
-  units
+  units,
 }) {
   const classes = useStyles();
 
   if (horizontal)
     return (
-      <Card variant="outlined" style={{ borderRadius: 16 }}>
+      <Card
+        variant="outlined"
+        style={{ borderRadius: 16, border: `thin solid #F6f6f6` }}
+      >
         <CardActionArea className={classes.cardHorizontal}>
           <CardMedia className={classes.media} image={imageUrl} />
           <CardContent style={{ flexGrow: 1 }}>
@@ -54,7 +59,7 @@ function ProductCard({
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center"
+                alignItems: "center",
               }}
             >
               <Typography
@@ -93,7 +98,7 @@ function ProductCard({
             display: "flex",
             flexGrow: 1,
             flexDirection: "column",
-            width: "100%"
+            width: "100%",
           }}
         >
           <div style={{ marginBottom: "auto" }}>
@@ -108,20 +113,17 @@ function ProductCard({
             </Typography>
             <Typography
               variant="body2"
-              style={{ fontWeight: 700, marginTop: "-5px" }}
+              style={{ fontWeight: 500, color: "#3F3C3C", marginTop: "-5px" }}
               component="h2"
             >
               {name}
             </Typography>
-            <Typography
-              variant="body2"
-              style={{ fontWeight: 700, color: "#666" }}
-              component="h3"
-            >
-              {description.slice(0, 20)}
-            </Typography>
           </div>
-          <Typography style={{ marginTop: 15 }}>Stock: {stock}</Typography>
+          <Typography
+            style={{ marginTop: 15, color: "#707070", fontWeight: 450 }}
+          >
+            Stock: {stock}
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>

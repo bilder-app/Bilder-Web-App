@@ -1,8 +1,13 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { TextareaAutosize, Typography, Button } from "@material-ui/core";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import { useGetProductById } from "../Components/hooks/queries";
+import { editProduct } from "../api";
+import { useSnackbar } from "notistack";
+import { useQueryClient } from "react-query";
+import axios from "axios";
 
 const styles = {
   label: {
@@ -22,16 +27,85 @@ const styles = {
   }
 };
 
-function EditProduct({ history }) {
-  const { register, handleSubmit } = useForm();
+function EditProduct({ match: { params }, history }) {
+  const queryClient = useQueryClient();
+  const { register, handleSubmit, setValue } = useForm();
+  const { data: productData = {} } = useGetProductById(params.productId);
   const imageUploadRef = useRef();
   const [uploadedImage, setUploadedImage] = useState();
 
-  const onSubmit = (values) => console.log(values);
-  const handleImageUpload = (e) => {
-    if (e.target.files[0])
-      setUploadedImage(URL.createObjectURL(e.target.files[0]));
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const onSubmit = async (values) => {
+    history.replace("/products");
+
+    const isCreatingKey = enqueueSnackbar("Editando producto", {
+      variant: "info",
+      autoHideDuration: 5000,
+      action: (key) => (
+        <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+          Cerrar
+        </Button>
+      )
+    });
+
+    const formData = new FormData();
+    formData.append("file", uploadedImage);
+    formData.append("api_key", 793125359922876);
+    formData.append("upload_preset", "defaultp");
+
+    const imageUrl = await axios
+      .post("https://api.cloudinary.com/v1_1/drolfnia6/image/upload", formData)
+      .then((resp) => resp.data.url);
+
+    editProduct(params.productId, {
+      ...values,
+      images: [imageUrl]
+    }).then(() => {
+      closeSnackbar(isCreatingKey);
+
+      enqueueSnackbar("Producto editado exitosamente", {
+        variant: "success",
+        autoHideDuration: 5000,
+        action: (key) => (
+          <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+            Cerrar
+          </Button>
+        )
+      });
+
+      queryClient.invalidateQueries("products");
+    });
   };
+
+  const handleImageUpload = (e) => {
+    if (e.target.files[0]) {
+      setUploadedImage(e.target.files[0]);
+    }
+  };
+
+  useEffect(() => {
+    const {
+      name,
+      description,
+      price,
+      stock,
+      brand,
+      model,
+      content,
+      contentType,
+      images
+    } = productData;
+    setValue("name", name);
+    setValue("description", description);
+    setValue("price", price);
+    setValue("stock", stock);
+    setValue("brand", brand);
+    setValue("model", model);
+    setValue("content", content);
+    setValue("contentType", contentType);
+    setUploadedImage(images[0]);
+  }, [productData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ padding: 10 }}>
@@ -39,15 +113,13 @@ function EditProduct({ history }) {
         <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 8
+            marginRight: 6
           }}
         />
-        <Typography variant="h6">Crear Producto</Typography>
+        <Typography variant="h6">Editar Producto</Typography>
       </div>
       <div style={{ padding: 10 }}>
         <div
@@ -80,7 +152,11 @@ function EditProduct({ history }) {
               <img
                 alt="imagen de producto"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={uploadedImage}
+                src={
+                  typeof uploadedImage === "string"
+                    ? uploadedImage
+                    : URL.createObjectURL(uploadedImage)
+                }
               />
             ) : (
               <AddAPhotoIcon
@@ -94,7 +170,7 @@ function EditProduct({ history }) {
           </button>
           <div style={{ width: "48%", marginTop: -10 }}>
             <label style={styles.label}>
-              Stock
+              Stock*
               <input
                 required
                 {...register("stock")}
@@ -103,10 +179,10 @@ function EditProduct({ history }) {
               />
             </label>
             <label style={styles.label}>
-              Precio Unitario
+              Precio Unitario*
               <input
                 required
-                {...register("singlePrice")}
+                {...register("price")}
                 style={styles.input}
                 type="number"
                 step="any"
@@ -116,16 +192,16 @@ function EditProduct({ history }) {
         </div>
 
         <label style={styles.label}>
-          Nombre
+          Nombre*
           <input required {...register("name")} style={styles.input} />
         </label>
         <label style={styles.label}>
           Marca
-          <input required {...register("brand")} style={styles.input} />
+          <input {...register("brand")} style={styles.input} />
         </label>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <label style={{ ...styles.label, width: "47.5%" }}>
-            Contenido
+            Contenido*
             <input
               required
               {...register("content")}
@@ -141,18 +217,25 @@ function EditProduct({ history }) {
               width: "47.5%"
             }}
           >
-            <option>Kilos</option>
-            <option>Metros</option>
-            <option>Litros</option>
-            <option>Unidades</option>
+            <option>Kilo (k)</option>
+            <option>Gramo (g)</option>
+            <option>Metro (m)</option>
+            <option>Metro cúbico (m3)</option>
+            <option>Centimetro (cm)</option>
+            <option>Centimetro cúbico (cc)</option>
+            <option>Pulgada ('')</option>
+            <option>Litro (l)</option>
+            <option>Militro (ml)</option>
+            <option>Unidad (u)</option>
+            <option>Watt (w) </option>
           </select>
         </div>
         <label style={styles.label}>
           Modelo
-          <input required {...register("model")} style={styles.input} />
+          <input {...register("model")} style={styles.input} />
         </label>
         <label style={styles.label}>
-          Descripción
+          Descripción*
           <TextareaAutosize
             {...register("description")}
             style={{
@@ -164,13 +247,13 @@ function EditProduct({ history }) {
           />
         </label>
         <label style={styles.label}>
-          Categorias
+          Categorias*
           <select {...register("categories")} style={styles.input}>
             <option>Pinturas</option>
           </select>
         </label>
         <label style={styles.label}>
-          Subcategorias
+          Subcategorias*
           <select {...register("subcategories")} style={styles.input}>
             <option>Latex</option>
           </select>

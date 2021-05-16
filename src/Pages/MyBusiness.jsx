@@ -19,8 +19,9 @@ import {
   Help,
   PowerSettingsNew,
 } from "@material-ui/icons";
-import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+import CreateIcon from "@material-ui/icons/Create";
 import { makeStyles } from "@material-ui/core/styles";
+import { ChevronLeft as BackIcon } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     top: 0,
     width: "100%",
-    padding: 20,
+    padding: 13,
     background: theme.palette.background.paper,
     zIndex: 1,
   },
@@ -88,25 +89,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile({ history }) {
+export default function MyBusiness({ match: { params }, history }) {
   const classes = useStyles();
-  const isScrolling = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 13,
-  });
-
-  const listItems = [
-    { Icon: Store, label: "Mi negocio", path: "bussiness" },
-    { Icon: Help, label: "Preguntas frecuentes", path: "FQA" },
-    { Icon: PowerSettingsNew, label: "Cerrar sesión", path: "logout" },
-  ];
 
   return (
     <div style={{ widht: "100%", height: "100%", backgroundColor: "white" }}>
-      <Paper elevation={isScrolling ? 4 : 0} className={classes.header}>
-        <Typography variant="h6">Mi Perfil</Typography>
-      </Paper>
-      <div style={{ marginTop: 50 }} />
+      <div
+        style={{
+          display: "flex",
+          marginBottom: 10,
+          marginTop: 20,
+          alignItems: "center",
+        }}
+      >
+        <BackIcon
+          onClick={() => history.goBack()}
+          style={{
+            width: 30,
+            height: 30,
+            padding: 0,
+            marginRight: 6,
+          }}
+        />
+        <Typography variant="h6">Mi negocio</Typography>
+        <CreateIcon />
+      </div>
       <div className={classes.info}>
         <Avatar
           alt="Avatar"
@@ -119,36 +126,29 @@ export default function Profile({ history }) {
         <Typography variant="subtitle1" className={classes.email}>
           henry@bilder.com
         </Typography>
+        <div>
+          <div style={{ display: "flex" }}>
+            <Contacts />
+            <Typography variant="h6">Sobre mi</Typography>
+          </div>
+          <Typography variant="h6">Nombre y Apellido</Typography>
+          <Typography>Billy Bautista</Typography>
+          <Typography variant="h6">E-mail</Typography>
+          <Typography>billy@bilder.com</Typography>
+          <div style={{ display: "flex" }}>
+            <Store />
+            <Typography variant="h6">Sobre mi negocio</Typography>
+          </div>
+          <Typography variant="h6">CUIT</Typography>
+          <Typography>35-12345678-00</Typography>
+          <Typography variant="h6">Industria</Typography>
+          <Typography>Ferreteria</Typography>
+          <Typography variant="h6">Dirreción</Typography>
+          <Typography>Lacarra 123</Typography>
+          <Typography variant="h6">Contacto</Typography>
+          <Typography>1153821829</Typography>
+        </div>
       </div>
-      <List className={classes.nav}>
-        {listItems.map(({ Icon, label, path }, index) => {
-          return (
-            <ListItem key={index} component={Link} to={`/me/${path}`}>
-              <ListItemIcon>
-                <Icon className={classes.icons} style={{ fontSize: 33 }} />
-              </ListItemIcon>
-              <ListItemText
-                primaryTypographyProps={{
-                  className: classes.textItem,
-                }}
-                primary={label}
-              />
-            </ListItem>
-          );
-        })}
-      </List>
-      <Fab
-        aria-label="add"
-        className={classes.fab}
-        component={Link}
-        to="/offers/new"
-        variant="extended"
-      >
-        <WhatsAppIcon style={{ color: "#FFF", fontSize: 29, marginRight: 7 }} />
-        ¿Cómo podemos ayudarte?
-      </Fab>
     </div>
   );
 }
-
-// WhatsApp

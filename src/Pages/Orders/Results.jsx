@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
-  ChevronLeft as Backicon,
-  Search as SearchIcon
+  ChevronLeft as BackIcon,
+  Search as SearchIcon,
 } from "@material-ui/icons";
 import { Typography } from "@material-ui/core";
 import SearchBar from "../../Components/SearchBar/SearchBar";
@@ -18,18 +18,16 @@ function Results({ history, location }) {
         style={{
           display: "flex",
           alignItems: "center",
-          padding: 13
+          padding: 10,
         }}
       >
-        <Backicon
+        <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
-            width: 25,
-            height: 25,
+            width: 30,
+            height: 30,
             padding: 0,
-            marginRight: 10
+            marginRight: 6,
           }}
         />
         <SearchBar onChange={(e) => setSearchQuery(e.target.value)} />
@@ -42,27 +40,22 @@ function Results({ history, location }) {
             display: "grid",
             placeItems: "center",
             background: "transparent",
-            border: "none"
+            border: "none",
           }}
         >
           <SearchIcon />
         </button>
       </form>
 
-      <Typography style={{ marginLeft: 13 }} variant="h6">
-        {searchParams.get("name").length} resultados para "
-        {searchParams.get("name")}"
-      </Typography>
-
       <ul
         style={{
           listStyleType: "none",
           margin: 0,
-          padding: 13,
+          padding: 20,
           paddingTop: 10,
           display: "flex",
           flexDirection: "column",
-          gap: 15
+          gap: 15,
         }}
       >
         {[1, 2].map((num) => (

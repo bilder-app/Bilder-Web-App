@@ -28,7 +28,7 @@ function OrdersTab() {
           display: "flex",
           flexDirection: "column",
           gap: 15,
-          padding: 13
+          padding: 20,
         }}
       >
         {orders.map((order, index) => (

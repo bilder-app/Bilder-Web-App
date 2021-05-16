@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import {
-  ChevronLeft as Backicon,
+  ChevronLeft as BackIcon,
   QueryBuilder as ClockIcon,
   CallMade as SearchRecentIcon,
   Search as SearchIcon
@@ -61,15 +61,13 @@ function Search({ history }) {
           padding: 13
         }}
       >
-        <Backicon
+        <BackIcon
           onClick={() => history.goBack()}
           style={{
-            border: "2px solid black",
-            borderRadius: "50%",
-            width: 25,
-            height: 25,
+            width: 30,
+            height: 30,
             padding: 0,
-            marginRight: 10
+            marginRight: 6
           }}
         />
         <SearchBar
@@ -78,7 +76,21 @@ function Search({ history }) {
           ref={focusRef}
         />
         <div
-          onClick={() => history.push(`/products/s?name=${searchQuery}`)}
+          onClick={() => {
+            if (searchQuery) {
+              const recentlySearchedTerms = JSON.parse(
+                localStorage.getItem("recent_product_search") || "[]"
+              );
+              if (!recentlySearchedTerms.includes(searchQuery)) {
+                recentlySearchedTerms.push(searchQuery);
+                localStorage.setItem(
+                  "recent_product_search",
+                  JSON.stringify(recentlySearchedTerms)
+                );
+              }
+              history.push(`/products/s?name=${searchQuery}`);
+            }
+          }}
           style={{
             marginLeft: 5,
             padding: 5,
@@ -97,14 +109,16 @@ function Search({ history }) {
           padding: 0
         }}
       >
-        {["Martillo", "Clavos", "Cemento"].map((item, i) => (
-          <Recent
-            title={item}
-            key={i}
-            onTextSelect={() => setSearchQuery(item)}
-            onSearch={() => history.push(`/products/s?name=${item}`)}
-          />
-        ))}
+        {JSON.parse(localStorage.getItem("recent_product_search") || "[]").map(
+          (item, i) => (
+            <Recent
+              title={item}
+              key={i}
+              onTextSelect={() => setSearchQuery(item)}
+              onSearch={() => history.push(`/products/s?name=${item}`)}
+            />
+          )
+        )}
       </ul>
     </div>
   );
