@@ -29,12 +29,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function OrderCard({ number, date, status, id }) {
+function OrderCard({ data }) {
+  const { id, date, state, products, createdAt } = data;
   const classes = useStyles();
+
+
   return (
     <Link
       style={{ textDecoration: "none", color: "inherit" }}
       to={`/orders/orderDetails/${id}`}
+      onClick={() => console.log(id)}
     >
       <div className={classes.container}>
         <div
@@ -43,9 +47,9 @@ function OrderCard({ number, date, status, id }) {
           }}
         >
           <Typography style={{ fontWeight: 700 }} variant="h6">
-            Pedido #{number}
+            Pedido #{`000${id}`}
           </Typography>
-          <Typography className={classes.subTitle}>{date}</Typography>
+          <Typography className={classes.subTitle}>{createdAt}</Typography>
           <Chip
             classes={{ root: classes.chipRoot }}
             style={{ marginTop: 5, marginLeft: 5 }}
