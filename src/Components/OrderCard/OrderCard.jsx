@@ -28,17 +28,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%"
   }
 }));
-
 function OrderCard({ data }) {
   const { id, createdAt } = data;
   const classes = useStyles();
-
 
   return (
     <Link
       style={{ textDecoration: "none", color: "inherit" }}
       to={`/orders/orderDetails/${id}`}
-      onClick={() => console.log(id)}
     >
       <div className={classes.container}>
         <div
@@ -65,5 +62,4 @@ function OrderCard({ data }) {
     </Link>
   );
 }
-
 export default OrderCard;
