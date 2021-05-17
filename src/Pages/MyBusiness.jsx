@@ -1,27 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import {
-  Typography,
-  Fab,
-  Avatar,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  useScrollTrigger,
-  Paper,
-} from "@material-ui/core";
-import {
-  Contacts,
-  Store,
-  CreditCard,
-  CardGiftcard,
-  Help,
-  PowerSettingsNew,
-} from "@material-ui/icons";
+import { Typography, Avatar } from "@material-ui/core";
+import { Business, Contacts, Store } from "@material-ui/icons";
 import CreateIcon from "@material-ui/icons/Create";
 import { makeStyles } from "@material-ui/core/styles";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
+import { useMyBusiness } from "../../src/Components/hooks/queries";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -91,62 +74,92 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyBusiness({ match: { params }, history }) {
   const classes = useStyles();
+  const { data: BusinessData } = useMyBusiness();
 
   return (
-    <div style={{ widht: "100%", height: "100%", backgroundColor: "white" }}>
+    <div style={{ widht: "100%", height: "100%", color: "#444D52" }}>
       <div
         style={{
           display: "flex",
-          marginBottom: 10,
-          marginTop: 20,
           alignItems: "center",
+
+          height: "3rem",
         }}
       >
-        <BackIcon
-          onClick={() => history.goBack()}
+        <div
           style={{
-            width: 30,
-            height: 30,
-            padding: 0,
-            marginRight: 6,
+            display: "flex",
+            alignItems: "center",
+            padding: 10,
+            width: "90%",
+            height: "3rem",
           }}
-        />
-        <Typography variant="h6">Mi negocio</Typography>
+        >
+          <BackIcon
+            onClick={() => history.goBack()}
+            style={{
+              width: 30,
+              height: 30,
+              padding: 0,
+              marginRight: 6,
+            }}
+          />
+          <Typography variant="h6">Mi negocio</Typography>
+        </div>
         <CreateIcon />
       </div>
+
       <div className={classes.info}>
         <Avatar
           alt="Avatar"
           src="https://source.unsplash.com/500x500/?hammer"
           className={classes.large}
         />
-        <Typography variant="h6" className={classes.userName}>
-          Henry
-        </Typography>
-        <Typography variant="subtitle1" className={classes.email}>
-          henry@bilder.com
-        </Typography>
-        <div>
-          <div style={{ display: "flex" }}>
-            <Contacts />
+
+        <div style={{ width: "80%", padding: 20 }}>
+          <div
+            style={{ display: "flex", paddingBottom: 5, alignItems: "center" }}
+          >
+            <Contacts style={{ marginRight: 10 }} />
             <Typography variant="h6">Sobre mi</Typography>
           </div>
-          <Typography variant="h6">Nombre y Apellido</Typography>
-          <Typography>Billy Bautista</Typography>
-          <Typography variant="h6">E-mail</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Nombre y Apellido
+          </Typography>
+          <Typography variant="subtitle1">
+            {BusinessData.name} {BusinessData.surname}
+          </Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            E-mail
+          </Typography>
           <Typography>billy@bilder.com</Typography>
-          <div style={{ display: "flex" }}>
-            <Store />
+          <div
+            style={{
+              display: "flex",
+              paddingBottom: 5,
+              paddingTop: 5,
+              alignItems: "center",
+            }}
+          >
+            <Store style={{ marginRight: 10 }} />
             <Typography variant="h6">Sobre mi negocio</Typography>
           </div>
-          <Typography variant="h6">CUIT</Typography>
-          <Typography>35-12345678-00</Typography>
-          <Typography variant="h6">Industria</Typography>
-          <Typography>Ferreteria</Typography>
-          <Typography variant="h6">Dirreción</Typography>
-          <Typography>Lacarra 123</Typography>
-          <Typography variant="h6">Contacto</Typography>
-          <Typography>1153821829</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            CUIT
+          </Typography>
+          <Typography>{BusinessData.cuit}</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Industria
+          </Typography>
+          <Typography>{BusinessData.sector}</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Dirreción
+          </Typography>
+          <Typography>{BusinessData.address}</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Contacto
+          </Typography>
+          <Typography>{BusinessData.contact}</Typography>
         </div>
       </div>
     </div>

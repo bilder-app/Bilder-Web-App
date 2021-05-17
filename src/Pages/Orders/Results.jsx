@@ -3,7 +3,6 @@ import {
   ChevronLeft as BackIcon,
   Search as SearchIcon,
 } from "@material-ui/icons";
-import { Typography } from "@material-ui/core";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import OrderCard from "../../Components/OrderCard/OrderCard";
 

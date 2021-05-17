@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQuery } from "react-query";
-import { getAllProducts, getProductById, searchProducts } from "../../api";
+import { getAllProducts, getProductById, searchProducts,  getMyBusiness, getProductById } from "../../api";
+import { useQuery } from "react-query";
 
 export function useGetAllProducts() {
   return useQuery("products", getAllProducts);
@@ -15,4 +16,8 @@ export function useGetPaginatedProductsSearch(query, page, limit) {
     ({ pageParam = page }) => searchProducts(query, pageParam, limit),
     { getNextPageParam: (lastPage) => lastPage.next.page }
   );
+}
+
+export function useMyBusiness() {
+  return useQuery("me", getMyBusiness);
 }
