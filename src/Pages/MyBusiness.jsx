@@ -107,7 +107,7 @@ export default function MyBusiness({ match: { params }, history }) {
           <Typography variant="h6">Mi negocio</Typography>
         </div>
 
-        <Link style={{ color: "#444D52" }} to={"/me/bussiness/edit"}>
+        <Link style={{ color: "#444D52" }} to={"/me/business/edit"}>
           <CreateIcon />
         </Link>
       </div>
