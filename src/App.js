@@ -17,6 +17,7 @@ import OfferDetails from "./Pages/OfferDetails";
 import Profile from "./Pages/Profile";
 import MyBusiness from "./Pages/MyBusiness";
 import EditProduct from "./Pages/EditProduct";
+import EditProfile from "./Pages/EditProfile";
 import { isLoggedIn } from "./api";
 
 function App() {
@@ -68,7 +69,8 @@ function App() {
             />
 
             <Route exact path="/me" component={Profile} />
-            <Route exact path="/me/business" component={MyBusiness} />
+            <Route exact path="/me/bussiness" component={MyBusiness} />
+            <Route exact path="/me/bussiness/edit" component={EditProfile} />
           </Switch>
           <Route exact path="/:url">
             <div style={{ paddingTop: "4.25rem" }}>

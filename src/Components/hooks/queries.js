@@ -3,7 +3,7 @@ import {
   getAllProducts,
   getProductById,
   searchProducts,
-  getMyBusiness
+  getMyBusiness,
 } from "../../api";
 
 export function useGetAllProducts() {
@@ -13,6 +13,9 @@ export function useGetAllProducts() {
 export function useGetProductById(id) {
   return useQuery(["products", id], () => getProductById(id));
 }
+export function useMyBusiness() {
+  return useQuery("me", getMyBusiness);
+}
 
 export function useGetPaginatedProductsSearch(query, page, limit) {
   return useInfiniteQuery(
@@ -20,8 +23,4 @@ export function useGetPaginatedProductsSearch(query, page, limit) {
     ({ pageParam = page }) => searchProducts(query, pageParam, limit),
     { getNextPageParam: (lastPage) => lastPage.next.page }
   );
-}
-
-export function useMyBusiness() {
-  return useQuery("me", getMyBusiness);
 }

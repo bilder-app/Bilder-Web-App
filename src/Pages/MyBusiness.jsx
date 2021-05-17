@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Typography, Avatar } from "@material-ui/core";
-import { Business, Contacts, Store } from "@material-ui/icons";
+import { Contacts, Store } from "@material-ui/icons";
 import CreateIcon from "@material-ui/icons/Create";
 import { makeStyles } from "@material-ui/core/styles";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
@@ -74,15 +75,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyBusiness({ match: { params }, history }) {
   const classes = useStyles();
-  const { data: BusinessData } = useMyBusiness();
-
+  const { data: BusinessData, isLoading } = useMyBusiness();
+  if (isLoading) return null;
   return (
     <div style={{ widht: "100%", height: "100%", color: "#444D52" }}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-
           height: "3rem",
         }}
       >
@@ -106,7 +106,10 @@ export default function MyBusiness({ match: { params }, history }) {
           />
           <Typography variant="h6">Mi negocio</Typography>
         </div>
-        <CreateIcon />
+
+        <Link style={{ color: "#444D52" }} to={"/me/bussiness/edit"}>
+          <CreateIcon />
+        </Link>
       </div>
 
       <div className={classes.info}>

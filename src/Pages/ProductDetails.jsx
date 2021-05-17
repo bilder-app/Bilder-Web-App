@@ -25,7 +25,6 @@ function ProductDetails({ match: { params }, history }) {
 
   const { data: productData, isLoading } = useGetProductById(params.id);
 
-  console.log(productData);
   if (isLoading) return null;
 
   return (
@@ -88,15 +87,12 @@ function ProductDetails({ match: { params }, history }) {
         </div>
         <div style={{ marginTop: 10 }}>
           <Typography style={{ color: "#707070", fontWeight: 450 }}>
-            {" "}
             {`Contenido: ${productData.content} ${productData.contentType}`}
           </Typography>
           <Typography style={{ color: "#707070", fontWeight: 450 }}>
-            {" "}
             {`Marca: ${productData.brand}`}
           </Typography>
           <Typography style={{ color: "#707070", fontWeight: 450 }}>
-            {" "}
             {`Modelo: ${productData.model}`}
           </Typography>
         </div>
