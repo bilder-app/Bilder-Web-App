@@ -26,8 +26,16 @@ export function getMyProducts() {
   return axiosInst.get("/business/products").then((res) => res.data);
 }
 
+export function getMyBusiness() {
+  return axiosInst.get("/business/me").then((res) => res.data);
+}
+
 export function logIn({ email, password }) {
   return axiosInst.post("/auth/login", { email, password });
+}
+
+export function logOut() {
+  return axiosInst.post("/auth/logout");
 }
 
 export function isLoggedIn() {

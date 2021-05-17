@@ -1,6 +1,10 @@
 import { useInfiniteQuery, useQuery } from "react-query";
-import { getAllProducts, getProductById, searchProducts,  getMyBusiness, getProductById } from "../../api";
-import { useQuery } from "react-query";
+import {
+  getAllProducts,
+  getProductById,
+  searchProducts,
+  getMyBusiness
+} from "../../api";
 
 export function useGetAllProducts() {
   return useQuery("products", getAllProducts);
