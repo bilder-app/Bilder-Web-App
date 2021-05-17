@@ -24,3 +24,8 @@ export function useGetPaginatedProductsSearch(query, page, limit) {
     { getNextPageParam: (lastPage) => lastPage.next.page }
   );
 }
+
+// "Store"
+export function useOrderProducts(products) {
+  return useQuery("products", products);
+}

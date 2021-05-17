@@ -4,29 +4,34 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    border: `thin solid #f6f6f6`,
+    border: `thin solid #c7c7c7`,
     borderRadius: 16,
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   subTitle: {
     color: theme.palette.text.secondary,
-    fontWeight: 500,
+    fontWeight: 500
   },
   button: {
     background: "none",
     border: "none",
     padding: "15px 30px",
     display: "grid",
-    placeItems: "center",
+    placeItems: "center"
   },
   chipRoot: {
-    height: 25,
+    height: 25
   },
+  icon: {
+    border: `2px solid ${theme.palette.text.primary}`,
+    borderRadius: "50%"
+  }
 }));
-
-function OrderCard({ number, date, status, id }) {
+function OrderCard({ data }) {
+  const { id, createdAt } = data;
   const classes = useStyles();
+
   return (
     <Link
       style={{ textDecoration: "none", color: "inherit" }}
@@ -35,33 +40,26 @@ function OrderCard({ number, date, status, id }) {
       <div className={classes.container}>
         <div
           style={{
-            padding: 10,
+            padding: 10
           }}
         >
           <Typography style={{ fontWeight: 700 }} variant="h6">
-            #{number}
+            Pedido #{`000${id}`}
           </Typography>
-          <Typography className={classes.subTitle} variant="body2">
-            {date}
-          </Typography>
+          <Typography className={classes.subTitle}>{createdAt}</Typography>
           <Chip
             classes={{ root: classes.chipRoot }}
             style={{ marginTop: 5, marginLeft: 5 }}
-            label={status}
+            label="En preparación"
+            variant="outlined"
             color="primary"
           />
         </div>
         <div className={classes.button}>
-          <ChevronRightIcon
-            style={{
-              width: 30,
-              height: 30,
-            }}
-          />
+          <ChevronRightIcon className={classes.icon} />
         </div>
       </div>
     </Link>
   );
 }
-
 export default OrderCard;

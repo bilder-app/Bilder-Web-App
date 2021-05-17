@@ -1,9 +1,22 @@
+import React, { useState, useEffect } from "react";
 import { Fab } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 import OrderCard from "../../Components/OrderCard/OrderCard";
+import { getMyOrders } from "../../api";
 
 function OrdersTab() {
+
+  const [orders, setOrders] = useState([])
+  useEffect(() => {
+    async function handlerAsync() {
+      const refresh = await getMyOrders();
+      console.log(refresh)
+      setOrders(refresh);
+    }
+    handlerAsync()
+  }, [])
+
   return (
     <div>
       <ul
@@ -18,14 +31,9 @@ function OrdersTab() {
           padding: 20,
         }}
       >
-        {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-          <li>
-            <OrderCard
-              number={`000${num}`}
-              date="Abril 5,2020 - 19:32"
-              status="Entregado"
-              id={num}
-            />
+        {orders.map((order, index) => (
+          <li key={index}>
+            <OrderCard data={order} />
           </li>
         ))}
       </ul>

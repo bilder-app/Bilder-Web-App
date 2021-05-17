@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react"; 
 import { Typography, Card, CardContent } from "@material-ui/core";
 import ProductCard from "../Components/ProductCard/ProductCard";
 import {
@@ -6,14 +7,24 @@ import {
 } from "@material-ui/icons";
 import Stepper from "./Orders/Stepper.jsx";
 import { Link } from "react-router-dom";
+import { getOrderById } from "../api"
+
 
 function OrderDetails({ match: { params }, history }) {
+  const [order, setOrder] = useState();
+  useEffect(() => {
+    async function handlerAsync() {
+      const refresh = await getOrderById(params.id);
+      setOrder(refresh);
+    }
+    handlerAsync()
+  }, [])
+
   return (
     <div>
       <div
         style={{
           display: "flex",
-
           alignItems: "center",
           padding: "10px 10px",
         }}
@@ -40,48 +51,27 @@ function OrderDetails({ match: { params }, history }) {
             gap: 15,
           }}
         >
-          <li>
-            <Link
-              to={`/products/productDetails/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard
-                description={"Hierro estructural 20 x 20,espesor 1,2mm"}
-                imageUrl={"https://source.unsplash.com/500x500/?tool,shed"}
-                price={1200}
-                units={5}
-                horizontal
-              />
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={`/products/productDetails/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard
-                description={"Hierro estructural 20 x 20,espesor 1,2mm"}
-                imageUrl={"https://source.unsplash.com/500x500/?tool,shed"}
-                price={1200}
-                units={5}
-                horizontal
-              />
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={`/products/productDetails/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard
-                description={"Hierro estructural 20 x 20,espesor 1,2mm"}
-                imageUrl={"https://source.unsplash.com/500x500/?tool,shed"}
-                price={1200}
-                units={5}
-                horizontal
-              />
-            </Link>
-          </li>
+        
+        {order && order.products.map(({ images, description, ProductInOrder }, index) => {
+          const { price, amount, productId } = ProductInOrder;
+          return(
+            <li key={index}>
+              <Link
+                to={`/products/productDetails/${productId}`}
+                style={{ textDecoration: "none" }}
+              >
+                <ProductCard
+                  price={price}
+                  units={amount}
+                  description={description}
+                  imageUrl={images[0]}
+                  horizontal
+                />
+              </Link>
+            </li>
+          )
+        })}
+
         </ul>
         <div
           style={{
