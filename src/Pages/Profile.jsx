@@ -15,6 +15,7 @@ import { Store, Help, PowerSettingsNew } from "@material-ui/icons";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import { makeStyles } from "@material-ui/core/styles";
 import { logOut } from "../api";
+import { useMyBusiness } from "../Components/hooks/queries";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -88,7 +89,7 @@ export default function Profile({ history }) {
     disableHysteresis: true,
     threshold: 13
   });
-  const { data: BusinessData } = useMyBusiness();
+  const { data: BusinessData = {} } = useMyBusiness();
 
   return (
     <div style={{ widht: "100%", height: "100%", backgroundColor: "white" }}>
