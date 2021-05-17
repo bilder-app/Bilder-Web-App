@@ -34,6 +34,10 @@ export function logIn({ email, password }) {
   return axiosInst.post("/auth/login", { email, password });
 }
 
+export function logOut() {
+  return axiosInst.post("/auth/logout");
+}
+
 export function isLoggedIn() {
   return axiosInst.get("/auth/is-logged-in");
 }
