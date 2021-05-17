@@ -1,9 +1,12 @@
+import { useState } from "react";
 import OrdersTab from "./OrdersTab";
 import {
   Typography,
   makeStyles,
   Paper,
   useScrollTrigger,
+  Tabs,
+  Tab
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,35 +20,23 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     zIndex: 1,
     padding: 20,
-    borderRadius: 0,
+    borderRadius: 0
   },
-  icon: {
-    border: "2px solid black",
-    borderRadius: "50%",
-    width: 23,
-    height: 23,
-    margin: "0px 15px",
-  },
-  cards: {
-    padding: 15,
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-    listStyle: "none",
-    gap: 15,
-  },
-  fab: {
-    position: "fixed",
-    bottom: "5rem",
-    right: "2rem",
-  },
+  tabContainer: { flexGrow: 1, maxWidth: "initial" },
+  tabsContainer: { display: "flex" }
 }));
 
 export default function Orders({ history }) {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13,
+    threshold: 13
   });
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <div style={{ backgroundColor: "white" }}>
@@ -55,6 +46,16 @@ export default function Orders({ history }) {
         </Typography>
       </Paper>
       <div style={{ paddingTop: 50 }} />
+
+      <Tabs
+        className={classes.tabsContainer}
+        value={value}
+        onChange={handleChange}
+        indicatorColor="primary"
+      >
+        <Tab className={classes.tabContainer} label="Pendientes" />
+        <Tab className={classes.tabContainer} label="Completados" />
+      </Tabs>
       <OrdersTab />
     </div>
   );
