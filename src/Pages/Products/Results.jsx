@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   ChevronLeft as BackIcon,
-  Search as SearchIcon
+  Search as SearchIcon,
 } from "@material-ui/icons";
 import { Button, Typography } from "@material-ui/core";
 import SearchBar from "../../Components/SearchBar/SearchBar";
@@ -15,13 +15,13 @@ function Results({ history, location }) {
     data: paginatedData,
     isLoading,
     fetchNextPage,
-    hasNextPage
+    hasNextPage,
   } = useGetPaginatedProductsSearch(searchParams.get("name"));
 
   if (isLoading) return null;
 
   const {
-    pages: [{ totalProducts }]
+    pages: [{ totalProducts }],
   } = paginatedData;
 
   return (
@@ -33,7 +33,7 @@ function Results({ history, location }) {
         style={{
           display: "flex",
           alignItems: "center",
-          padding: 13
+          padding: 13,
         }}
       >
         <BackIcon
@@ -44,7 +44,7 @@ function Results({ history, location }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6
+            marginRight: 6,
           }}
         />
         <SearchBar onChange={(e) => setSearchQuery(e.target.value)} />
@@ -57,7 +57,7 @@ function Results({ history, location }) {
             display: "grid",
             placeItems: "center",
             background: "transparent",
-            border: "none"
+            border: "none",
           }}
         >
           <SearchIcon />
@@ -67,7 +67,7 @@ function Results({ history, location }) {
       <Typography style={{ marginLeft: 13 }} variant="h6">
         {totalProducts === 0
           ? "No hay resultados para " + searchParams.get("name")
-          : `${totalProducts} resultado${totalProducts > 1 && "s"} para "
+          : `${totalProducts} resultado${totalProducts > 1 ? "s" : ""} para "
         ${searchParams.get("name")}`}
       </Typography>
 
@@ -80,7 +80,7 @@ function Results({ history, location }) {
           display: "grid",
           flexDirection: "column",
           gap: 15,
-          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 2fr))"
+          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 2fr))",
         }}
       >
         {paginatedData.pages.map((productsData) =>

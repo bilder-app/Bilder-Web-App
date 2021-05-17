@@ -15,7 +15,7 @@ const styles = {
     flexDirection: "column",
     fontSize: "1.05rem",
     fontWeight: 500,
-    marginTop: 10
+    marginTop: 10,
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -23,8 +23,8 @@ const styles = {
     marginTop: 5,
     padding: 8,
     fontSize: "1.05rem",
-    height: "2.45rem"
-  }
+    height: "2.45rem",
+  },
 };
 
 function EditProduct({ match: { params }, history }) {
@@ -46,7 +46,7 @@ function EditProduct({ match: { params }, history }) {
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
         </Button>
-      )
+      ),
     });
 
     const formData = new FormData();
@@ -60,7 +60,7 @@ function EditProduct({ match: { params }, history }) {
 
     editProduct(params.productId, {
       ...values,
-      images: [imageUrl]
+      images: [imageUrl],
     }).then(() => {
       closeSnackbar(isCreatingKey);
 
@@ -71,7 +71,7 @@ function EditProduct({ match: { params }, history }) {
           <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
             Cerrar
           </Button>
-        )
+        ),
       });
 
       queryClient.invalidateQueries("products");
@@ -94,7 +94,7 @@ function EditProduct({ match: { params }, history }) {
       model,
       content,
       contentType,
-      images
+      images,
     } = productData;
     setValue("name", name);
     setValue("description", description);
@@ -116,7 +116,7 @@ function EditProduct({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6
+            marginRight: 6,
           }}
         />
         <Typography variant="h6">Editar Producto</Typography>
@@ -126,7 +126,7 @@ function EditProduct({ match: { params }, history }) {
           style={{
             height: 150,
             display: "flex",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <input
@@ -144,7 +144,7 @@ function EditProduct({ match: { params }, history }) {
               padding: 5,
               border: "thin solid #DFDEDE",
               objectFit: "cover",
-              background: "transparent"
+              background: "transparent",
             }}
             onClick={() => imageUploadRef.current.click()}
           >
@@ -163,63 +163,80 @@ function EditProduct({ match: { params }, history }) {
                 style={{
                   height: "75%",
                   width: "75%",
-                  opacity: 0.25
+                  opacity: 0.25,
                 }}
               />
             )}
           </button>
           <div style={{ width: "48%", marginTop: -10 }}>
             <label style={styles.label}>
-              Stock*
+              Stock
               <input
                 required
+                min="1"
                 {...register("stock")}
                 style={styles.input}
                 type="number"
+                placeholder="Obligatorio"
               />
             </label>
             <label style={styles.label}>
-              Precio Unitario*
+              Precio Unitario
               <input
                 required
+                min="1"
                 {...register("price")}
                 style={styles.input}
                 type="number"
                 step="any"
+                placeholder="Obligatorio"
               />
             </label>
           </div>
         </div>
-
         <label style={styles.label}>
-          Nombre*
-          <input required {...register("name")} style={styles.input} />
+          Nombre
+          <input
+            required
+            {...register("name")}
+            style={styles.input}
+            placeholder="Obligatorio"
+          />
         </label>
         <label style={styles.label}>
           Marca
-          <input {...register("brand")} style={styles.input} />
+          <input
+            {...register("brand")}
+            style={styles.input}
+            placeholder="Opcional"
+          />
         </label>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <label style={{ ...styles.label, width: "47.5%" }}>
-            Contenido*
+          <label style={{ ...styles.label, width: "40%" }}>
+            Contenido
             <input
               required
+              min="1"
               {...register("content")}
-              style={{ ...styles.input, textAlign: "center" }}
+              style={{ ...styles.input }}
               type="number"
+              placeholder="Obligatorio"
             />
           </label>
           <select
+            required
             {...register("contentType")}
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "47.5%"
+              width: "56%",
             }}
           >
+            <option value="">Seleccione ...</option>
             <option>Kilo (k)</option>
             <option>Gramo (g)</option>
             <option>Metro (m)</option>
+            <option>Metro cuadrado(m2)</option>
             <option>Metro cúbico (m3)</option>
             <option>Centimetro (cm)</option>
             <option>Centimetro cúbico (cc)</option>
@@ -232,28 +249,40 @@ function EditProduct({ match: { params }, history }) {
         </div>
         <label style={styles.label}>
           Modelo
-          <input {...register("model")} style={styles.input} />
+          <input
+            {...register("model")}
+            style={styles.input}
+            placeholder="Opcional"
+          />
         </label>
         <label style={styles.label}>
-          Descripción*
+          Descripción
           <TextareaAutosize
             {...register("description")}
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16
+              borderRadius: 16,
             }}
             rowsMin={5}
+            placeholder="Obligatorio"
           />
         </label>
         <label style={styles.label}>
-          Categorias*
+          Categorias
           <select {...register("categories")} style={styles.input}>
             <option>Pinturas</option>
+            <option>Construcción</option>
+            <option>Electricidad</option>
+            <option>Herramientas</option>
+            <option>Ferreteria</option>
+            <option>Maderas</option>
+            <option>Griferia</option>
+            <option>Hierros</option>
           </select>
         </label>
         <label style={styles.label}>
-          Subcategorias*
+          Subcategorias
           <select {...register("subcategories")} style={styles.input}>
             <option>Latex</option>
           </select>
@@ -268,7 +297,7 @@ function EditProduct({ match: { params }, history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem"
+          fontSize: "1.1rem",
         }}
       >
         Editar Producto
