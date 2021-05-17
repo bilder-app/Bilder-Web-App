@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyBusiness({ match: { params }, history }) {
   const classes = useStyles();
-  const { data: BusinessData, isLoading } = useMyBusiness();
+  const { data: businessData, isLoading } = useMyBusiness();
   if (isLoading) return null;
   return (
     <div style={{ widht: "100%", height: "100%", color: "#444D52" }}>
@@ -130,7 +130,7 @@ export default function MyBusiness({ match: { params }, history }) {
             Nombre y Apellido
           </Typography>
           <Typography variant="subtitle1">
-            {BusinessData.name} {BusinessData.surname}
+            {businessData.name} {businessData.surname}
           </Typography>
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             E-mail
@@ -150,19 +150,19 @@ export default function MyBusiness({ match: { params }, history }) {
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             CUIT
           </Typography>
-          <Typography>{BusinessData.cuit}</Typography>
+          <Typography>{businessData.cuit}</Typography>
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Industria
           </Typography>
-          <Typography>{BusinessData.sector}</Typography>
+          <Typography>{businessData.sector}</Typography>
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Dirreción
           </Typography>
-          <Typography>{BusinessData.address}</Typography>
+          <Typography>{businessData.address}</Typography>
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Contacto
           </Typography>
-          <Typography>{BusinessData.contact}</Typography>
+          <Typography>{businessData.contact}</Typography>
         </div>
       </div>
     </div>

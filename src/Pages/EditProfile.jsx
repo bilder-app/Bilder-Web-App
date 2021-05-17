@@ -4,8 +4,8 @@ import { Contacts, Store } from "@material-ui/icons";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
-import { useGetProductById } from "../Components/hooks/queries";
-import { editProduct } from "../api";
+import { useMyBusiness } from "../Components/hooks/queries";
+import { editMyBusiness } from "../api";
 import axios from "axios";
 
 const styles = {
@@ -28,7 +28,8 @@ const styles = {
 
 function EditProfile({ match: { params }, history }) {
   const { register, handleSubmit, setValue } = useForm();
-  const { data: productData = {} } = useGetProductById(params.productId);
+  const { data: businessData } = useMyBusiness();
+
   const imageUploadRef = useRef();
   const [uploadedImage, setUploadedImage] = useState();
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
@@ -53,33 +54,20 @@ function EditProfile({ match: { params }, history }) {
   };
 
   const onSubmit = (values) => {
-    editProduct(params.productId, {
+    editMyBusiness({
       ...values,
-      images: [uploadedImageUrl],
-    }).then(() => history.replace("/products"));
+    }).then(() => history.replace("/me/business"));
   };
 
   useEffect(() => {
-    const {
-      name,
-      description,
-      price,
-      stock,
-      brand,
-      model,
-      content,
-      contentType,
-      images,
-    } = productData;
+    const { name, surname, cuit, sector, address, contact } = businessData;
     setValue("name", name);
-    setValue("description", description);
-    setValue("price", price);
-    setValue("stock", stock);
-    setValue("brand", brand);
-    setValue("model", model);
-    setValue("content", content);
-    setValue("contentType", contentType);
-  }, [productData]);
+    setValue("surname", surname);
+    setValue("cuit", cuit);
+    setValue("sector", sector);
+    setValue("address", address);
+    setValue("contact", contact);
+  }, [businessData]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ padding: 10 }}>
@@ -164,7 +152,7 @@ function EditProfile({ match: { params }, history }) {
             Nombre
             <input
               required
-              {...register("content")}
+              {...register("name")}
               style={{ ...styles.input, textAlign: "center" }}
             />
           </label>
@@ -172,14 +160,14 @@ function EditProfile({ match: { params }, history }) {
             Apellido
             <input
               required
-              {...register("content")}
+              {...register("surname")}
               style={{ ...styles.input, textAlign: "center" }}
             />
           </label>
         </div>
         <label style={styles.label}>
           E-mail
-          <input {...register("brand")} style={styles.input} />
+          <input {...register("brand")} style={styles.input} type="email" />
         </label>
         <div
           style={{
@@ -194,21 +182,21 @@ function EditProfile({ match: { params }, history }) {
         </div>
         <label style={styles.label}>
           CUIT
-          <input {...register("model")} style={styles.input} type="number" />
+          <input {...register("cuit")} style={styles.input} type="number" />
         </label>
         <label style={styles.label}>
           Industria
-          <select {...register("categories")} style={styles.input}>
+          <select {...register("sector")} style={styles.input}>
             <option>Pinturas</option>
           </select>
         </label>
         <label style={styles.label}>
           Dirección
-          <input {...register("model")} style={styles.input} />
+          <input {...register("address")} style={styles.input} />
         </label>
         <label style={styles.label}>
           Contacto
-          <input {...register("model")} style={styles.input} type="number" />
+          <input {...register("contact")} style={styles.input} type="number" />
         </label>
       </div>
       <Button
