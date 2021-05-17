@@ -68,7 +68,7 @@ function App() {
             />
 
             <Route exact path="/me" component={Profile} />
-            <Route exact path="/me/bussiness" component={MyBusiness} />
+            <Route exact path="/me/business" component={MyBusiness} />
           </Switch>
           <Route exact path="/:url">
             <div style={{ paddingTop: "4.25rem" }}>
