@@ -25,7 +25,6 @@ function OrderDetails({ match: { params }, history }) {
       <div
         style={{
           display: "flex",
-
           alignItems: "center",
           padding: "10px 10px",
         }}
