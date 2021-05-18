@@ -11,6 +11,7 @@ function OrdersTab() {
   useEffect(() => {
     async function handleAsync() {
       const refresh = await getMyOrders();
+      console.log(refresh)
       setOrders(refresh);
     }
     handleAsync()
