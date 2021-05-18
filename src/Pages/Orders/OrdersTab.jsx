@@ -9,12 +9,11 @@ function OrdersTab() {
 
   const [orders, setOrders] = useState([])
   useEffect(() => {
-    async function handlerAsync() {
+    async function handleAsync() {
       const refresh = await getMyOrders();
-      console.log(refresh)
       setOrders(refresh);
     }
-    handlerAsync()
+    handleAsync()
   }, [])
 
   return (
