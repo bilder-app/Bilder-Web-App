@@ -41,7 +41,8 @@ function ProductDetails({ match: { params }, history }) {
           backgroundColor: "white",
           width: "100%",
           height: "3rem",
-          top: 0
+          top: 0,
+          zIndex: 2
         }}
       >
         <BackIcon
