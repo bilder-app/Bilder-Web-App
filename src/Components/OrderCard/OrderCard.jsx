@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 function OrderCard({ data }) {
-  const { id, createdAt } = data;
+  const { id, shipping, createdAt } = data;
   const classes = useStyles();
 
   return (
@@ -50,7 +50,7 @@ function OrderCard({ data }) {
           <Chip
             classes={{ root: classes.chipRoot }}
             style={{ marginTop: 5, marginLeft: 5 }}
-            label="En preparación"
+            label={shipping.state}
             variant="outlined"
             color="primary"
           />
