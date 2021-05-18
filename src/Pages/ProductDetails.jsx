@@ -60,7 +60,7 @@ function ProductDetails({ match: { params }, history }) {
           <Carousel
             animation="slide"
             className={classes.carousel}
-            navButtonsAlwaysVisible={true}
+            navButtonsAlwaysVisible={productData.images.length > 1}
             autoPlay={false}
             indicators={false}
           >
