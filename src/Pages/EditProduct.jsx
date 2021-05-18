@@ -1,6 +1,18 @@
 import { useRef, useState, useEffect } from "react";
-import { TextareaAutosize, Typography, Button } from "@material-ui/core";
-import { ChevronLeft as BackIcon } from "@material-ui/icons";
+import {
+  TextareaAutosize,
+  Typography,
+  Button,
+  Accordion,
+  AccordionSummary,
+  makeStyles,
+  AccordionDetails
+} from "@material-ui/core";
+import {
+  ChevronLeft as BackIcon,
+  ExpandMore as ExpandMoreIcon
+} from "@material-ui/icons";
+import Carousel from "react-material-ui-carousel";
 import { useForm } from "react-hook-form";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import { useGetProductById } from "../Components/hooks/queries";
@@ -9,6 +21,30 @@ import { useSnackbar } from "notistack";
 import { useQueryClient } from "react-query";
 import axios from "axios";
 
+const useStyles = makeStyles((theme) => ({
+  imageContainer: {
+    width: "100%",
+    height: "100%",
+    position: "relative"
+  },
+  imageLoadingText: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    background: "rgba(0,0,0,0.75)",
+    color: "white",
+    display: "grid",
+    placeItems: "center"
+  },
+  carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
+  carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
+  removeImageBtn: {
+    backgroundColor: theme.palette.error.main,
+    color: theme.palette.error.contrastText
+  },
+  textSecondary: { color: theme.palette.text.secondary }
+}));
+
 const styles = {
   label: {
     display: "flex",
@@ -16,6 +52,7 @@ const styles = {
     fontSize: "1.05rem",
     fontWeight: 500,
     marginTop: 10,
+    width: "100%"
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -24,15 +61,18 @@ const styles = {
     padding: 8,
     fontSize: "1.05rem",
     height: "2.45rem",
-  },
+    width: "100%"
+  }
 };
 
 function EditProduct({ match: { params }, history }) {
+  const classes = useStyles();
   const queryClient = useQueryClient();
   const { register, handleSubmit, setValue } = useForm();
   const { data: productData = {} } = useGetProductById(params.productId);
   const imageUploadRef = useRef();
-  const [uploadedImage, setUploadedImage] = useState();
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [carouselIdx, setCarouselIdx] = useState(0);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -46,41 +86,61 @@ function EditProduct({ match: { params }, history }) {
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
         </Button>
-      ),
+      )
     });
 
-    const formData = new FormData();
-    formData.append("file", uploadedImage);
-    formData.append("api_key", 793125359922876);
-    formData.append("upload_preset", "defaultp");
+    const imageUploadPromises = [];
+    const urlsStrings = [];
 
-    const imageUrl = await axios
-      .post("https://api.cloudinary.com/v1_1/drolfnia6/image/upload", formData)
-      .then((resp) => resp.data.url);
+    for (const image of uploadedImages) {
+      if (typeof image === "string") {
+        urlsStrings.push(image);
+        continue;
+      }
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("api_key", 793125359922876);
+      formData.append("upload_preset", "defaultp");
+      imageUploadPromises.push(
+        axios
+          .post(
+            "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
+            formData
+          )
+          .then((resp) => resp.data.url)
+      );
+    }
 
-    editProduct(params.productId, {
-      ...values,
-      images: [imageUrl],
-    }).then(() => {
-      closeSnackbar(isCreatingKey);
+    await Promise.all(imageUploadPromises).then((imagesUrl) =>
+      editProduct(params.productId, {
+        ...values,
+        images: [...imagesUrl, ...urlsStrings]
+      }).then(() => {
+        closeSnackbar(isCreatingKey);
 
-      enqueueSnackbar("Producto editado exitosamente", {
-        variant: "success",
-        autoHideDuration: 5000,
-        action: (key) => (
-          <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
-            Cerrar
-          </Button>
-        ),
-      });
+        enqueueSnackbar("Producto editado exitosamente", {
+          variant: "success",
+          autoHideDuration: 5000,
+          action: (key) => (
+            <Button
+              style={{ color: "white" }}
+              onClick={() => closeSnackbar(key)}
+            >
+              Cerrar
+            </Button>
+          )
+        });
 
-      queryClient.invalidateQueries("products");
-    });
+        queryClient.invalidateQueries("products");
+      })
+    );
   };
 
   const handleImageUpload = (e) => {
     if (e.target.files[0]) {
-      setUploadedImage(e.target.files[0]);
+      const updatedImages = [...uploadedImages, e.target.files[0]];
+      setUploadedImages(updatedImages);
+      if (updatedImages !== 0) setCarouselIdx(updatedImages.length - 1);
     }
   };
 
@@ -94,7 +154,7 @@ function EditProduct({ match: { params }, history }) {
       model,
       content,
       contentType,
-      images,
+      images
     } = productData;
     setValue("name", name);
     setValue("description", description);
@@ -104,8 +164,8 @@ function EditProduct({ match: { params }, history }) {
     setValue("model", model);
     setValue("content", content);
     setValue("contentType", contentType);
-    setUploadedImage(images[0]);
-  }, [productData]);
+    setUploadedImages(images);
+  }, [productData, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ padding: 10 }}>
@@ -116,83 +176,115 @@ function EditProduct({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
         <Typography variant="h6">Editar Producto</Typography>
       </div>
       <div style={{ padding: 10 }}>
+        <Accordion style={{ marginBottom: 25 }}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography style={{ fontWeight: "bold" }}>
+              Añadir Imagenes{" "}
+              <Typography
+                component="span"
+                variant="subtitle2"
+                className={classes.textSecondary}
+              >
+                (Obligatorio)
+              </Typography>
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails
+            style={{ display: "flex", flexDirection: "column", gap: 5 }}
+          >
+            {uploadedImages.length > 0 && (
+              <div className={classes.carouselWrapper}>
+                <Carousel
+                  animation="slide"
+                  index={carouselIdx}
+                  onChange={(i) => setCarouselIdx(i)}
+                  className={classes.carousel}
+                  navButtonsAlwaysVisible={true}
+                  autoPlay={false}
+                  indicators={false}
+                >
+                  {uploadedImages.map((image, i) => (
+                    <img
+                      key={image + "" + i}
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        objectFit: "cover"
+                      }}
+                      src={
+                        typeof image === "string"
+                          ? image
+                          : URL.createObjectURL(image)
+                      }
+                    />
+                  ))}
+                </Carousel>
+              </div>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              style={{ height: 0, width: 0, position: "absolute" }}
+              ref={imageUploadRef}
+              onChange={handleImageUpload}
+            />
+            <Button
+              onClick={() => imageUploadRef.current.click()}
+              variant="contained"
+              color="primary"
+            >
+              Añadir imagen
+            </Button>
+            {uploadedImages.length > 0 && (
+              <Button
+                onClick={() => {
+                  const newImages = [...uploadedImages];
+                  newImages.splice(carouselIdx, 1);
+                  setUploadedImages(newImages);
+                }}
+                variant="contained"
+                className={classes.removeImageBtn}
+              >
+                Remover imagen
+              </Button>
+            )}
+          </AccordionDetails>
+        </Accordion>
         <div
           style={{
-            height: 150,
             display: "flex",
-            justifyContent: "space-between",
+            gap: 15
           }}
         >
-          <input
-            type="file"
-            accept="image/*"
-            style={{ height: 0, width: 0, position: "absolute" }}
-            ref={imageUploadRef}
-            onChange={handleImageUpload}
-          />
-          <button
-            type="button"
-            style={{
-              height: "100%",
-              width: "48%",
-              padding: 5,
-              border: "thin solid #DFDEDE",
-              objectFit: "cover",
-              background: "transparent",
-            }}
-            onClick={() => imageUploadRef.current.click()}
-          >
-            {uploadedImage ? (
-              <img
-                alt="imagen de producto"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={
-                  typeof uploadedImage === "string"
-                    ? uploadedImage
-                    : URL.createObjectURL(uploadedImage)
-                }
-              />
-            ) : (
-              <AddAPhotoIcon
-                style={{
-                  height: "75%",
-                  width: "75%",
-                  opacity: 0.25,
-                }}
-              />
-            )}
-          </button>
-          <div style={{ width: "48%", marginTop: -10 }}>
-            <label style={styles.label}>
-              Stock
-              <input
-                required
-                min="1"
-                {...register("stock")}
-                style={styles.input}
-                type="number"
-                placeholder="Obligatorio"
-              />
-            </label>
-            <label style={styles.label}>
-              Precio Unitario
-              <input
-                required
-                min="1"
-                {...register("price")}
-                style={styles.input}
-                type="number"
-                step="any"
-                placeholder="Obligatorio"
-              />
-            </label>
-          </div>
+          <label style={styles.label}>
+            Stock
+            <input
+              required
+              min="1"
+              {...register("stock")}
+              style={styles.input}
+              type="number"
+              placeholder="Obligatorio"
+            />
+          </label>
+          <label style={styles.label}>
+            Precio Unitario
+            <input
+              required
+              min="1"
+              {...register("price")}
+              style={styles.input}
+              type="number"
+              step="any"
+              placeholder="Obligatorio"
+            />
+          </label>
         </div>
         <label style={styles.label}>
           Nombre
@@ -229,7 +321,7 @@ function EditProduct({ match: { params }, history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "56%",
+              width: "56%"
             }}
           >
             <option value="">Seleccione ...</option>
@@ -262,7 +354,7 @@ function EditProduct({ match: { params }, history }) {
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16,
+              borderRadius: 16
             }}
             rowsMin={5}
             placeholder="Obligatorio"
@@ -297,7 +389,7 @@ function EditProduct({ match: { params }, history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem",
+          fontSize: "1.1rem"
         }}
       >
         Editar Producto
