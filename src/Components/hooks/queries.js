@@ -3,15 +3,20 @@ import {
   getAllProducts,
   getProductById,
   searchProducts,
-  getMyBusiness,
+  getMyBusiness
 } from "../../api";
 
 export function useGetAllProducts() {
   return useQuery("products", getAllProducts);
 }
 
-export function useGetProductById(id) {
-  return useQuery(["products", id], () => getProductById(id));
+export function useGetProductById(id, options = {}) {
+  return useQuery(["products", id], () => getProductById(id), {
+    refetchOnMount: true,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    ...options
+  });
 }
 export function useMyBusiness() {
   return useQuery("me", getMyBusiness);

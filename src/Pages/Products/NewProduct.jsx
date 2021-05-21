@@ -50,7 +50,8 @@ const styles = {
     flexDirection: "column",
     fontSize: "1.05rem",
     fontWeight: 500,
-    marginTop: 10
+    marginTop: 10,
+    width: "100%"
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -58,7 +59,8 @@ const styles = {
     marginTop: 5,
     padding: 8,
     fontSize: "1.05rem",
-    height: "2.45rem"
+    height: "2.45rem",
+    width: "100%"
   }
 };
 
@@ -229,7 +231,12 @@ function NewProduct({ history }) {
             )}
           </AccordionDetails>
         </Accordion>
-        <div style={{ width: "100%", marginTop: -10 }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 15
+          }}
+        >
           <label style={styles.label}>
             Stock
             <input
