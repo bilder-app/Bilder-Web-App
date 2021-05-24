@@ -106,7 +106,7 @@ export default function Profile({ history }) {
           className={classes.large}
         />
         <Typography variant="h6" className={classes.userName}>
-          {businessData.name}
+          {businessData.name} {businessData.surname}
         </Typography>
         <Typography variant="subtitle1" className={classes.email}>
           henry@bilder.com
