@@ -34,8 +34,8 @@ export function editMyBusiness(data) {
   return axiosInst.put("me/business/edit", data).then((res) => res.data);
 }
 
-export function getMyOrders() {
-  return axiosInst.get("business/orders").then((res) => res.data);
+export function getMyOrders(show) {
+  return axiosInst.get("business/orders/", { params: { filter: show} }).then((res) => res.data);
 }
 
 export function getOrderById(id) {

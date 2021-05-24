@@ -4,10 +4,17 @@ import {
   Typography,
   Button,
   makeStyles,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
 } from "@material-ui/core";
-import { ChevronLeft as BackIcon } from "@material-ui/icons";
+import {
+  AssignmentReturnSharp,
+  ChevronLeft as BackIcon,
+  ExpandMore as ExpandMoreIcon
+} from "@material-ui/icons";
 import { useForm } from "react-hook-form";
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import Carousel from "react-material-ui-carousel";
 import { addProduct } from "../../api";
 import axios from "axios";
 import { useSnackbar } from "notistack";
@@ -17,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   imageContainer: {
     width: "100%",
     height: "100%",
-    position: "relative",
+    position: "relative"
   },
   imageLoadingText: {
     position: "absolute",
@@ -26,8 +33,15 @@ const useStyles = makeStyles((theme) => ({
     background: "rgba(0,0,0,0.75)",
     color: "white",
     display: "grid",
-    placeItems: "center",
+    placeItems: "center"
   },
+  carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
+  carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
+  removeImageBtn: {
+    backgroundColor: theme.palette.error.main,
+    color: theme.palette.error.contrastText
+  },
+  textSecondary: { color: theme.palette.text.secondary }
 }));
 
 const styles = {
@@ -37,6 +51,7 @@ const styles = {
     fontSize: "1.05rem",
     fontWeight: 500,
     marginTop: 10,
+    width: "100%"
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -45,7 +60,8 @@ const styles = {
     padding: 8,
     fontSize: "1.05rem",
     height: "2.45rem",
-  },
+    width: "100%"
+  }
 };
 
 function NewProduct({ history }) {
@@ -53,10 +69,23 @@ function NewProduct({ history }) {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const imageUploadRef = useRef();
-  const [uploadedImage, setUploadedImage] = useState();
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [carouselIdx, setCarouselIdx] = useState(0);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const onSubmit = async (values) => {
+    if (uploadedImages.length === 0) {
+      return enqueueSnackbar("Necesita añadir al menos una imagen", {
+        variant: "error",
+        autoHideDuration: 5000,
+        action: (key) => (
+          <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+            Cerrar
+          </Button>
+        )
+      });
+    }
+
     history.replace("/products");
 
     const isCreatingKey = enqueueSnackbar("Creando producto", {
@@ -66,40 +95,57 @@ function NewProduct({ history }) {
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
         </Button>
-      ),
+      )
     });
 
-    const formData = new FormData();
-    formData.append("file", uploadedImage);
-    formData.append("api_key", 793125359922876);
-    formData.append("upload_preset", "defaultp");
-    const imageUrl = await axios
-      .post("https://api.cloudinary.com/v1_1/drolfnia6/image/upload", formData)
-      .then((resp) => resp.data.url);
+    const imageUploadPromises = [];
 
-    addProduct({ ...values, images: [imageUrl] }).then(() => {
-      closeSnackbar(isCreatingKey);
+    for (const image of uploadedImages) {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("api_key", 793125359922876);
+      formData.append("upload_preset", "defaultp");
+      imageUploadPromises.push(
+        axios
+          .post(
+            "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
+            formData
+          )
+          .then((resp) => resp.data.url)
+      );
+    }
 
-      enqueueSnackbar("Producto creado exitosamente", {
-        variant: "success",
-        autoHideDuration: 5000,
+    await Promise.all(imageUploadPromises).then((imagesUrls) =>
+      addProduct({ ...values, images: imagesUrls }).then(() => {
+        closeSnackbar(isCreatingKey);
 
-        action: (key) => (
-          <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
-            Cerrar
-          </Button>
-        ),
-      });
+        enqueueSnackbar("Producto creado exitosamente", {
+          variant: "success",
+          autoHideDuration: 5000,
 
-      queryClient.invalidateQueries("products");
-    });
+          action: (key) => (
+            <Button
+              style={{ color: "white" }}
+              onClick={() => closeSnackbar(key)}
+            >
+              Cerrar
+            </Button>
+          )
+        });
+
+        queryClient.invalidateQueries("products");
+      })
+    );
   };
 
   const handleImageUpload = (e) => {
     if (e.target.files[0]) {
-      setUploadedImage(e.target.files[0]);
+      const updatedImages = [...uploadedImages, e.target.files[0]];
+      setUploadedImages(updatedImages);
+      if (updatedImages !== 0) setCarouselIdx(updatedImages.length - 1);
     }
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ padding: 10 }}>
       <div style={{ display: "flex", marginBottom: 10 }}>
@@ -109,81 +155,111 @@ function NewProduct({ history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
         <Typography variant="h6">Crear Producto</Typography>
       </div>
       <div style={{ padding: 10 }}>
+        <Accordion style={{ marginBottom: 25 }}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography style={{ fontWeight: "bold" }}>
+              Añadir Imagenes{" "}
+              <Typography
+                component="span"
+                variant="subtitle2"
+                className={classes.textSecondary}
+              >
+                (Obligatorio)
+              </Typography>
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails
+            style={{ display: "flex", flexDirection: "column", gap: 5 }}
+          >
+            {uploadedImages.length > 0 && (
+              <div className={classes.carouselWrapper}>
+                <Carousel
+                  animation="slide"
+                  index={carouselIdx}
+                  onChange={(i) => setCarouselIdx(i)}
+                  className={classes.carousel}
+                  navButtonsAlwaysVisible={true}
+                  autoPlay={false}
+                  indicators={false}
+                >
+                  {uploadedImages.map((image, i) => (
+                    <img
+                      key={image + "" + i}
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        objectFit: "cover"
+                      }}
+                      src={URL.createObjectURL(image)}
+                    />
+                  ))}
+                </Carousel>
+              </div>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              style={{ height: 0, width: 0, position: "absolute" }}
+              ref={imageUploadRef}
+              onChange={handleImageUpload}
+            />
+            <Button
+              onClick={() => imageUploadRef.current.click()}
+              variant="contained"
+              color="primary"
+            >
+              Añadir imagen
+            </Button>
+            {uploadedImages.length > 0 && (
+              <Button
+                onClick={() => {
+                  const newImages = [...uploadedImages];
+                  newImages.splice(carouselIdx, 1);
+                  setUploadedImages(newImages);
+                }}
+                variant="contained"
+                className={classes.removeImageBtn}
+              >
+                Remover imagen
+              </Button>
+            )}
+          </AccordionDetails>
+        </Accordion>
         <div
           style={{
-            height: 150,
             display: "flex",
-            justifyContent: "space-between",
+            gap: 15
           }}
         >
-          <input
-            type="file"
-            accept="image/*"
-            style={{ height: 0, width: 0, position: "absolute" }}
-            ref={imageUploadRef}
-            onChange={handleImageUpload}
-          />
-          <button
-            type="button"
-            style={{
-              height: "100%",
-              width: "48%",
-              padding: 5,
-              border: "thin solid #DFDEDE",
-              objectFit: "cover",
-              background: "transparent",
-            }}
-            onClick={() => imageUploadRef.current.click()}
-          >
-            {uploadedImage ? (
-              <div className={classes.imageContainer}>
-                <img
-                  alt="imagen de producto"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  src={URL.createObjectURL(uploadedImage)}
-                />
-              </div>
-            ) : (
-              <AddAPhotoIcon
-                style={{
-                  height: "75%",
-                  width: "75%",
-                  opacity: 0.25,
-                }}
-              />
-            )}
-          </button>
-          <div style={{ width: "48%", marginTop: -10 }}>
-            <label style={styles.label}>
-              Stock
-              <input
-                required
-                min="1"
-                {...register("stock")}
-                style={styles.input}
-                type="number"
-                placeholder="Obligatorio"
-              />
-            </label>
-            <label style={styles.label}>
-              Precio Unitario
-              <input
-                required
-                min="1"
-                {...register("price")}
-                style={styles.input}
-                type="number"
-                step="any"
-                placeholder="Obligatorio"
-              />
-            </label>
-          </div>
+          <label style={styles.label}>
+            Stock
+            <input
+              required
+              min="1"
+              {...register("stock")}
+              style={styles.input}
+              type="number"
+              placeholder="Obligatorio"
+            />
+          </label>
+          <label style={styles.label}>
+            Precio Unitario
+            <input
+              required
+              min="1"
+              {...register("price")}
+              style={styles.input}
+              type="number"
+              step="any"
+              placeholder="Obligatorio"
+            />
+          </label>
         </div>
 
         <label style={styles.label}>
@@ -221,10 +297,10 @@ function NewProduct({ history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "56%",
+              width: "56%"
             }}
           >
-            <option value="">Seleccione ...</option>
+            <option>Seleccione ...</option>
             <option>Kilo (k)</option>
             <option>Gramo (g)</option>
             <option>Metro (m)</option>
@@ -254,7 +330,7 @@ function NewProduct({ history }) {
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16,
+              borderRadius: 16
             }}
             rowsMin={5}
             placeholder="Obligatorio"
@@ -289,7 +365,7 @@ function NewProduct({ history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem",
+          fontSize: "1.1rem"
         }}
       >
         Crear Producto

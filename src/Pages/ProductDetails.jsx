@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import { Typography, Card } from "@material-ui/core";
+import { Typography, Modal, Paper, makeStyles } from "@material-ui/core";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
-import { CardMedia, Modal, Paper, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import { useGetProductById } from "../Components/hooks/queries.js";
 import { deleteProduct } from "../api";
+import Carousel from "react-material-ui-carousel";
 
 const useStyles = makeStyles((theme) => ({
   confirmModalButton: {
     backgroundColor: theme.palette.success.main,
-    color: "white",
+    color: "white"
   },
   errorModalButton: {
     backgroundColor: theme.palette.error.main,
-    color: "white",
+    color: "white"
   },
+  carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
+  carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }
 }));
 
 function ProductDetails({ match: { params }, history }) {
@@ -40,6 +42,7 @@ function ProductDetails({ match: { params }, history }) {
           width: "100%",
           height: "3rem",
           top: 0,
+          zIndex: 2
         }}
       >
         <BackIcon
@@ -48,14 +51,32 @@ function ProductDetails({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
       </div>
       <div style={{ padding: 20, marginTop: 25 }}>
-        <Card style={{ maxWidth: "100%" }}>
-          <CardMedia style={{ height: 400 }} image={productData.images[0]} />
-        </Card>
+        <div className={classes.carouselWrapper}>
+          <Carousel
+            animation="slide"
+            className={classes.carousel}
+            navButtonsAlwaysVisible={productData.images.length > 1}
+            autoPlay={false}
+            indicators={false}
+          >
+            {productData.images.map((image, i) => (
+              <img
+                key={image + "" + i}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "cover"
+                }}
+                src={image}
+              />
+            ))}
+          </Carousel>
+        </div>
         <div style={{ marginTop: 20 }}>
           <Typography
             variant="h4"
@@ -108,7 +129,7 @@ function ProductDetails({ match: { params }, history }) {
           style={{
             display: "flex",
             width: "100%",
-            flexWrap: "wrap",
+            flexWrap: "wrap"
           }}
         >
           {["Martillo", "Pintura"].map((label, index) => {
@@ -122,7 +143,7 @@ function ProductDetails({ match: { params }, history }) {
                   marginTop: 5,
                   height: 25,
                   marginLeft: 10,
-                  padding: "0 20px",
+                  padding: "0 20px"
                 }}
               />
             );
@@ -144,7 +165,7 @@ function ProductDetails({ match: { params }, history }) {
             position: "fixed",
             bottom: 0,
             height: "4rem",
-            alignItems: "center",
+            alignItems: "center"
           }}
         >
           <Button
@@ -156,7 +177,7 @@ function ProductDetails({ match: { params }, history }) {
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167,
+              width: 167
             }}
           >
             Editar
@@ -169,7 +190,7 @@ function ProductDetails({ match: { params }, history }) {
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167,
+              width: 167
             }}
           >
             Eliminar

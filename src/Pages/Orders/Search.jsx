@@ -76,7 +76,9 @@ function Search({ history }) {
           ref={focusRef}
         />
         <div
-          onClick={() => history.push(`/orders/s?name=${searchQuery}`)}
+          onClick={() => {
+            history.push(`/orders/s?number=${searchQuery}`);
+          }}
           style={{
             marginLeft: 5,
             padding: 5,

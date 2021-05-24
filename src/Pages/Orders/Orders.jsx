@@ -54,9 +54,9 @@ export default function Orders({ history }) {
         indicatorColor="primary"
       >
         <Tab className={classes.tabContainer} label="Pendientes" />
-        <Tab className={classes.tabContainer} label="Completados" />
+        <Tab className={classes.tabContainer} label="Confirmados" />
       </Tabs>
-      <OrdersTab />
+      <OrdersTab show={value}/>
     </div>
   );
 }

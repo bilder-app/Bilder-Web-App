@@ -1,15 +1,26 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChevronLeft as BackIcon,
   Search as SearchIcon,
 } from "@material-ui/icons";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import OrderCard from "../../Components/OrderCard/OrderCard";
+import { getOrderById } from "../../api"
 
 function Results({ history, location }) {
   const [searchQuery, setSearchQuery] = useState();
   const searchParams = new URLSearchParams(location.search);
 
+  const [render, toRender] = useState();
+
+  useEffect(() => {
+    async function handleAsync() {
+      const refresh = await getOrderById(searchParams.get("number"));
+      console.log(refresh)
+      toRender(refresh);
+    }
+    handleAsync()
+  }, [searchParams.get("number")])
   return (
     <div>
       <form
@@ -32,7 +43,7 @@ function Results({ history, location }) {
         <SearchBar onChange={(e) => setSearchQuery(e.target.value)} />
         <button
           type="submit"
-          onClick={() => history.replace(`/orders/s?name=${searchQuery}`)}
+          onClick={() => history.replace(`/orders/s?number=${searchQuery}`)}
           style={{
             marginLeft: 5,
             padding: 5,
@@ -57,16 +68,11 @@ function Results({ history, location }) {
           gap: 15,
         }}
       >
-        {[1, 2].map((num) => (
-          <li>
-            <OrderCard
-              number="0003"
-              date="Abril 5, 2020 - 19:32"
-              status="En preparación"
-              id={num}
-            />
-          </li>
-        ))}
+        {render && 
+          (<li>
+            <OrderCard data={render} />
+          </li>)
+        }
       </ul>
     </div>
   );

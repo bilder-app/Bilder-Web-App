@@ -5,17 +5,15 @@ import { Link } from "react-router-dom";
 import OrderCard from "../../Components/OrderCard/OrderCard";
 import { getMyOrders } from "../../api";
 
-function OrdersTab() {
+function OrdersTab({ show }) {
 
   const [orders, setOrders] = useState([])
   useEffect(() => {
-    async function handlerAsync() {
-      const refresh = await getMyOrders();
-      console.log(refresh)
-      setOrders(refresh);
+    async function handleAsync() {
+      setOrders(await getMyOrders(show));
     }
-    handlerAsync()
-  }, [])
+    handleAsync()
+  }, [show])
 
   return (
     <div>

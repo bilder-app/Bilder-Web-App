@@ -28,9 +28,17 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%"
   }
 }));
+
+
 function OrderCard({ data }) {
-  const { id, createdAt } = data;
+  const { id, shipping, createdAt } = data;
   const classes = useStyles();
+
+  const index = {
+    preparing: "En preparación",
+    ready: "Para entregar",
+    sent: "Entregado"
+  }
 
   return (
     <Link
@@ -50,7 +58,7 @@ function OrderCard({ data }) {
           <Chip
             classes={{ root: classes.chipRoot }}
             style={{ marginTop: 5, marginLeft: 5 }}
-            label="En preparación"
+            label={index[shipping.state]}
             variant="outlined"
             color="primary"
           />

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import BottomNavigation from "./Components/BottomNavigation/BottomNavigation";
 import Orders from "./Pages/Orders/Orders";
@@ -18,6 +18,8 @@ import Profile from "./Pages/Profile";
 import MyBusiness from "./Pages/MyBusiness";
 import EditProduct from "./Pages/EditProduct";
 import EditProfile from "./Pages/EditProfile";
+import FAQ from "./Pages/FAQ";
+
 import { isLoggedIn } from "./api";
 
 function App() {
@@ -31,52 +33,36 @@ function App() {
       <Switch>
         <Route exact path="/" component={Login} />
         <Route path="/">
+
           <Switch>
             <Route exact path="/orders" component={Orders} />
             <Route exact path="/orders/searchOrders" component={OrdersSearch} />
             <Route exact path="/orders/s" component={OrdersSearchResults} />
-            <Route
-              exact
-              path="/orders/orderDetails/:id"
-              component={OrderDetails}
-            />
+            <Route exact path="/orders/orderDetails/:id" component={OrderDetails} />
 
             <Route exact path="/products" component={Products} />
-            <Route
-              exact
-              path="/products/searchProducts"
-              component={ProductsSearch}
-            />
+            <Route exact path="/products/searchProducts" component={ProductsSearch} />
             <Route exact path="/products/s" component={ProductsSearchResults} />
             <Route exact path="/products/newProduct" component={NewProduct} />
-            <Route
-              exact
-              path="/products/productDetails/:id"
-              component={ProductDetails}
-            />
-            <Route
-              exact
-              path="/products/edit/:productId"
-              component={EditProduct}
-            />
+            <Route exact path="/products/productDetails/:id" component={ProductDetails} />
+            <Route exact path="/products/edit/:productId" component={EditProduct} />
 
             <Route exact path="/offers" component={Offers} />
             <Route exact path="/offers/new" component={NewOffer} />
-            <Route
-              exact
-              path="/offers/offerDetails/:id"
-              component={OfferDetails}
-            />
+            <Route exact path="/offers/offerDetails/:id" component={OfferDetails} />
 
             <Route exact path="/me" component={Profile} />
+            <Route exact path="/me/faq" component={FAQ} />
             <Route exact path="/me/business" component={MyBusiness} />
             <Route exact path="/me/business/edit" component={EditProfile} />
           </Switch>
+          
           <Route exact path="/:url">
-            <div style={{ paddingTop: "4.25rem" }}>
+            <div style={{ paddingTop: "4.25rem" }}> 
               <BottomNavigation />
             </div>
           </Route>
+
         </Route>
       </Switch>
     </div>
