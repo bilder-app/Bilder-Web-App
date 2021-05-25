@@ -9,7 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
   useScrollTrigger,
-  Paper,
+  Paper
 } from "@material-ui/core";
 import { Store, Help, PowerSettingsNew } from "@material-ui/icons";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: 20,
     background: theme.palette.background.paper,
-    zIndex: 1,
+    zIndex: 1
   },
   icon: {
     border: "2px solid black",
     borderRadius: "50%",
     width: 23,
     height: 23,
-    margin: "0px 15px",
+    margin: "0px 15px"
   },
 
   info: {
@@ -44,31 +44,31 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "10px 0 30px 0",
+    padding: "10px 0 30px 0"
   },
   large: {
     width: 150,
-    height: 150,
+    height: 150
   },
   userName: {
     color: "#444D52",
     fontWeight: "bold",
-    marginBottom: 0,
+    marginBottom: 0
   },
   email: {
     lineHeight: 1,
-    color: "#707070",
+    color: "#707070"
   },
 
   nav: {
     width: "90%",
     margin: "0px auto",
-    paddingBottom: 75,
+    paddingBottom: 75
   },
   textItem: {
     fontSize: 19,
     color: "#444D52",
-    fontWeight: 500,
+    fontWeight: 500
   },
 
   fab: {
@@ -79,20 +79,21 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFF",
     height: 46,
     textTransform: "none",
-    fontSize: 15,
-  },
+    fontSize: 15
+  }
 }));
 
 export default function Profile({ history }) {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13,
+    threshold: 13
   });
 
-  const { data: businessData, isLoading } = useMyBusiness();
+  const { data: businessData, isLoading } = useMyBusiness({
+    refetchOnWindowFocus: false
+  });
 
-  if (isLoading) return null;
   return (
     <div style={{ widht: "100%", height: "100%", backgroundColor: "white" }}>
       <Paper elevation={isScrolling ? 4 : 0} className={classes.header}>
@@ -100,17 +101,21 @@ export default function Profile({ history }) {
       </Paper>
       <div style={{ marginTop: 50 }} />
       <div className={classes.info}>
-        <Avatar
-          alt="Avatar"
-          src="https://source.unsplash.com/500x500/?hammer"
-          className={classes.large}
-        />
-        <Typography variant="h6" className={classes.userName}>
-          {businessData.name} {businessData.surname}
-        </Typography>
-        <Typography variant="subtitle1" className={classes.email}>
-          henry@bilder.com
-        </Typography>
+        {!isLoading && (
+          <>
+            <Avatar
+              alt="Avatar"
+              src={businessData.profileImage}
+              className={classes.large}
+            />
+            <Typography variant="h6" className={classes.userName}>
+              {businessData.name} {businessData.surname}
+            </Typography>
+            <Typography variant="subtitle1" className={classes.email}>
+              henry@bilder.com
+            </Typography>
+          </>
+        )}
       </div>
       <List className={classes.nav}>
         <ListItem button component={Link} to={`/me/business`}>
@@ -119,7 +124,7 @@ export default function Profile({ history }) {
           </ListItemIcon>
           <ListItemText
             primaryTypographyProps={{
-              className: classes.textItem,
+              className: classes.textItem
             }}
             primary={"Mi negocio"}
           />
@@ -130,7 +135,7 @@ export default function Profile({ history }) {
           </ListItemIcon>
           <ListItemText
             primaryTypographyProps={{
-              className: classes.textItem,
+              className: classes.textItem
             }}
             primary={"Preguntas frecuentes"}
           />
@@ -147,7 +152,7 @@ export default function Profile({ history }) {
           </ListItemIcon>
           <ListItemText
             primaryTypographyProps={{
-              className: classes.textItem,
+              className: classes.textItem
             }}
             primary={"Cerrar sesión"}
           />
