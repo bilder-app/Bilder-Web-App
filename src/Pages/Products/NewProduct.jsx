@@ -285,7 +285,7 @@ function NewProduct({ history }) {
             {...register("name", {
               required: "required",
               pattern: {
-                value: /^(?!.*(www.|http|bit\.ly)).*/
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
               }
             })}
             style={styles.input}
@@ -305,7 +305,7 @@ function NewProduct({ history }) {
           <input
             {...register("brand", {
               pattern: {
-                value: /^(?!.*(www.|http|bit\.ly)).*/
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
               }
             })}
             style={styles.input}
@@ -361,7 +361,7 @@ function NewProduct({ history }) {
           <input
             {...register("model", {
               pattern: {
-                value: /^(?!.*(www.|http|bit\.ly)).*/
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
               }
             })}
             style={styles.input}
@@ -381,7 +381,7 @@ function NewProduct({ history }) {
           <TextareaAutosize
             {...register("description", {
               pattern: {
-                value: /^(?!.*(www.|http|bit\.ly)).*/
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
               }
             })}
             style={{
