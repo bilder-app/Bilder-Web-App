@@ -41,7 +41,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.error.main,
     color: theme.palette.error.contrastText
   },
-  textSecondary: { color: theme.palette.text.secondary }
+  textSecondary: { color: theme.palette.text.secondary },
+  errorInputMessage: {
+    color: theme.palette.error.main
+  }
 }));
 
 const styles = {
@@ -67,7 +70,11 @@ const styles = {
 function NewProduct({ history }) {
   const queryClient = useQueryClient();
   const classes = useStyles();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors = {} }
+  } = useForm();
   const imageUploadRef = useRef();
   const [uploadedImages, setUploadedImages] = useState([]);
   const [carouselIdx, setCarouselIdx] = useState(0);
@@ -241,7 +248,8 @@ function NewProduct({ history }) {
             Stock
             <input
               required
-              min="1"
+              min={1}
+              max={5000}
               {...register("stock")}
               style={styles.input}
               type="number"
@@ -252,7 +260,8 @@ function NewProduct({ history }) {
             Precio Unitario
             <input
               required
-              min="1"
+              min={1}
+              max={100_000}
               {...register("price")}
               style={styles.input}
               type="number"
@@ -264,17 +273,41 @@ function NewProduct({ history }) {
 
         <label style={styles.label}>
           Nombre
+          {errors.name && (
+            <Typography
+              variant="subtitle2"
+              className={classes.errorInputMessage}
+            >
+              Por favor ingrese un nombre valido
+            </Typography>
+          )}
           <input
-            required
-            {...register("name")}
+            {...register("name", {
+              required: "required",
+              pattern: {
+                value: /^(?!.*(http|bit\.ly)).*/
+              }
+            })}
             style={styles.input}
             placeholder="Obligatorio"
           />
         </label>
         <label style={styles.label}>
           Marca
+          {errors.brand && (
+            <Typography
+              variant="subtitle2"
+              className={classes.errorInputMessage}
+            >
+              Por favor ingrese un nombre valido
+            </Typography>
+          )}
           <input
-            {...register("brand")}
+            {...register("brand", {
+              pattern: {
+                value: /^(?!.*(http|bit\.ly)).*/
+              }
+            })}
             style={styles.input}
             placeholder="Opcional"
           />
@@ -317,16 +350,40 @@ function NewProduct({ history }) {
         </div>
         <label style={styles.label}>
           Modelo
+          {errors.model && (
+            <Typography
+              variant="subtitle2"
+              className={classes.errorInputMessage}
+            >
+              Por favor ingrese un nombre valido
+            </Typography>
+          )}
           <input
-            {...register("model")}
+            {...register("model", {
+              pattern: {
+                value: /^(?!.*(http|bit\.ly)).*/
+              }
+            })}
             style={styles.input}
             placeholder="Opcional"
           />
         </label>
         <label style={styles.label}>
           Descripción
+          {errors.description && (
+            <Typography
+              variant="subtitle2"
+              className={classes.errorInputMessage}
+            >
+              Por favor ingrese un nombre valido
+            </Typography>
+          )}
           <TextareaAutosize
-            {...register("description")}
+            {...register("description", {
+              pattern: {
+                value: /^(?!.*(http|bit\.ly)).*/
+              }
+            })}
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
