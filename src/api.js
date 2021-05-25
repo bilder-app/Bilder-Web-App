@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInst = axios.create({
   baseURL: "http://localhost:7000",
-  withCredentials: true,
+  withCredentials: true
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
 
@@ -27,15 +27,17 @@ export function getMyProducts() {
 }
 
 export function getMyBusiness() {
-  return axiosInst.get("/me/business").then((res) => res.data);
+  return axiosInst.get("/business/me").then((res) => res.data);
 }
 
 export function editMyBusiness(data) {
-  return axiosInst.put("me/business/edit", data).then((res) => res.data);
+  return axiosInst.put("business/me", data).then((res) => res.data);
 }
 
 export function getMyOrders(show) {
-  return axiosInst.get("business/orders/", { params: { filter: show} }).then((res) => res.data);
+  return axiosInst
+    .get("business/orders/", { params: { filter: show } })
+    .then((res) => res.data);
 }
 
 export function getOrderById(id) {
