@@ -375,7 +375,7 @@ function NewProduct({ history }) {
               variant="subtitle2"
               className={classes.errorInputMessage}
             >
-              Por favor ingrese un nombre valido
+              Por favor ingrese una descripción valida
             </Typography>
           )}
           <TextareaAutosize
