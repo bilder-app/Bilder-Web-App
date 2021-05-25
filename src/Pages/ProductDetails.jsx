@@ -46,7 +46,7 @@ function ProductDetails({ match: { params }, history }) {
         }}
       >
         <BackIcon
-          onClick={() => history.goBack()}
+          onClick={() => history.replace("/products")}
           style={{
             width: 30,
             height: 30,
@@ -73,6 +73,7 @@ function ProductDetails({ match: { params }, history }) {
                   objectFit: "cover"
                 }}
                 src={image}
+                alt="Imagen del producto"
               />
             ))}
           </Carousel>
