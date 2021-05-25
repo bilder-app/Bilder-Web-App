@@ -15,6 +15,7 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { AppBar, IconButton, Toolbar, useTheme } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
+import AppBarHeader from "../Components/AppBarHeader/AppBarHeader";
 
 const useRowStyles = makeStyles({
   root: {
@@ -116,47 +117,9 @@ export default function CollapsibleTable() {
 
   return (
     <div>
-      <AppBar
-        style={{
-          maxHeight: 50,
-          backgroundColor: theme.palette.background.paper
-        }}
-        position="static"
-      >
-        <Toolbar
-          style={{
-            alignItems: "normal",
-            padding: 10
-          }}
-          disableGutters
-        >
-          <div
-            style={{
-              maxHeight: 30,
-              display: "flex",
-              alignItems: "center"
-            }}
-          >
-            <Link
-              style={{
-                display: "grid",
-                placeItems: "center",
-                marginRight: 6
-              }}
-              to="/me"
-            >
-              <BackIcon
-                style={{
-                  color: theme.palette.text.primary,
-                  width: 30,
-                  height: 30
-                }}
-              />
-            </Link>
-            <Typography variant="h6">Preguntas frequentes</Typography>
-          </div>
-        </Toolbar>
-      </AppBar>
+      <AppBarHeader backTo="/me">
+        <Typography variant="h6">Preguntas frequentes</Typography>
+      </AppBarHeader>
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
