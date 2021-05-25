@@ -109,7 +109,7 @@ function EditProfile({ match: { params }, history }) {
     <form onSubmit={handleSubmit(onSubmit)} style={{ padding: 10 }}>
       <div style={{ display: "flex", marginBottom: 10 }}>
         <BackIcon
-          onClick={() => history.goBack()}
+          onClick={() => history.replace("/me/business")}
           style={{
             width: 30,
             height: 30,
