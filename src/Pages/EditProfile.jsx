@@ -60,9 +60,11 @@ function EditProfile({ match: { params }, history }) {
   };
 
   useEffect(() => {
-    const { name, surname, cuit, sector, address, contact } = businessData;
+    const { name, surname, cuit, sector, address, contact, nameBusiness } =
+      businessData;
     setValue("name", name);
     setValue("surname", surname);
+    setValue("nameBusiness", nameBusiness);
     setValue("cuit", cuit);
     setValue("sector", sector);
     setValue("address", address);
@@ -180,14 +182,27 @@ function EditProfile({ match: { params }, history }) {
           <Store style={{ marginRight: 10 }} />
           <Typography variant="h6">Sobre mi negocio</Typography>
         </div>
+        <label style={{ ...styles.label }}>
+          Nombre del Negocio
+          <input required {...register("nameBusiness")} style={styles.input} />
+        </label>
         <label style={styles.label}>
           CUIT
           <input {...register("cuit")} style={styles.input} type="number" />
         </label>
         <label style={styles.label}>
           Industria
-          <select {...register("sector")} style={styles.input}>
-            <option>Pinturas</option>
+          <select required {...register("sector")} style={styles.input}>
+            <option value="">Seleccione ...</option>
+            <option>Bulonera</option>
+            <option>Ferreteria</option>
+            <option>Materiales de Construcción</option>
+            <option>Siderometalurgia</option>
+            <option>Maderera</option>
+            <option>Pintureria</option>
+            <option>Materiales electricos</option>
+            <option>Griferia</option>
+            <option>Regatones</option>
           </select>
         </label>
         <label style={styles.label}>

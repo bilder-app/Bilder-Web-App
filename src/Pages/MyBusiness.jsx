@@ -135,7 +135,7 @@ export default function MyBusiness({ match: { params }, history }) {
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             E-mail
           </Typography>
-          <Typography>billy@bilder.com</Typography>
+          <Typography>henry@bilder.com</Typography>
           <div
             style={{
               display: "flex",
@@ -147,6 +147,10 @@ export default function MyBusiness({ match: { params }, history }) {
             <Store style={{ marginRight: 10 }} />
             <Typography variant="h6">Sobre mi negocio</Typography>
           </div>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Nombre del Negocio
+          </Typography>
+          <Typography>{businessData.nameBusiness}</Typography>
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             CUIT
           </Typography>
