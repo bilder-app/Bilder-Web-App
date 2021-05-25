@@ -18,8 +18,14 @@ export function useGetProductById(id, options = {}) {
     ...options
   });
 }
-export function useMyBusiness() {
-  return useQuery("me", getMyBusiness);
+
+//
+
+/**
+ * @param {import("react-query").UseQueryOptions<any, unknown, any, "me">} options
+ */
+export function useMyBusiness(options) {
+  return useQuery("me", getMyBusiness, options);
 }
 
 export function useGetPaginatedProductsSearch(query, page, limit) {
