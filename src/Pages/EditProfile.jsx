@@ -55,43 +55,54 @@ function EditProfile({ match: { params }, history }) {
       )
     });
 
-    const formData = new FormData();
-    formData.append("file", profilePicture[0]);
-    formData.append("api_key", 793125359922876);
-    formData.append("upload_preset", "defaultp");
-    axios
-      .post("https://api.cloudinary.com/v1_1/drolfnia6/image/upload", formData)
-      .then((resp) => {
-        const { url } = resp.data;
+    let url = "";
 
-        editMyBusiness({
-          ...values,
-          profileImage: url
-        }).then(() => {
-          closeSnackbar(isCreatingKey);
-
-          enqueueSnackbar("Producto editado exitosamente", {
-            variant: "success",
-            autoHideDuration: 5000,
-            action: (key) => (
-              <Button
-                style={{ color: "white" }}
-                onClick={() => closeSnackbar(key)}
-              >
-                Cerrar
-              </Button>
-            )
-          });
-
-          queryClient.invalidateQueries("me");
+    if (profilePicture && profilePicture.length > 0) {
+      const formData = new FormData();
+      formData.append("file", profilePicture[0]);
+      formData.append("api_key", 793125359922876);
+      formData.append("upload_preset", "defaultp");
+      axios
+        .post(
+          "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
+          formData
+        )
+        .then((resp) => {
+          url = resp.data.url;
         });
+    }
+
+    editMyBusiness({
+      ...values,
+      ...(url && { profileImage: url })
+    }).then(() => {
+      closeSnackbar(isCreatingKey);
+
+      enqueueSnackbar("Producto editado exitosamente", {
+        variant: "success",
+        autoHideDuration: 5000,
+        action: (key) => (
+          <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
+            Cerrar
+          </Button>
+        )
       });
+
+      queryClient.invalidateQueries("me");
+    });
   };
 
   useEffect(() => {
     if (isLoading) return;
-    const { name, surname, cuit, sector, address, contact, nameBusiness } =
-      businessData;
+    const {
+      name,
+      surname,
+      cuit,
+      sector,
+      address,
+      contact,
+      nameBusiness
+    } = businessData;
     setValue("name", name);
     setValue("surname", surname);
     setValue("nameBusiness", nameBusiness);
