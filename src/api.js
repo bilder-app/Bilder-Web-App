@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInst = axios.create({
-  baseURL: "http://localhost:7000",
+  baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
