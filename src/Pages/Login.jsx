@@ -78,6 +78,7 @@ function Login() {
         </Typography>
         <Typography component="label" className={classes.label}>
           Contraseña
+          <Typography>Olvide mi contraseña</Typography>
           <TextField
             {...register("password")}
             required
