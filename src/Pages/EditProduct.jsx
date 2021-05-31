@@ -20,6 +20,7 @@ import { editProduct } from "../api";
 import { useSnackbar } from "notistack";
 import { useQueryClient } from "react-query";
 import axios from "axios";
+import firebase from "firebase";
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -82,6 +83,28 @@ function EditProduct({ match: { params }, history }) {
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  const [storageRef, setStorageRef] = useState();
+
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyABdnic2WsbLUXMu-EVVV9ijDncQzNCJPM",
+      authDomain: "bilder-301ea.firebaseapp.com",
+      projectId: "bilder-301ea",
+      storageBucket: "bilder-301ea.appspot.com",
+      messagingSenderId: "1014595861688",
+      appId: "1:1014595861688:web:91918b539e881f8fc5c84d"
+    };
+
+    let firebaseApp;
+    if (firebase.apps.length === 0) {
+      firebaseApp = firebase.initializeApp(firebaseConfig);
+    } else {
+      firebaseApp = firebase.app();
+    }
+
+    setStorageRef(firebase.storage().ref());
+  }, []);
+
   const onSubmit = async (values) => {
     history.replace("/products");
 
@@ -103,17 +126,14 @@ function EditProduct({ match: { params }, history }) {
         urlsStrings.push(image);
         continue;
       }
-      const formData = new FormData();
-      formData.append("file", image);
-      formData.append("api_key", 793125359922876);
-      formData.append("upload_preset", "defaultp");
+      const imageRef = storageRef.child(image.name + ~~(Math.random() * 10000));
       imageUploadPromises.push(
-        axios
-          .post(
-            "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
-            formData
-          )
-          .then((resp) => resp.data.url)
+        imageRef.put(image).then((snapshot) =>
+          storageRef
+            .child(snapshot.ref.fullPath)
+            .getDownloadURL()
+            .then((url) => url)
+        )
       );
     }
 
