@@ -16,7 +16,6 @@ import {
 import { useForm } from "react-hook-form";
 import Carousel from "react-material-ui-carousel";
 import { addProduct } from "../../api";
-import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useQueryClient } from "react-query";
 import firebase from "firebase";
@@ -130,7 +129,7 @@ function NewProduct({ history }) {
     const imageUploadPromises = [];
 
     for (const image of uploadedImages) {
-      const imageRef = storageRef.child(image.name + ~~(Math.random() * 10000));
+      const imageRef = storageRef.child(~~(Math.random() * 10000) + image.name);
       imageUploadPromises.push(
         imageRef.put(image).then((snapshot) =>
           storageRef
