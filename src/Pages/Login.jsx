@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     gap: 45,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   logo: {
     width: 256,
-    height: 115
+    height: 115,
   },
   button: {
     color: "#FF8000",
@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     maxWidth: 275,
     borderRadius: 12,
-    fontSize: "1rem"
+    fontSize: "1rem",
   },
   input: {
     backgroundColor: "white",
     borderRadius: 12,
-    padding: "2px 10px"
+    padding: "2px 10px",
   },
   label: {
     display: "flex",
@@ -38,8 +38,9 @@ const useStyles = makeStyles((theme) => ({
     gap: 5,
     fontWeight: 500,
     width: "100%",
-    maxWidth: 275
-  }
+    maxWidth: 275,
+    color: "white",
+  },
 }));
 
 function Login() {
@@ -61,7 +62,7 @@ function Login() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 25
+          gap: 25,
         }}
       >
         <Typography component="label" className={classes.label}>
@@ -71,18 +72,19 @@ function Login() {
             required
             InputProps={{
               classes: { root: classes.input },
-              disableUnderline: true
+              disableUnderline: true,
             }}
           />
         </Typography>
         <Typography component="label" className={classes.label}>
           Contraseña
+          <Typography>Olvide mi contraseña</Typography>
           <TextField
             {...register("password")}
             required
             InputProps={{
               classes: { root: classes.input },
-              disableUnderline: true
+              disableUnderline: true,
             }}
           />
         </Typography>
