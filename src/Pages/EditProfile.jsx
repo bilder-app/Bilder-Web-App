@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Typography, Button } from "@material-ui/core";
 import { Contacts, Store } from "@material-ui/icons";
 import { ChevronLeft as BackIcon } from "@material-ui/icons";
@@ -9,7 +9,7 @@ import { useQueryClient } from "react-query";
 import { editMyBusiness } from "../api";
 import { useSnackbar } from "notistack";
 import axios from "axios";
-
+import { useFirebase } from "../FirebaseProvider";
 const styles = {
   label: {
     display: "flex",
@@ -30,19 +30,15 @@ const styles = {
 
 function EditProfile({ match: { params }, history }) {
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
-  const { register, handleSubmit, control, setValue } = useForm();
-  const { ref: imageRef, ...registerRest } = register("profilePicture");
-
-  const profilePicture = useWatch({
-    control,
-    name: "profilePicture"
-  });
+  const { register, handleSubmit, setValue } = useForm();
+  const [profilePicture, setProfilePicture] = useState();
+  const { storageRef } = useFirebase();
 
   const queryClient = useQueryClient();
   const { data: businessData, isLoading } = useMyBusiness();
   const imageUploadRef = useRef();
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     history.replace("/me");
 
     const isCreatingKey = enqueueSnackbar("Editando perfil", {
@@ -55,21 +51,22 @@ function EditProfile({ match: { params }, history }) {
       )
     });
 
-    let url = "";
+    let url;
+    if (profilePicture) {
+      const imageRef = storageRef.child(
+        ~~(Math.random() * 10000) + profilePicture.name
+      );
 
-    if (profilePicture && profilePicture.length > 0) {
-      const formData = new FormData();
-      formData.append("file", profilePicture[0]);
-      formData.append("api_key", 793125359922876);
-      formData.append("upload_preset", "defaultp");
-      axios
-        .post(
-          "https://api.cloudinary.com/v1_1/drolfnia6/image/upload",
-          formData
-        )
-        .then((resp) => {
-          url = resp.data.url;
-        });
+      await imageRef.put(profilePicture).then(
+        async (snapshot) =>
+          await storageRef
+            .child(snapshot.ref.fullPath)
+            .getDownloadURL()
+            .then((imageUrl) => {
+              console.log(imageUrl);
+              url = imageUrl;
+            })
+      );
     }
 
     editMyBusiness({
@@ -90,6 +87,12 @@ function EditProfile({ match: { params }, history }) {
 
       queryClient.invalidateQueries("me");
     });
+  };
+
+  const handleImageUpload = (e) => {
+    if (e.target.files[0]) {
+      setProfilePicture(e.target.files[0]);
+    }
   };
 
   useEffect(() => {
@@ -145,11 +148,8 @@ function EditProfile({ match: { params }, history }) {
             type="file"
             accept="image/*"
             style={{ height: 0, width: 0, position: "absolute" }}
-            {...registerRest}
-            ref={(e) => {
-              imageRef(e);
-              imageUploadRef.current = e;
-            }}
+            onChange={handleImageUpload}
+            ref={imageUploadRef}
           />
           <button
             type="button"
@@ -174,7 +174,7 @@ function EditProfile({ match: { params }, history }) {
                   borderRadius: "50%"
                 }}
                 src={
-                  (profilePicture && URL.createObjectURL(profilePicture[0])) ||
+                  (profilePicture && URL.createObjectURL(profilePicture)) ||
                   profileImage
                 }
               />
