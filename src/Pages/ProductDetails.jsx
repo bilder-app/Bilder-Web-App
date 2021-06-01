@@ -104,7 +104,8 @@ function ProductDetails({ match: { params }, history }) {
             style={{
               overflow: "scroll",
               display: "grid",
-              placeItems: "center"
+              placeItems: "center",
+              backgroundColor: `rgba(0,0,0,0.8)`
             }}
             onClose={() => setIsImageModalOpen(false)}
             open={isImageModalOpen}
@@ -133,8 +134,8 @@ function ProductDetails({ match: { params }, history }) {
                     position: "fixed",
                     top: 15,
                     right: 15,
-                    color: "white",
-                    backgroundColor: "rgba(0,0,0,0.5)"
+                    color: "black",
+                    backgroundColor: "rgba(255,255,255,0.5)"
                   }}
                   onClick={() => {
                     setIsImageModalOpen(false);
@@ -148,7 +149,7 @@ function ProductDetails({ match: { params }, history }) {
                   <div>
                     <Slider
                       value={zoomLevel}
-                      max={3}
+                      max={6}
                       step={0.1}
                       min={1}
                       onChange={(e, newValue) => setZoomLevel(newValue)}
@@ -159,7 +160,7 @@ function ProductDetails({ match: { params }, history }) {
               <img
                 style={{
                   margin: "auto",
-                  height: zoomLevel * 600
+                  height: zoomLevel * 200
                 }}
                 src={productData.images[selectedImage]}
               />
