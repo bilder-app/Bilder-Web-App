@@ -76,6 +76,7 @@ function EditProduct({ match: { params }, history }) {
     setValue,
     formState: { errors = {} }
   } = useForm();
+  
   const { data: productData = {} } = useGetProductById(params.productId);
   const imageUploadRef = useRef();
   const [uploadedImages, setUploadedImages] = useState([]);
