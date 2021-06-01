@@ -14,12 +14,10 @@ import {
 } from "@material-ui/icons";
 import Carousel from "react-material-ui-carousel";
 import { useForm } from "react-hook-form";
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import { useGetProductById } from "../Components/hooks/queries";
 import { editProduct } from "../api";
 import { useSnackbar } from "notistack";
 import { useQueryClient } from "react-query";
-import axios from "axios";
 import firebase from "firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -76,7 +74,7 @@ function EditProduct({ match: { params }, history }) {
     setValue,
     formState: { errors = {} }
   } = useForm();
-  
+
   const { data: productData = {} } = useGetProductById(params.productId);
   const imageUploadRef = useRef();
   const [uploadedImages, setUploadedImages] = useState([]);
