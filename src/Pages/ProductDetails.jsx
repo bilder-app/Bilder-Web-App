@@ -1,6 +1,16 @@
 import React, { useState } from "react";
-import { Typography, Modal, Paper, makeStyles } from "@material-ui/core";
-import { ChevronLeft as BackIcon } from "@material-ui/icons";
+import {
+  Typography,
+  Modal,
+  Paper,
+  makeStyles,
+  IconButton,
+  Slider
+} from "@material-ui/core";
+import {
+  ChevronLeft as BackIcon,
+  Close as CloseIcon
+} from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
@@ -18,12 +28,23 @@ const useStyles = makeStyles((theme) => ({
     color: "white"
   },
   carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
-  carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }
+  carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
+  zoomIndicator: {
+    width: "50%",
+    textAlign: "center",
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(0.5, 2),
+    borderBottomLeftRadius: theme.spacing(2),
+    borderBottomRightRadius: theme.spacing(2)
+  }
 }));
 
 function ProductDetails({ match: { params }, history }) {
   const classes = useStyles();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState();
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const { data: productData, isLoading } = useGetProductById(params.id);
 
@@ -63,6 +84,7 @@ function ProductDetails({ match: { params }, history }) {
             navButtonsAlwaysVisible={productData.images.length > 1}
             autoPlay={false}
             indicators={false}
+            onChange={(i) => setSelectedImage(i)}
           >
             {productData.images.map((image, i) => (
               <img
@@ -72,11 +94,77 @@ function ProductDetails({ match: { params }, history }) {
                   width: "100%",
                   objectFit: "cover"
                 }}
+                onClick={() => setIsImageModalOpen(true)}
                 src={image}
                 alt="Imagen del producto"
               />
             ))}
           </Carousel>
+          <Modal
+            style={{
+              overflow: "scroll",
+              display: "grid",
+              placeItems: "center"
+            }}
+            onClose={() => setIsImageModalOpen(false)}
+            open={isImageModalOpen}
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex"
+              }}
+            >
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  width: "100%",
+                  left: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  zIndex: 2
+                }}
+              >
+                <IconButton
+                  style={{
+                    position: "fixed",
+                    top: 15,
+                    right: 15,
+                    color: "white",
+                    backgroundColor: "rgba(0,0,0,0.5)"
+                  }}
+                  onClick={() => {
+                    setIsImageModalOpen(false);
+                    setZoomLevel(1);
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <div className={classes.zoomIndicator}>
+                  <Typography variant="h6">Zoom x{zoomLevel}</Typography>
+                  <div>
+                    <Slider
+                      value={zoomLevel}
+                      max={3}
+                      step={0.1}
+                      min={1}
+                      onChange={(e, newValue) => setZoomLevel(newValue)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <img
+                style={{
+                  margin: "auto",
+                  height: zoomLevel * 600
+                }}
+                src={productData.images[selectedImage]}
+              />
+            </div>
+          </Modal>
         </div>
         <div style={{ marginTop: 20 }}>
           <Typography
