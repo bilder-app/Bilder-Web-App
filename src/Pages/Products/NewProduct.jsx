@@ -6,12 +6,11 @@ import {
   makeStyles,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
 } from "@material-ui/core";
 import {
-  AssignmentReturnSharp,
   ChevronLeft as BackIcon,
-  ExpandMore as ExpandMoreIcon
+  ExpandMore as ExpandMoreIcon,
 } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import Carousel from "react-material-ui-carousel";
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   imageContainer: {
     width: "100%",
     height: "100%",
-    position: "relative"
+    position: "relative",
   },
   imageLoadingText: {
     position: "absolute",
@@ -33,18 +32,18 @@ const useStyles = makeStyles((theme) => ({
     background: "rgba(0,0,0,0.75)",
     color: "white",
     display: "grid",
-    placeItems: "center"
+    placeItems: "center",
   },
   carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
   carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
   removeImageBtn: {
     backgroundColor: theme.palette.error.main,
-    color: theme.palette.error.contrastText
+    color: theme.palette.error.contrastText,
   },
   textSecondary: { color: theme.palette.text.secondary },
   errorInputMessage: {
-    color: theme.palette.error.main
-  }
+    color: theme.palette.error.main,
+  },
 }));
 
 const styles = {
@@ -54,7 +53,7 @@ const styles = {
     fontSize: "1.05rem",
     fontWeight: 500,
     marginTop: 10,
-    width: "100%"
+    width: "100%",
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -63,8 +62,8 @@ const styles = {
     padding: 8,
     fontSize: "1.05rem",
     height: "2.45rem",
-    width: "100%"
-  }
+    width: "100%",
+  },
 };
 
 function NewProduct({ history }) {
@@ -73,7 +72,7 @@ function NewProduct({ history }) {
   const {
     register,
     handleSubmit,
-    formState: { errors = {} }
+    formState: { errors = {} },
   } = useForm();
   const imageUploadRef = useRef();
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -88,7 +87,7 @@ function NewProduct({ history }) {
       projectId: "bilder-301ea",
       storageBucket: "bilder-301ea.appspot.com",
       messagingSenderId: "1014595861688",
-      appId: "1:1014595861688:web:91918b539e881f8fc5c84d"
+      appId: "1:1014595861688:web:91918b539e881f8fc5c84d",
     };
 
     let firebaseApp;
@@ -110,7 +109,7 @@ function NewProduct({ history }) {
           <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
             Cerrar
           </Button>
-        )
+        ),
       });
     }
 
@@ -123,7 +122,7 @@ function NewProduct({ history }) {
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
         </Button>
-      )
+      ),
     });
 
     const imageUploadPromises = [];
@@ -155,7 +154,7 @@ function NewProduct({ history }) {
             >
               Cerrar
             </Button>
-          )
+          ),
         });
 
         queryClient.invalidateQueries("products");
@@ -180,7 +179,7 @@ function NewProduct({ history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6
+            marginRight: 6,
           }}
         />
         <Typography variant="h6">Crear Producto</Typography>
@@ -219,7 +218,7 @@ function NewProduct({ history }) {
                       style={{
                         height: "100%",
                         width: "100%",
-                        objectFit: "cover"
+                        objectFit: "cover",
                       }}
                       src={URL.createObjectURL(image)}
                     />
@@ -259,7 +258,7 @@ function NewProduct({ history }) {
         <div
           style={{
             display: "flex",
-            gap: 15
+            gap: 15,
           }}
         >
           <label style={styles.label}>
@@ -300,14 +299,15 @@ function NewProduct({ history }) {
             </Typography>
           )}
           <input
+            maxLength={44}
             {...register("name", {
               required: "required",
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
-              }
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
+              },
             })}
             style={styles.input}
-            placeholder="Obligatorio"
+            placeholder="Obligatorio (Max 44 caracteres)"
           />
         </label>
         <label style={styles.label}>
@@ -321,10 +321,12 @@ function NewProduct({ history }) {
             </Typography>
           )}
           <input
+            minLength={2}
+            maxLength={40}
             {...register("brand", {
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
-              }
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
+              },
             })}
             style={styles.input}
             placeholder="Opcional"
@@ -348,7 +350,7 @@ function NewProduct({ history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "56%"
+              width: "56%",
             }}
           >
             <option>Seleccione ...</option>
@@ -377,10 +379,12 @@ function NewProduct({ history }) {
             </Typography>
           )}
           <input
+            minLength={2}
+            maxLength={40}
             {...register("model", {
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
-              }
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
+              },
             })}
             style={styles.input}
             placeholder="Opcional"
@@ -399,13 +403,13 @@ function NewProduct({ history }) {
           <TextareaAutosize
             {...register("description", {
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
-              }
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
+              },
             })}
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16
+              borderRadius: 16,
             }}
             rowsMin={5}
             placeholder="Obligatorio"
@@ -440,7 +444,7 @@ function NewProduct({ history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem"
+          fontSize: "1.1rem",
         }}
       >
         Crear Producto
