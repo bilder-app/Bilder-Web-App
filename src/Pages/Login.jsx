@@ -1,6 +1,6 @@
 import { makeStyles, Button, TextField, Typography } from "@material-ui/core";
-import logoImg from "../assets/logo.png";
-import { useHistory } from "react-router-dom";
+import logoImg from "../assets/bilder.png";
+import { useHistory, Link } from "react-router-dom";
 import { logIn } from "../api";
 import { useForm } from "react-hook-form";
 
@@ -13,11 +13,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     gap: 45,
-    justifyContent: "center",
+    paddingTop: "20%",
   },
   logo: {
     width: 256,
-    height: 115,
   },
   button: {
     color: "#FF8000",
@@ -65,7 +64,7 @@ function Login() {
           gap: 25,
         }}
       >
-        <Typography component="label" className={classes.label}>
+        <Typography variant="h6" component="label" className={classes.label}>
           Correo electronico
           <TextField
             {...register("email")}
@@ -76,9 +75,8 @@ function Login() {
             }}
           />
         </Typography>
-        <Typography component="label" className={classes.label}>
+        <Typography variant="h6" component="label" className={classes.label}>
           Contraseña
-          <Typography>Olvide mi contraseña</Typography>
           <TextField
             {...register("password")}
             required
@@ -87,6 +85,9 @@ function Login() {
               disableUnderline: true,
             }}
           />
+          <Link style={{ color: "white" }}>
+            <Typography variant="body2">Olvidé mi contraseña</Typography>
+          </Link>
         </Typography>
       </div>
       <Button type="submit" variant="contained" className={classes.button}>
