@@ -28,7 +28,13 @@ const useStyles = makeStyles((theme) => ({
     color: "white"
   },
   carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
-  carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
+  carousel: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  },
   zoomIndicator: {
     width: "50%",
     textAlign: "center",
@@ -93,6 +99,9 @@ function ProductDetails({ match: { params }, history }) {
                   height: "100%",
                   width: "100%",
                   objectFit: "cover"
+                  // position: "absolute",
+                  // top: 0,
+                  // left: 0
                 }}
                 onClick={() => setIsImageModalOpen(true)}
                 src={image}
