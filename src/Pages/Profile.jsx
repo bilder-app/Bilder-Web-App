@@ -158,6 +158,7 @@ export default function Profile({ history }) {
           />
         </ListItem>
       </List>
+      <div style={{ paddingBottom: 25 }} />
       <Fab
         aria-label="add"
         className={classes.fab}
