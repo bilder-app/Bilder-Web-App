@@ -429,7 +429,7 @@ function NewProduct({ history }) {
         <label style={styles.label}>
           Categorias
           <select 
-            {...register("categories")} 
+            {...register("categoryName")} 
             style={styles.input} 
             id="category"
             onChange={() => getSubcategoriesAsync()}
