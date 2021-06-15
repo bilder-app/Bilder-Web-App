@@ -17,14 +17,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: 13,
     background: theme.palette.background.paper,
-    zIndex: 1
+    zIndex: 1,
   },
   icon: {
     border: "2px solid black",
     borderRadius: "50%",
     width: 23,
     height: 23,
-    margin: "0px 15px"
+    margin: "0px 15px",
   },
 
   info: {
@@ -34,31 +34,31 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "10px 0 30px 0"
+    padding: "10px 0 30px 0",
   },
   large: {
     width: 150,
-    height: 150
+    height: 150,
   },
   userName: {
     color: "#444D52",
     fontWeight: "bold",
-    marginBottom: 0
+    marginBottom: 0,
   },
   email: {
     lineHeight: 1,
-    color: "#707070"
+    color: "#707070",
   },
 
   nav: {
     width: "90%",
     margin: "0px auto",
-    paddingBottom: 75
+    paddingBottom: 75,
   },
   textItem: {
     fontSize: 19,
     color: "#444D52",
-    fontWeight: 500
+    fontWeight: 500,
   },
 
   fab: {
@@ -69,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFF",
     height: 46,
     textTransform: "none",
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 }));
 
 export default function MyBusiness({ match: { params }, history }) {
@@ -83,7 +83,7 @@ export default function MyBusiness({ match: { params }, history }) {
         style={{
           display: "flex",
           alignItems: "center",
-          height: "3rem"
+          height: "3rem",
         }}
       >
         <div
@@ -92,7 +92,7 @@ export default function MyBusiness({ match: { params }, history }) {
             alignItems: "center",
             padding: 10,
             width: "90%",
-            height: "3rem"
+            height: "3rem",
           }}
         >
           <BackIcon
@@ -101,7 +101,7 @@ export default function MyBusiness({ match: { params }, history }) {
               width: 30,
               height: 30,
               padding: 0,
-              marginRight: 6
+              marginRight: 6,
             }}
           />
           <Typography variant="h6">Mi negocio</Typography>
@@ -141,7 +141,7 @@ export default function MyBusiness({ match: { params }, history }) {
               display: "flex",
               paddingBottom: 5,
               paddingTop: 5,
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <Store style={{ marginRight: 10 }} />
@@ -163,6 +163,24 @@ export default function MyBusiness({ match: { params }, history }) {
             Dirreción
           </Typography>
           <Typography>{businessData.address}</Typography>
+
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Retiro en el Local
+          </Typography>
+          <Typography>{businessData.takeAway}</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Envio a Domicilio
+          </Typography>
+          <Typography>{businessData.delivery}</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Costo del envio a domicilio
+          </Typography>
+          <Typography>{businessData.deliveryPrice}</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+            Envio a Gratis
+          </Typography>
+          <Typography>{businessData.deliveryFree}</Typography>
+
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Contacto
           </Typography>

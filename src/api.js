@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const axiosInst = axios.create({
-  baseURL: "https://bilder-backend.herokuapp.com",
-  withCredentials: true
+  // baseURL: "https://bilder-backend.herokuapp.com",
+  baseURL: "http://localhost:7000",
+  withCredentials: true,
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
 
