@@ -16,7 +16,7 @@ const styles = {
     flexDirection: "column",
     fontSize: "1.05rem",
     fontWeight: 500,
-    marginTop: 10
+    marginTop: 10,
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -24,14 +24,15 @@ const styles = {
     marginTop: 5,
     padding: 8,
     fontSize: "1.05rem",
-    height: "2.30rem"
-  }
+    height: "2.30rem",
+  },
 };
 
 function EditProfile({ match: { params }, history }) {
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit, setValue } = useForm();
   const [profilePicture, setProfilePicture] = useState();
+  const [editable, setEditable] = useState(false);
   const { storageRef } = useFirebase();
 
   const queryClient = useQueryClient();
@@ -48,7 +49,7 @@ function EditProfile({ match: { params }, history }) {
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
         </Button>
-      )
+      ),
     });
 
     let url;
@@ -71,18 +72,18 @@ function EditProfile({ match: { params }, history }) {
 
     editMyBusiness({
       ...values,
-      ...(url && { profileImage: url })
+      ...(url && { profileImage: url }),
     }).then(() => {
       closeSnackbar(isCreatingKey);
 
-      enqueueSnackbar("Producto editado exitosamente", {
+      enqueueSnackbar("Perfil editado exitosamente", {
         variant: "success",
         autoHideDuration: 5000,
         action: (key) => (
           <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
             Cerrar
           </Button>
-        )
+        ),
       });
 
       queryClient.invalidateQueries("me");
@@ -95,6 +96,20 @@ function EditProfile({ match: { params }, history }) {
     }
   };
 
+  const handleDelivery = () => {
+    let select = document.getElementById("delivery");
+    let text = select.options[select.selectedIndex].text;
+    
+    if(text !== "Si"){
+      const arr = document.getElementsByClassName("input")
+      arr[0].value = "";
+      arr[1].value = "";
+      setEditable(false)
+    } else {
+      setEditable(true)
+    }
+  }
+
   useEffect(() => {
     if (isLoading) return;
     const {
@@ -104,8 +119,13 @@ function EditProfile({ match: { params }, history }) {
       sector,
       address,
       contact,
-      nameBusiness
+      nameBusiness,
+      takeAway,
+      delivery,
+      deliveryPrice,
+      deliveryFree,
     } = businessData;
+
     setValue("name", name);
     setValue("surname", surname);
     setValue("nameBusiness", nameBusiness);
@@ -113,6 +133,10 @@ function EditProfile({ match: { params }, history }) {
     setValue("sector", sector);
     setValue("address", address);
     setValue("contact", contact);
+    setValue("takeAway", takeAway);
+    setValue("delivery", delivery);
+    setValue("deliveryPrice", deliveryPrice);
+    setValue("deliveryFree", deliveryFree);
   }, [businessData, isLoading]);
 
   if (isLoading) return null;
@@ -128,7 +152,7 @@ function EditProfile({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6
+            marginRight: 6,
           }}
         />
         <Typography variant="h6">Editar Perfil</Typography>
@@ -141,7 +165,7 @@ function EditProfile({ match: { params }, history }) {
             height: 150,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <input
@@ -160,7 +184,7 @@ function EditProfile({ match: { params }, history }) {
               borderRadius: 100,
               border: "thin solid #DFDEDE",
               objectFit: "cover",
-              background: "transparent"
+              background: "transparent",
             }}
             onClick={() => imageUploadRef.current.click()}
           >
@@ -171,7 +195,7 @@ function EditProfile({ match: { params }, history }) {
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  borderRadius: "50%"
+                  borderRadius: "50%",
                 }}
                 src={
                   (profilePicture && URL.createObjectURL(profilePicture)) ||
@@ -183,7 +207,7 @@ function EditProfile({ match: { params }, history }) {
                 style={{
                   height: "50%",
                   width: "50%",
-                  opacity: 0.25
+                  opacity: 0.25,
                 }}
               />
             )}
@@ -194,7 +218,7 @@ function EditProfile({ match: { params }, history }) {
             display: "flex",
             paddingBottom: 5,
             alignItems: "center",
-            paddingTop: 10
+            paddingTop: 10,
           }}
         >
           <Contacts style={{ marginRight: 10 }} />
@@ -203,7 +227,7 @@ function EditProfile({ match: { params }, history }) {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <label style={{ ...styles.label, width: "47.5%" }}>
@@ -232,7 +256,7 @@ function EditProfile({ match: { params }, history }) {
             display: "flex",
             paddingBottom: 5,
             paddingTop: 5,
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Store style={{ marginRight: 10 }} />
@@ -266,6 +290,47 @@ function EditProfile({ match: { params }, history }) {
           <input {...register("address")} style={styles.input} />
         </label>
         <label style={styles.label}>
+          Retiro en el local
+          <select required {...register("takeAway")} style={styles.input}>
+            <option value="">Seleccione ...</option>
+            <option>Si</option>
+            <option>No</option>
+          </select>
+        </label>
+        <label style={styles.label}>
+          Delivery
+          <select 
+            required {...register("delivery")} 
+            style={styles.input}
+            id="delivery"
+            onChange={() => handleDelivery()}
+          >
+            <option value="">Seleccione ...</option>
+            <option>Si</option>
+            <option>No</option>
+          </select>
+        </label>
+        <label style={styles.label}>
+          Costo de Envio a Domicilio
+          <input
+            {...register("deliveryPrice")}
+            style={styles.input}
+            type="number"
+            disabled={!editable}
+            className="input"
+          />
+        </label>
+        <label style={styles.label}>
+          Envio a gratis a partir
+          <input
+            {...register("deliveryFree")}
+            style={styles.input}
+            type="number"
+            disabled={!editable}
+            className="input"
+          />
+        </label>
+        <label style={styles.label}>
           Contacto
           <input {...register("contact")} style={styles.input} type="number" />
         </label>
@@ -279,7 +344,7 @@ function EditProfile({ match: { params }, history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem"
+          fontSize: "1.1rem",
         }}
       >
         Editar Perfil
