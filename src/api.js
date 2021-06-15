@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosInst = axios.create({
-  baseURL: "https://bilder-backend.herokuapp.com",
+  // baseURL: "https://bilder-backend.herokuapp.com",
+  baseURL: "http://localhost:3001",
   withCredentials: true
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
@@ -31,7 +32,7 @@ export function getMyBusiness() {
 }
 
 export function editMyBusiness(data) {
-  return axiosInst.put("business/me", data).then((res) => res.data);
+  return axiosInst.put("/business/me", data).then((res) => res.data);
 }
 
 export function getMyOrders(show) {
@@ -42,6 +43,14 @@ export function getMyOrders(show) {
 
 export function getOrderById(id) {
   return axiosInst.get(`business/orders/${id}`).then((res) => res.data);
+}
+
+export function getAllCategories() {
+  return axiosInst.get("/categories").then((res) => res);
+}
+
+export function getSubcategories(name) {
+  return axiosInst.get(`/categories/subcategory/${name}`).then((resp) => resp.data);
 }
 
 export function logIn({ email, password }) {
