@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Modal,
@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import { useGetProductById } from "../Components/hooks/queries.js";
-import { deleteProduct } from "../api";
+import { deleteProduct, getCategoriesById } from "../api";
 import Carousel from "react-material-ui-carousel";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,8 +51,15 @@ function ProductDetails({ match: { params }, history }) {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [categories, setCategories] = useState([]);
 
   const { data: productData, isLoading } = useGetProductById(params.id);
+  
+  useEffect(() => {
+    getCategoriesById(params.id).then(({ name, categoryName }) => {
+      setCategories([categoryName, name])
+    })
+  }, [])
 
   if (isLoading) return null;
 
@@ -231,11 +238,11 @@ function ProductDetails({ match: { params }, history }) {
             flexWrap: "wrap"
           }}
         >
-          {["Martillo", "Pintura"].map((label, index) => {
+          {categories.length > 0 ? categories.map((label, i) => {
             return (
               <Chip
                 label={label}
-                key={index}
+                key={i}
                 color="primary"
                 variant="outlined"
                 style={{
@@ -246,16 +253,16 @@ function ProductDetails({ match: { params }, history }) {
                 }}
               />
             );
-          })}
+          })
+          : <Typography style={{ color: "#707070", fontWeight: 450 }}>
+              No hay categorias disponibles
+            </Typography>
+          }
         </div>
       </div>
       <div style={{ paddingTop: "4rem" }}>
         <div
           style={{
-            // width: "100%",
-            // height: 40,
-            // display: "flex",
-            // justifyContent: "space-evenly",
             backgroundColor: "white",
             left: 0,
             right: 0,

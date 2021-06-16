@@ -49,6 +49,10 @@ export function getAllCategories() {
   return axiosInst.get("/categories").then((res) => res);
 }
 
+export function getCategoriesById(productId) {
+  return axiosInst.get(`/categories/${productId}`).then((res) => res.data);
+}
+
 export function getSubcategories(name) {
   return axiosInst.get(`/categories/subcategory/${name}`).then((resp) => resp.data);
 }
