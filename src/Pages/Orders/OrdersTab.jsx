@@ -1,4 +1,4 @@
-import { Fab } from "@material-ui/core";
+import { Fab, CircularProgress } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 import OrderCard from "../../Components/OrderCard/OrderCard";
@@ -13,9 +13,24 @@ const STATES = {
 function OrdersTab() {
   const { data: ordersData, isLoading } = useGetAllOrders();
 
+  if (isLoading)
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 100
+        }}
+      >
+        <CircularProgress style={{ width: "25%", height: "25%" }} />;
+      </div>
+    );
+
   return (
     <div>
-      {/* <pre>{JSON.stringify(ordersData, null, 2)}</pre> */}
       <ul
         style={{
           listStyleType: "none",
