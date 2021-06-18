@@ -2,12 +2,18 @@ import { Typography, Card, CardContent } from "@material-ui/core";
 import ProductCard from "../Components/ProductCard/ProductCard";
 import {
   AccountCircle as AccountCircleIcon,
-  ChevronLeft as BackIcon,
+  ChevronLeft as BackIcon
 } from "@material-ui/icons";
 import Stepper from "./Orders/Stepper.jsx";
 import { Link } from "react-router-dom";
+import { useGetOrderById } from "../Components/hooks/queries/useGetOrderById";
 
 function OrderDetails({ match: { params }, history }) {
+  const { id } = params;
+  const { data: orderData, isLoading } = useGetOrderById(id);
+
+  if (isLoading) return null;
+
   return (
     <div>
       <div
@@ -15,7 +21,7 @@ function OrderDetails({ match: { params }, history }) {
           display: "flex",
 
           alignItems: "center",
-          padding: "10px 10px",
+          padding: "10px 10px"
         }}
       >
         <BackIcon
@@ -24,7 +30,7 @@ function OrderDetails({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
         <Typography variant="h6">#000{params.id}</Typography>
@@ -37,69 +43,40 @@ function OrderDetails({ match: { params }, history }) {
             padding: 0,
             display: "flex",
             flexDirection: "column",
-            gap: 15,
+            gap: 15
           }}
         >
-          <li>
-            <Link
-              to={`/products/productDetails/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard
-                description={"Hierro estructural 20 x 20,espesor 1,2mm"}
-                imageUrl={"https://source.unsplash.com/500x500/?tool,shed"}
-                price={1200}
-                units={5}
-                horizontal
-              />
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={`/products/productDetails/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard
-                description={"Hierro estructural 20 x 20,espesor 1,2mm"}
-                imageUrl={"https://source.unsplash.com/500x500/?tool,shed"}
-                price={1200}
-                units={5}
-                horizontal
-              />
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={`/products/productDetails/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ProductCard
-                description={"Hierro estructural 20 x 20,espesor 1,2mm"}
-                imageUrl={"https://source.unsplash.com/500x500/?tool,shed"}
-                price={1200}
-                units={5}
-                horizontal
-              />
-            </Link>
-          </li>
+          {orderData.products.map((prod) => {
+            return (
+              <li key={prod.id}>
+                <Link
+                  to={`/products/productDetails/${params.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <ProductCard
+                    description={prod.name}
+                    imageUrl={prod.images[0]}
+                    units={prod.BusinessProductInOrder.amount}
+                    price={prod.BusinessProductInOrder.price}
+                    horizontal
+                  />
+                </Link>
+              </li>
+            );
+          })}
         </ul>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: 15,
-          }}
-        >
-          <Typography>Subtotal</Typography>
-          <Typography variant="h6">$4400</Typography>
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography>Retiro en el lugar</Typography>
-          <Typography variant="h6">$0</Typography>
-        </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography>Total</Typography>
-          <Typography variant="h6">$4400</Typography>
+          <Typography variant="h6">
+            $
+            {orderData.products.reduce(
+              (acc, next) =>
+                next.BusinessProductInOrder.amount *
+                  next.BusinessProductInOrder.price +
+                acc,
+              0
+            )}
+          </Typography>
         </div>
 
         <Card
@@ -109,7 +86,7 @@ function OrderDetails({ match: { params }, history }) {
             alignItems: "center",
             borderRadius: 16,
             padding: 5,
-            marginTop: 15,
+            marginTop: 15
           }}
         >
           <AccountCircleIcon style={{ height: 75, width: 75 }} />
@@ -118,7 +95,7 @@ function OrderDetails({ match: { params }, history }) {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              marginBottom: -5,
+              marginBottom: -5
             }}
           >
             <Typography style={{ fontWeight: 600 }}>Diego Lopez</Typography>

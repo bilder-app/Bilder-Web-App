@@ -4,7 +4,7 @@ import {
   makeStyles,
   CardActionArea,
   CardContent,
-  Typography,
+  Typography
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 16,
     minWidth: 150,
     height: "100%",
-    border: `thin solid #F6f6f6`,
+    border: `thin solid #F6f6f6`
   },
   cardHorizontal: {
     display: "flex",
@@ -21,15 +21,21 @@ const useStyles = makeStyles((theme) => ({
     "& $media": {
       maxWidth: 115,
       minWidth: 115,
-      objectFit: "cover",
-    },
+      objectFit: "cover"
+    }
   },
   media: {
     height: 140,
     width: "85%",
     marginTop: 15,
-    marginBottom: "auto",
+    marginBottom: "auto"
   },
+  horizontalMediaRoot: {
+    margin: 0,
+    height: "100%",
+    width: "100%",
+    objectFit: "cover"
+  }
 }));
 
 function ProductCard({
@@ -39,7 +45,7 @@ function ProductCard({
   imageUrl,
   stock,
   horizontal = false,
-  units,
+  units
 }) {
   const classes = useStyles();
 
@@ -50,7 +56,11 @@ function ProductCard({
         style={{ borderRadius: 16, border: `thin solid #F6f6f6` }}
       >
         <CardActionArea className={classes.cardHorizontal}>
-          <CardMedia className={classes.media} image={imageUrl} />
+          <CardMedia
+            classes={{ root: classes.horizontalMediaRoot }}
+            className={classes.media}
+            image={imageUrl}
+          />
           <CardContent style={{ flexGrow: 1 }}>
             <Typography gutterBottom component="h2" variant="body2">
               {description}
@@ -59,7 +69,7 @@ function ProductCard({
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center",
+                alignItems: "center"
               }}
             >
               <Typography
@@ -98,7 +108,7 @@ function ProductCard({
             display: "flex",
             flexGrow: 1,
             flexDirection: "column",
-            width: "100%",
+            width: "100%"
           }}
         >
           <div style={{ marginBottom: "auto" }}>

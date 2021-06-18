@@ -89,3 +89,7 @@ export function searchProducts(query, page = 1, limit = 25) {
 export function getOrders() {
   return axiosInst.get("/business/orders").then((resp) => resp.data);
 }
+
+export function getOrderById(orderId) {
+  return axiosInst.get(`/business/orders/${orderId}`).then((resp) => resp.data);
+}
