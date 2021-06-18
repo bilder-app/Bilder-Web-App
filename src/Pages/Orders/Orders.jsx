@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   tabsContainer: { display: "flex" }
 }));
 
-export default function Orders({ history }) {
+export default function Orders() {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
@@ -56,7 +56,7 @@ export default function Orders({ history }) {
         <Tab className={classes.tabContainer} label="Pendientes" />
         <Tab className={classes.tabContainer} label="Confirmados" />
       </Tabs>
-      <OrdersTab show={value}/>
+      <OrdersTab show={value} />
     </div>
   );
 }

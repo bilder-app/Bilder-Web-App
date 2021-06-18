@@ -45,10 +45,6 @@ export function getMyOrders(show) {
     .then((res) => res.data);
 }
 
-export function getOrderById(id) {
-  return axiosInst.get(`business/orders/${id}`).then((res) => res.data);
-}
-
 export function getAllCategories() {
   return axiosInst.get("/categories").then((res) => res);
 }

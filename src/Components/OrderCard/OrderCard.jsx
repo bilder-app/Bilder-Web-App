@@ -29,16 +29,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-function OrderCard({ data }) {
-  const { id, shipping, createdAt } = data;
+function OrderCard({ number, date, status, id }) {
   const classes = useStyles();
-
-  const index = {
-    preparing: "En preparación",
-    ready: "Para entregar",
-    sent: "Entregado"
-  }
 
   return (
     <Link
@@ -52,13 +44,13 @@ function OrderCard({ data }) {
           }}
         >
           <Typography style={{ fontWeight: 700 }} variant="h6">
-            Pedido #{`000${id}`}
+            Pedido #{number}
           </Typography>
-          <Typography className={classes.subTitle}>{createdAt}</Typography>
+          <Typography className={classes.subTitle}>{date}</Typography>
           <Chip
             classes={{ root: classes.chipRoot }}
             style={{ marginTop: 5, marginLeft: 5 }}
-            label={index[shipping.state]}
+            label={status}
             variant="outlined"
             color="primary"
           />
