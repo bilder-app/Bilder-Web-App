@@ -8,6 +8,7 @@ import { CssBaseline } from "@material-ui/core";
 import ScrollToTop from "./Components/hooks/ScrollToTop";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { SnackbarProvider } from "notistack";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ ReactDOM.render(
           <SnackbarProvider>
             <App />
           </SnackbarProvider>
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </Theme>
     </Router>

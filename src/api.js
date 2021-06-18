@@ -80,3 +80,7 @@ export function searchProducts(query, page = 1, limit = 25) {
     .get(`/business/products/search?query=${query}&page=${page}&limit=${limit}`)
     .then((resp) => resp.data);
 }
+
+export function getOrders() {
+  return axiosInst.get("/business/orders").then((resp) => resp.data);
+}
