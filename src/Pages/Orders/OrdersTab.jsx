@@ -1,19 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Fab } from "@material-ui/core";
+import { Fab, CircularProgress } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 import OrderCard from "../../Components/OrderCard/OrderCard";
-import { getMyOrders } from "../../api";
+import { useGetAllOrders } from "../../Components/hooks/queries/useGetAllOrders";
 
-function OrdersTab({ show }) {
+const STATES = {
+  preparing: "En Preparación",
+  ready: "Preparando",
+  sent: "Entregado"
+};
 
-  const [orders, setOrders] = useState([])
-  useEffect(() => {
-    async function handleAsync() {
-      setOrders(await getMyOrders(show));
-    }
-    handleAsync()
-  }, [show])
+function OrdersTab() {
+  const { data: ordersData, isLoading } = useGetAllOrders();
+
+  if (isLoading)
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 100
+        }}
+      >
+        <CircularProgress style={{ width: "25%", height: "25%" }} />;
+      </div>
+    );
 
   return (
     <div>
@@ -26,16 +40,32 @@ function OrdersTab({ show }) {
           display: "flex",
           flexDirection: "column",
           gap: 15,
-          padding: 20,
+          padding: 20
         }}
       >
-        {orders.map((order, index) => (
-          <li key={index}>
-            <OrderCard data={order} />
-          </li>
-        ))}
-      </ul>
+        {!isLoading &&
+          ordersData.map((order) => {
+            const dateObj = new Date(order.createdAt);
+            const month = dateObj.getUTCMonth() + 1; //months from 1-12
+            const day = dateObj.getUTCDate();
+            const year = dateObj.getUTCFullYear();
+            let hour = dateObj.getUTCHours() - 3;
+            let minutes = dateObj.getUTCMinutes();
+            hour = hour < 10 ? "0" + hour : hour;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
 
+            return (
+              <li>
+                <OrderCard
+                  number={order.id}
+                  date={`${day}/${month}/${year} ${hour}:${minutes}`}
+                  status={STATES[order.state]}
+                  id={order.id}
+                />
+              </li>
+            );
+          })}
+      </ul>
       <Fab
         component={Link}
         to="/orders/searchOrders"
