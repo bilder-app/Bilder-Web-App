@@ -52,6 +52,7 @@ function OrderDetails({ match: { params }, history }) {
         </div>
       ) : (
         <div style={{ padding: "10px 20px 10px 20px" }}>
+          <div>{JSON.stringify(orderData.clientData)}</div>;
           <ul
             style={{
               listStyle: "none",
@@ -81,7 +82,6 @@ function OrderDetails({ match: { params }, history }) {
               );
             })}
           </ul>
-
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography>Total</Typography>
             <Typography variant="h6">
@@ -95,7 +95,6 @@ function OrderDetails({ match: { params }, history }) {
               )}
             </Typography>
           </div>
-
           <Card
             variant="outlined"
             style={{
@@ -106,7 +105,10 @@ function OrderDetails({ match: { params }, history }) {
               marginTop: 15
             }}
           >
-            <AccountCircleIcon style={{ height: 75, width: 75 }} />
+            <AccountCircleIcon
+              src={orderData.clientData.profileImage}
+              style={{ height: 75, width: 75 }}
+            />
             <CardContent
               style={{
                 display: "flex",
@@ -115,13 +117,16 @@ function OrderDetails({ match: { params }, history }) {
                 marginBottom: -5
               }}
             >
-              <Typography style={{ fontWeight: 600 }}>Diego Lopez</Typography>
               <Typography style={{ fontWeight: 600 }}>
-                Contacto: 1154829220
+                {orderData.clientData.name +
+                  " " +
+                  orderData.clientData.lastname}
+              </Typography>
+              <Typography style={{ fontWeight: 600 }}>
+                Contacto: {orderData.clientData.contactNumber}
               </Typography>
             </CardContent>
           </Card>
-
           <Stepper />
         </div>
       )}
