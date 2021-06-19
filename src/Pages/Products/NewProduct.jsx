@@ -14,7 +14,11 @@ import {
 } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import Carousel from "react-material-ui-carousel";
-import { addProduct, getAllCategories,getSubcategories } from "../../api";
+import { 
+  addProduct, 
+  getAllCategories, 
+  getSubcategories 
+} from "../../api";
 import { useSnackbar } from "notistack";
 import { useQueryClient } from "react-query";
 import firebase from "firebase";
@@ -442,7 +446,11 @@ function NewProduct({ history }) {
         </label>
         <label style={styles.label}>
           Subcategorias
-          <select {...register("subcategories")} style={styles.input} disabled={!subCategories.length}>
+          <select
+            {...register("subcategories")}
+            style={styles.input}
+            disabled={!subCategories.length}
+          >
             <option>Seleccione...</option>
             {subCategories.length > 0 &&
               subCategories.map(({name}, i) => <option key={i}>{name}</option>)

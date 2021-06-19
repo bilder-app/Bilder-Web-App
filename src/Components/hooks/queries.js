@@ -19,6 +19,10 @@ export function useGetProductById(id, options = {}) {
   });
 }
 
+export function useGetCategoriesByProductId(id) {
+  return useQuery(["products", id], () => getProductById(id));
+}
+
 //
 
 /**

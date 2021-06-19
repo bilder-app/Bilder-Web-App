@@ -15,7 +15,11 @@ import {
 import Carousel from "react-material-ui-carousel";
 import { useForm } from "react-hook-form";
 import { useGetProductById } from "../Components/hooks/queries";
-import { editProduct } from "../api";
+import { 
+  editProduct,
+  getAllCategories,
+  getSubcategories,
+} from "../api";
 import { useSnackbar } from "notistack";
 import { useQueryClient } from "react-query";
 import firebase from "firebase";
@@ -83,6 +87,19 @@ function EditProduct({ match: { params }, history }) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [storageRef, setStorageRef] = useState();
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+
+  useEffect(() => {
+    getAllCategories().then((res) => setCategories(res.data))
+  },)
+
+  const getSubcategoriesAsync = async () => {
+    const sel = document.getElementById("category"),
+          name = sel.options[sel.selectedIndex].text,
+          sub = await getSubcategories(name);
+    setSubCategories(sub);
+  }
 
   useEffect(() => {
     const firebaseConfig = {
@@ -444,21 +461,30 @@ function EditProduct({ match: { params }, history }) {
         </label>
         <label style={styles.label}>
           Categorias
-          <select {...register("categories")} style={styles.input}>
-            <option>Pinturas</option>
-            <option>Construcción</option>
-            <option>Electricidad</option>
-            <option>Herramientas</option>
-            <option>Ferreteria</option>
-            <option>Maderas</option>
-            <option>Griferia</option>
-            <option>Hierros</option>
+          <select 
+            required 
+            {...register("categoryName")} 
+            style={styles.input} 
+            id="category"
+            onChange={() => getSubcategoriesAsync()}
+          >
+            <option value="">Seleccione ...</option>
+            {categories.length > 0 && 
+              categories.map(({ name }, i) => <option key={i}>{ name }</option>)
+            }
           </select>
         </label>
         <label style={styles.label}>
           Subcategorias
-          <select {...register("subcategories")} style={styles.input}>
-            <option>Latex</option>
+          <select 
+            {...register("subcategories")} 
+            style={styles.input} 
+            disabled={!subCategories.length}
+          >
+            <option>Seleccione...</option>
+            {subCategories.length > 0 &&
+              subCategories.map(({name}, i) => <option key={i}>{name}</option>)
+            }
           </select>
         </label>
       </div>
