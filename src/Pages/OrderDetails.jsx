@@ -52,7 +52,6 @@ function OrderDetails({ match: { params }, history }) {
         </div>
       ) : (
         <div style={{ padding: "10px 20px 10px 20px" }}>
-          <div>{JSON.stringify(orderData.clientData)}</div>;
           <ul
             style={{
               listStyle: "none",
