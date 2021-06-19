@@ -1,8 +1,12 @@
 import axios from "axios";
 
+const { NODE_ENV } = process.env;
+
 const axiosInst = axios.create({
-  // baseURL: "https://bilder-backend.herokuapp.com",
-  baseURL: "http://localhost:3001",
+  baseURL:
+    NODE_ENV === "production"
+      ? "https://bilder-backend.herokuapp.com/"
+      : "http://localhost:7000",
   withCredentials: true
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
@@ -41,10 +45,6 @@ export function getMyOrders(show) {
     .then((res) => res.data);
 }
 
-export function getOrderById(id) {
-  return axiosInst.get(`business/orders/${id}`).then((res) => res.data);
-}
-
 export function getAllCategories() {
   return axiosInst.get("/categories").then((res) => res);
 }
@@ -54,7 +54,9 @@ export function getCategoriesById(productId) {
 }
 
 export function getSubcategories(name) {
-  return axiosInst.get(`/categories/subcategory/${name}`).then((resp) => resp.data);
+  return axiosInst
+    .get(`/categories/subcategory/${name}`)
+    .then((resp) => resp.data);
 }
 
 export function logIn({ email, password }) {
@@ -110,4 +112,12 @@ export function searchProducts(query, page = 1, limit = 25) {
   return axiosInst
     .get(`/business/products/search?query=${query}&page=${page}&limit=${limit}`)
     .then((resp) => resp.data);
+}
+
+export function getOrders() {
+  return axiosInst.get("/business/orders").then((resp) => resp.data);
+}
+
+export function getOrderById(orderId) {
+  return axiosInst.get(`/business/orders/${orderId}`).then((resp) => resp.data);
 }

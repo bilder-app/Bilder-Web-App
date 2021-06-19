@@ -6,11 +6,11 @@ import {
   Accordion,
   AccordionSummary,
   makeStyles,
-  AccordionDetails,
+  AccordionDetails
 } from "@material-ui/core";
 import {
   ChevronLeft as BackIcon,
-  ExpandMore as ExpandMoreIcon,
+  ExpandMore as ExpandMoreIcon
 } from "@material-ui/icons";
 import Carousel from "react-material-ui-carousel";
 import { useForm } from "react-hook-form";
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   imageContainer: {
     width: "100%",
     height: "100%",
-    position: "relative",
+    position: "relative"
   },
   imageLoadingText: {
     position: "absolute",
@@ -37,16 +37,16 @@ const useStyles = makeStyles((theme) => ({
     background: "rgba(0,0,0,0.75)",
     color: "white",
     display: "grid",
-    placeItems: "center",
+    placeItems: "center"
   },
   carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
   carousel: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
   removeImageBtn: {
     backgroundColor: theme.palette.error.main,
-    color: theme.palette.error.contrastText,
+    color: theme.palette.error.contrastText
   },
   textSecondary: { color: theme.palette.text.secondary },
-  errorInputMessage: { color: theme.palette.error.main },
+  errorInputMessage: { color: theme.palette.error.main }
 }));
 
 const styles = {
@@ -56,7 +56,7 @@ const styles = {
     fontSize: "1.05rem",
     fontWeight: 500,
     marginTop: 10,
-    width: "100%",
+    width: "100%"
   },
   input: {
     border: "thin solid #DFDEDE",
@@ -65,8 +65,8 @@ const styles = {
     padding: 8,
     fontSize: "1.05rem",
     height: "2.45rem",
-    width: "100%",
-  },
+    width: "100%"
+  }
 };
 
 function EditProduct({ match: { params }, history }) {
@@ -76,7 +76,7 @@ function EditProduct({ match: { params }, history }) {
     register,
     handleSubmit,
     setValue,
-    formState: { errors = {} },
+    formState: { errors = {} }
   } = useForm();
 
   const { data: productData = {} } = useGetProductById(params.productId);
@@ -108,7 +108,7 @@ function EditProduct({ match: { params }, history }) {
       projectId: "bilder-301ea",
       storageBucket: "bilder-301ea.appspot.com",
       messagingSenderId: "1014595861688",
-      appId: "1:1014595861688:web:91918b539e881f8fc5c84d",
+      appId: "1:1014595861688:web:91918b539e881f8fc5c84d"
     };
 
     let firebaseApp;
@@ -131,7 +131,7 @@ function EditProduct({ match: { params }, history }) {
         <Button style={{ color: "white" }} onClick={() => closeSnackbar(key)}>
           Cerrar
         </Button>
-      ),
+      )
     });
 
     const imageUploadPromises = [];
@@ -156,7 +156,7 @@ function EditProduct({ match: { params }, history }) {
     await Promise.all(imageUploadPromises).then((imagesUrl) =>
       editProduct(params.productId, {
         ...values,
-        images: [...imagesUrl, ...urlsStrings],
+        images: [...imagesUrl, ...urlsStrings]
       }).then(() => {
         closeSnackbar(isCreatingKey);
 
@@ -170,7 +170,7 @@ function EditProduct({ match: { params }, history }) {
             >
               Cerrar
             </Button>
-          ),
+          )
         });
 
         queryClient.invalidateQueries("products");
@@ -196,7 +196,7 @@ function EditProduct({ match: { params }, history }) {
       model,
       content,
       contentType,
-      images,
+      images
     } = productData;
     setValue("name", name);
     setValue("description", description);
@@ -220,7 +220,7 @@ function EditProduct({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6,
+            marginRight: 6
           }}
         />
         <Typography variant="h6">Editar Producto</Typography>
@@ -259,7 +259,7 @@ function EditProduct({ match: { params }, history }) {
                       style={{
                         height: "100%",
                         width: "100%",
-                        objectFit: "cover",
+                        objectFit: "cover"
                       }}
                       src={
                         typeof image === "string"
@@ -303,7 +303,7 @@ function EditProduct({ match: { params }, history }) {
         <div
           style={{
             display: "flex",
-            gap: 15,
+            gap: 15
           }}
         >
           <label style={styles.label}>
@@ -347,8 +347,8 @@ function EditProduct({ match: { params }, history }) {
             maxLength={44}
             {...register("name", {
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
-              },
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
+              }
             })}
             style={styles.input}
             placeholder="Obligatorio (Max 44 caracteres)"
@@ -369,8 +369,8 @@ function EditProduct({ match: { params }, history }) {
             maxLength={40}
             {...register("brand", {
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
-              },
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
+              }
             })}
             style={styles.input}
             placeholder="Opcional"
@@ -394,7 +394,7 @@ function EditProduct({ match: { params }, history }) {
             style={{
               ...styles.input,
               alignSelf: "flex-end",
-              width: "56%",
+              width: "56%"
             }}
           >
             <option value="">Seleccione ...</option>
@@ -427,8 +427,8 @@ function EditProduct({ match: { params }, history }) {
             maxLength={40}
             {...register("model", {
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
-              },
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
+              }
             })}
             style={styles.input}
             placeholder="Opcional"
@@ -447,13 +447,13 @@ function EditProduct({ match: { params }, history }) {
           <TextareaAutosize
             {...register("description", {
               pattern: {
-                value: /^(?!.*(www.|.com|http|bit\.ly)).*/,
-              },
+                value: /^(?!.*(www.|.com|http|bit\.ly)).*/
+              }
             })}
             style={{
               fontSize: "1.05rem",
               border: "thin solid #DFDEDE",
-              borderRadius: 16,
+              borderRadius: 16
             }}
             rowsMin={5}
             placeholder="Obligatorio"
@@ -497,7 +497,7 @@ function EditProduct({ match: { params }, history }) {
           marginTop: 5,
           width: "100%",
           borderRadius: 16,
-          fontSize: "1.1rem",
+          fontSize: "1.1rem"
         }}
       >
         Editar Producto
