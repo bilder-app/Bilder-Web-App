@@ -5,11 +5,11 @@ import {
   Paper,
   makeStyles,
   IconButton,
-  Slider
+  Slider,
 } from "@material-ui/core";
 import {
   ChevronLeft as BackIcon,
-  Close as CloseIcon
+  Close as CloseIcon,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Chip from "@material-ui/core/Chip";
@@ -21,11 +21,11 @@ import Carousel from "react-material-ui-carousel";
 const useStyles = makeStyles((theme) => ({
   confirmModalButton: {
     backgroundColor: theme.palette.success.main,
-    color: "white"
+    color: "white",
   },
   errorModalButton: {
     backgroundColor: theme.palette.error.main,
-    color: "white"
+    color: "white",
   },
   carouselWrapper: { paddingTop: "100%", width: "100%", position: "relative" },
   carousel: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   },
   zoomIndicator: {
     width: "50%",
@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(0.5, 2),
     borderBottomLeftRadius: theme.spacing(2),
-    borderBottomRightRadius: theme.spacing(2)
-  }
+    borderBottomRightRadius: theme.spacing(2),
+  },
 }));
 
 function ProductDetails({ match: { params }, history }) {
@@ -54,12 +54,12 @@ function ProductDetails({ match: { params }, history }) {
   const [categories, setCategories] = useState([]);
 
   const { data: productData, isLoading } = useGetProductById(params.id);
-  
+
   useEffect(() => {
     getCategoriesById(params.id).then(({ name, categoryName }) => {
-      setCategories([categoryName, name])
-    })
-  }, [])
+      setCategories([categoryName, name]);
+    });
+  }, []);
 
   if (isLoading) return null;
 
@@ -76,7 +76,7 @@ function ProductDetails({ match: { params }, history }) {
           width: "100%",
           height: "3rem",
           top: 0,
-          zIndex: 2
+          zIndex: 2,
         }}
       >
         <BackIcon
@@ -85,7 +85,7 @@ function ProductDetails({ match: { params }, history }) {
             width: 30,
             height: 30,
             padding: 0,
-            marginRight: 6
+            marginRight: 6,
           }}
         />
       </div>
@@ -105,7 +105,7 @@ function ProductDetails({ match: { params }, history }) {
                 style={{
                   height: "100%",
                   width: "100%",
-                  objectFit: "cover"
+                  objectFit: "cover",
                   // position: "absolute",
                   // top: 0,
                   // left: 0
@@ -121,7 +121,7 @@ function ProductDetails({ match: { params }, history }) {
               overflow: "scroll",
               display: "grid",
               placeItems: "center",
-              backgroundColor: `rgba(0,0,0,0.8)`
+              backgroundColor: `rgba(0,0,0,0.8)`,
             }}
             onClose={() => setIsImageModalOpen(false)}
             open={isImageModalOpen}
@@ -130,7 +130,7 @@ function ProductDetails({ match: { params }, history }) {
               style={{
                 width: "100%",
                 height: "100%",
-                display: "flex"
+                display: "flex",
               }}
             >
               <div
@@ -142,7 +142,7 @@ function ProductDetails({ match: { params }, history }) {
                   display: "flex",
                   alignItems: "center",
                   flexDirection: "column",
-                  zIndex: 2
+                  zIndex: 2,
                 }}
               >
                 <IconButton
@@ -151,7 +151,7 @@ function ProductDetails({ match: { params }, history }) {
                     top: 15,
                     right: 15,
                     color: "black",
-                    backgroundColor: "rgba(255,255,255,0.5)"
+                    backgroundColor: "rgba(255,255,255,0.5)",
                   }}
                   onClick={() => {
                     setIsImageModalOpen(false);
@@ -176,7 +176,7 @@ function ProductDetails({ match: { params }, history }) {
               <img
                 style={{
                   margin: "auto",
-                  height: zoomLevel * 200
+                  height: zoomLevel * 200,
                 }}
                 src={productData.images[selectedImage]}
               />
@@ -216,12 +216,16 @@ function ProductDetails({ match: { params }, history }) {
           <Typography style={{ color: "#707070", fontWeight: 450 }}>
             {`Contenido: ${productData.content} ${productData.contentType}`}
           </Typography>
-          <Typography style={{ color: "#707070", fontWeight: 450 }}>
-            {`Marca: ${productData.brand}`}
-          </Typography>
-          <Typography style={{ color: "#707070", fontWeight: 450 }}>
-            {`Modelo: ${productData.model}`}
-          </Typography>
+          {productData.brand && (
+            <Typography style={{ color: "#707070", fontWeight: 450 }}>
+              {`Marca: ${productData.brand}`}
+            </Typography>
+          )}
+          {productData.model && (
+            <Typography style={{ color: "#707070", fontWeight: 450 }}>
+              {`Modelo: ${productData.model}`}
+            </Typography>
+          )}
         </div>
         <div style={{ marginTop: 10 }}>
           <Typography
@@ -235,29 +239,31 @@ function ProductDetails({ match: { params }, history }) {
           style={{
             display: "flex",
             width: "100%",
-            flexWrap: "wrap"
+            flexWrap: "wrap",
           }}
         >
-          {categories.length > 0 ? categories.map((label, i) => {
-            return (
-              <Chip
-                label={label}
-                key={i}
-                color="primary"
-                variant="outlined"
-                style={{
-                  marginTop: 5,
-                  height: 25,
-                  marginLeft: 10,
-                  padding: "0 20px"
-                }}
-              />
-            );
-          })
-          : <Typography style={{ color: "#707070", fontWeight: 450 }}>
+          {categories.length > 0 ? (
+            categories.map((label, i) => {
+              return (
+                <Chip
+                  label={label}
+                  key={i}
+                  color="primary"
+                  variant="outlined"
+                  style={{
+                    marginTop: 5,
+                    height: 25,
+                    marginLeft: 10,
+                    padding: "0 20px",
+                  }}
+                />
+              );
+            })
+          ) : (
+            <Typography style={{ color: "#707070", fontWeight: 450 }}>
               No hay categorias disponibles
             </Typography>
-          }
+          )}
         </div>
       </div>
       <div style={{ paddingTop: "4rem" }}>
@@ -271,7 +277,7 @@ function ProductDetails({ match: { params }, history }) {
             position: "fixed",
             bottom: 0,
             height: "4rem",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Button
@@ -283,7 +289,7 @@ function ProductDetails({ match: { params }, history }) {
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167
+              width: 167,
             }}
           >
             Editar
@@ -296,7 +302,7 @@ function ProductDetails({ match: { params }, history }) {
               color: "white",
               borderRadius: 20,
               height: 40,
-              width: 167
+              width: 167,
             }}
           >
             Eliminar

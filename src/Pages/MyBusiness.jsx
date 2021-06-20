@@ -76,7 +76,21 @@ const useStyles = makeStyles((theme) => ({
 export default function MyBusiness({ match: { params }, history }) {
   const classes = useStyles();
   const { data: businessData, isLoading } = useMyBusiness();
+  console.log(useMyBusiness());
   if (isLoading) return null;
+  const takeAway = () => {
+    if (businessData.takeAway == true) {
+      return "Si";
+    }
+    return "No";
+  };
+  const delivery = () => {
+    if (businessData.delivery == true) {
+      return "Si";
+    }
+    return "No";
+  };
+
   return (
     <div style={{ width: "100%", height: "100%", color: "#444D52" }}>
       <div
@@ -132,10 +146,6 @@ export default function MyBusiness({ match: { params }, history }) {
           <Typography variant="subtitle1">
             {businessData.name} {businessData.surname}
           </Typography>
-          <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
-            E-mail
-          </Typography>
-          <Typography>henry@bilder.com</Typography>
           <div
             style={{
               display: "flex",
@@ -167,19 +177,22 @@ export default function MyBusiness({ match: { params }, history }) {
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Retiro en el Local
           </Typography>
-          <Typography>{businessData.takeAway}</Typography>
+          <Typography>{takeAway()}</Typography>
+
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Envio a Domicilio
           </Typography>
-          <Typography>{businessData.delivery}</Typography>
+          <Typography>{delivery()}</Typography>
+
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Costo del envio a domicilio
           </Typography>
+
           <Typography>{businessData.deliveryPrice}</Typography>
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Envio a Gratis
           </Typography>
-          <Typography>{businessData.deliveryFree}</Typography>
+          <Typography>{businessData.freeDeliveryAt}</Typography>
 
           <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
             Contacto

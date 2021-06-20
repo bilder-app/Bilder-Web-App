@@ -99,16 +99,16 @@ function EditProfile({ match: { params }, history }) {
   const handleDelivery = () => {
     let select = document.getElementById("delivery");
     let text = select.options[select.selectedIndex].text;
-    
-    if(text !== "Si"){
-      const arr = document.getElementsByClassName("input")
+
+    if (text !== "Si") {
+      const arr = document.getElementsByClassName("input");
       arr[0].value = "";
       arr[1].value = "";
-      setEditable(false)
+      setEditable(false);
     } else {
-      setEditable(true)
+      setEditable(true);
     }
-  }
+  };
 
   useEffect(() => {
     if (isLoading) return;
@@ -123,7 +123,7 @@ function EditProfile({ match: { params }, history }) {
       takeAway,
       delivery,
       deliveryPrice,
-      deliveryFree,
+      freeDeliveryAt,
     } = businessData;
 
     setValue("name", name);
@@ -136,7 +136,7 @@ function EditProfile({ match: { params }, history }) {
     setValue("takeAway", takeAway);
     setValue("delivery", delivery);
     setValue("deliveryPrice", deliveryPrice);
-    setValue("deliveryFree", deliveryFree);
+    setValue("freeDeliveryAt", freeDeliveryAt);
   }, [businessData, isLoading]);
 
   if (isLoading) return null;
@@ -268,7 +268,7 @@ function EditProfile({ match: { params }, history }) {
         </label>
         <label style={styles.label}>
           CUIT
-          <input {...register("cuit")} style={styles.input} type="number" />
+          <input {...register("cuit")} style={styles.input} />
         </label>
         <label style={styles.label}>
           Industria
@@ -293,21 +293,22 @@ function EditProfile({ match: { params }, history }) {
           Retiro en el local
           <select required {...register("takeAway")} style={styles.input}>
             <option value="">Seleccione ...</option>
-            <option>Si</option>
-            <option>No</option>
+            <option value={true}>Si</option>
+            <option value={false}>No</option>
           </select>
         </label>
         <label style={styles.label}>
           Delivery
-          <select 
-            required {...register("delivery")} 
+          <select
+            required
+            {...register("delivery")}
             style={styles.input}
             id="delivery"
             onChange={() => handleDelivery()}
           >
             <option value="">Seleccione ...</option>
-            <option>Si</option>
-            <option>No</option>
+            <option value={true}>Si</option>
+            <option value={false}>No</option>
           </select>
         </label>
         <label style={styles.label}>
@@ -323,7 +324,7 @@ function EditProfile({ match: { params }, history }) {
         <label style={styles.label}>
           Envio a gratis a partir
           <input
-            {...register("deliveryFree")}
+            {...register("freeDeliveryAt")}
             style={styles.input}
             type="number"
             disabled={!editable}

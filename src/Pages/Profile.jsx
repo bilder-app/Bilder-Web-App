@@ -9,7 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
   useScrollTrigger,
-  Paper
+  Paper,
 } from "@material-ui/core";
 import { Store, Help, PowerSettingsNew } from "@material-ui/icons";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: 20,
     background: theme.palette.background.paper,
-    zIndex: 1
+    zIndex: 1,
   },
   icon: {
     border: "2px solid black",
     borderRadius: "50%",
     width: 23,
     height: 23,
-    margin: "0px 15px"
+    margin: "0px 15px",
   },
 
   info: {
@@ -44,31 +44,31 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "10px 0 30px 0"
+    padding: "10px 0 30px 0",
   },
   large: {
     width: 150,
-    height: 150
+    height: 150,
   },
   userName: {
     color: "#444D52",
     fontWeight: "bold",
-    marginBottom: 0
+    marginBottom: 0,
   },
   email: {
     lineHeight: 1,
-    color: "#707070"
+    color: "#707070",
   },
 
   nav: {
     width: "90%",
     margin: "0px auto",
-    paddingBottom: 75
+    paddingBottom: 75,
   },
   textItem: {
     fontSize: 19,
     color: "#444D52",
-    fontWeight: 500
+    fontWeight: 500,
   },
 
   fab: {
@@ -79,19 +79,19 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFF",
     height: 46,
     textTransform: "none",
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 }));
 
 export default function Profile({ history }) {
   const classes = useStyles();
   const isScrolling = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 13
+    threshold: 13,
   });
 
   const { data: businessData, isLoading } = useMyBusiness({
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -111,9 +111,6 @@ export default function Profile({ history }) {
             <Typography variant="h6" className={classes.userName}>
               {businessData.name} {businessData.surname}
             </Typography>
-            <Typography variant="subtitle1" className={classes.email}>
-              henry@bilder.com
-            </Typography>
           </>
         )}
       </div>
@@ -124,12 +121,12 @@ export default function Profile({ history }) {
           </ListItemIcon>
           <ListItemText
             primaryTypographyProps={{
-              className: classes.textItem
+              className: classes.textItem,
             }}
             primary={"Mi negocio"}
           />
         </ListItem>
-        <ListItem button component={Link} to={`/me/faq`}>
+        {/* <ListItem button component={Link} to={`/me/faq`}>
           <ListItemIcon>
             <Help className={classes.icons} style={{ fontSize: 33 }} />
           </ListItemIcon>
@@ -139,7 +136,7 @@ export default function Profile({ history }) {
             }}
             primary={"Preguntas frecuentes"}
           />
-        </ListItem>
+        </ListItem> */}
         <ListItem
           button
           onClick={() => logOut().then(() => history.replace("/"))}
@@ -152,7 +149,7 @@ export default function Profile({ history }) {
           </ListItemIcon>
           <ListItemText
             primaryTypographyProps={{
-              className: classes.textItem
+              className: classes.textItem,
             }}
             primary={"Cerrar sesión"}
           />

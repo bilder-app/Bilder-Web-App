@@ -7,7 +7,7 @@ const axiosInst = axios.create({
     NODE_ENV === "production"
       ? "https://bilder-backend.herokuapp.com/"
       : "http://localhost:7000",
-  withCredentials: true
+  withCredentials: true,
 });
 // axios.defaults.baseUrl = "http://localhost:6000";
 
