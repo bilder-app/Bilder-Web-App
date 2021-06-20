@@ -156,16 +156,16 @@ export default function Profile({ history }) {
         </ListItem>
       </List>
       <div style={{ paddingBottom: 25 }} />
-      <Fab
-        aria-label="add"
-        className={classes.fab}
-        component={Link}
-        to="/offers/new"
-        variant="extended"
-      >
-        <WhatsAppIcon style={{ color: "#FFF", fontSize: 29, marginRight: 7 }} />
-        ¿Cómo podemos ayudarte?
-      </Fab>
+      <a href="https://api.whatsapp.com/send?phone=5491123948906&text=%C2%A1Hola!%20Necesito%20ayuda%20con">
+        <Fab
+          aria-label="add"
+          className={classes.fab}
+          variant="extended"
+        >
+          <WhatsAppIcon style={{ color: "#FFF", fontSize: 29, marginRight: 7 }} />
+          ¿Cómo podemos ayudarte?
+        </Fab>
+      </a>
     </div>
   );
 }
