@@ -5,7 +5,7 @@ const { NODE_ENV } = process.env;
 const axiosInst = axios.create({
   baseURL:
     NODE_ENV === "production"
-      ? "https://bilder-backend.herokuapp.com/"
+      ? "https://bilder-backend.herokuapp.com"
       : "http://localhost:7000",
   withCredentials: true,
 });
